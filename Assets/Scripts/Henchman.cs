@@ -1,16 +1,9 @@
 using UnityEngine;
 
-public class Henchman : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+public class Henchman : MonoBehaviour {
+    private Rigidbody2D _rb2d;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Awake() {
+        this._rb2d = this.GetComponent<Rigidbody2D>();
     }
 }
