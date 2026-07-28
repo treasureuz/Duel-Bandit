@@ -16,12 +16,11 @@ public abstract class WeaponManager : MonoBehaviour {
         this.bulletSpawnPoint = this.transform.GetChild(0);
     }
 
-    protected virtual void Update() {
-        RotateTowardsTarget(GetTargetPosition());
-        HandleShoot();
-    }
+    protected abstract void Update();
 
-    protected abstract void HandleShoot();
+    protected virtual void HandleShooting() {
+        RotateTowardsTarget(GetTargetPosition());
+    }
     protected void Shoot() {
         Quaternion spawnRotation = this.transform.rotation * this.bulletPrefab.transform.rotation;
         Instantiate(this.bulletPrefab, this.bulletSpawnPoint.position, spawnRotation);

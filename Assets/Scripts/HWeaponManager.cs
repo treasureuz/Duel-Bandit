@@ -1,20 +1,26 @@
 using UnityEngine;
 
 public class HWeaponManager : WeaponManager {
-    private Player _player;
+    private Henchman _henchman;
 
     protected override void Awake() {
         base.Awake();
-        this._player = FindAnyObjectByType<Player>();
+        this._henchman = this.GetComponentInParent<Henchman>();
     }
 
-    protected override void HandleShoot() {
+    protected override void Update() {
+        if (this._henchman.state == Henchman.HenchmanState.Idle) return;
+        HandleShooting();
+    }
+
+    protected override void HandleShooting() {
+        base.HandleShooting();
         this.nextShootTime += Time.deltaTime;
         if (this.nextShootTime < this.timeBetweenShots) return;
         Shoot(); this.nextShootTime = 0f;
     }
 
     protected override Vector3 GetTargetPosition() {
-        return this._player.transform.position;
+        return Player.instance.transform.position;
     }
 }

@@ -4,7 +4,13 @@ using UnityEngine.InputSystem;
 public class PWeaponManager : WeaponManager {
     private int _currentMagazineCount;
 
-    protected override void HandleShoot() {
+    protected override void Update() {
+        RotateTowardsTarget(GetTargetPosition());
+        HandleShooting();
+    }
+
+    protected override void HandleShooting() {
+        base.HandleShooting();
         this.nextShootTime += Time.deltaTime;
         if (!Mouse.current.leftButton.isPressed ||
             this.nextShootTime < this.timeBetweenShots) return;

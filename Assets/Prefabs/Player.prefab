@@ -136,11 +136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9abc2fef70c4cc44b92d97b7bb5b6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PWeaponManager
-  timeBetweenShots: 2
   bulletPrefab: {fileID: 7312025525634554652, guid: 29e9f9c1ad4094c49aca95700e2d6905, type: 3}
+  timeBetweenShots: 2
   bulletMagazineCount: Infinity
   bulletDamage: 13.5
-  bulletSpawnPoint: {fileID: 5330730256367680312}
 --- !u!1 &7279625477253558365
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,9 +153,8 @@ GameObject:
   - component: {fileID: 8830187443331689638}
   - component: {fileID: 27821200348028212}
   - component: {fileID: 4287689894477471221}
-  - component: {fileID: 7743971748955608962}
   - component: {fileID: 1423329427847284223}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,18 +314,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
---- !u!114 &7743971748955608962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7279625477253558365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01aaa56a8fad8374ca34c3a4ddc85bfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputManager
 --- !u!114 &1423329427847284223
 MonoBehaviour:
   m_ObjectHideFlags: 0

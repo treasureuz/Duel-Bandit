@@ -1,64 +1,35 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour {
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _jumpForce = 5f;
 
+    public static Player instance;
     private Rigidbody2D _rb2d;
 
-    private bool _isMovingForward;
-    private bool _isMovingBackward;
+    private InputAction _forward;
+    private InputAction _backward;
     private bool _isOnGround;
 
     void Awake() {
+        if (!instance) instance = this;
         this._rb2d = this.GetComponent<Rigidbody2D>();
-    }
-
-    void OnEnable() {
-        InputManager.instance.OnForwardStarted += HandleForwardStarted;
-        InputManager.instance.OnForwardStopped += HandleForwardStopped;
-        InputManager.instance.OnBackwardStarted += HandleBackwardStarted;
-        InputManager.instance.OnBackwardStopped += HandleBackwardStopped;
-        InputManager.instance.OnJumped += HandleJump;
-    }
-
-    void OnDisable() {
-        InputManager.instance.OnForwardStarted -= HandleForwardStarted;
-        InputManager.instance.OnForwardStopped -= HandleForwardStopped;
-        InputManager.instance.OnBackwardStarted -= HandleBackwardStarted;
-        InputManager.instance.OnBackwardStopped -= HandleBackwardStopped;
-        InputManager.instance.OnJumped -= HandleJump;
+        PlayerInput playerInput = this.GetComponent<PlayerInput>();
+        this._forward = playerInput.actions.FindAction("Forward"); // Or "["Forward"]"
+        this._backward = playerInput.actions.FindAction("Backward");
     }
 
     void FixedUpdate() {
-        if (this._isMovingForward) {
-            this._rb2d.linearVelocity = new Vector2(this._moveSpeed,
-                this._rb2d.linearVelocity.y);
-        }
-        if (this._isMovingBackward) {
-            this._rb2d.linearVelocity = new Vector2(-this._moveSpeed,
-                this._rb2d.linearVelocity.y);
-        }
+        var direction = 0f;
+        if (this._forward.IsPressed()) direction = 1f;
+        if (this._backward.IsPressed()) direction = -1f;
+        this._rb2d.linearVelocity = new Vector2(direction * this._moveSpeed,
+            this._rb2d.linearVelocity.y);
     }
 
-    private void HandleForwardStarted(object sender, EventArgs e) {
-        this._isMovingForward = true;
-    }
-
-    private void HandleForwardStopped(object sender, EventArgs e) {
-        this._isMovingForward = false;
-    }
-
-    private void HandleBackwardStarted(object sender, EventArgs e) {
-        this._isMovingBackward = true;
-    }
-
-    private void HandleBackwardStopped(object sender, EventArgs e) {
-        this._isMovingBackward = false;
-    }
-
-    private void HandleJump(object sender, EventArgs e) {
+    public void OnJump() {
         if (!this._isOnGround) return;
         this._rb2d.AddForce(Vector2.up * this._jumpForce, ForceMode2D.Impulse);
         this._isOnGround = false;
