@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &222338079 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1867998574052732564, guid: 21242b15f73d97d459ee74866faf49f4, type: 3}
+  m_PrefabInstance: {fileID: 5389222616353392781}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +345,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &722338926 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1765970601496670863, guid: 21242b15f73d97d459ee74866faf49f4, type: 3}
+  m_PrefabInstance: {fileID: 5389222616353392781}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &863230474
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,6 +381,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1619842455 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 10634663526023899, guid: 21242b15f73d97d459ee74866faf49f4, type: 3}
+  m_PrefabInstance: {fileID: 5389222616353392781}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1831081693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -494,9 +509,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2655389281977045880, guid: 7366cac5e1e12184ba76374593bf2c61, type: 3}
-      propertyPath: _raycastDist
-      value: 8.35
-      objectReference: {fileID: 0}
+      propertyPath: _midMovePoint
+      value: 
+      objectReference: {fileID: 722338926}
+    - target: {fileID: 2655389281977045880, guid: 7366cac5e1e12184ba76374593bf2c61, type: 3}
+      propertyPath: _leftMovePoint
+      value: 
+      objectReference: {fileID: 222338079}
+    - target: {fileID: 2655389281977045880, guid: 7366cac5e1e12184ba76374593bf2c61, type: 3}
+      propertyPath: _rightMovePoint
+      value: 
+      objectReference: {fileID: 1619842455}
+    - target: {fileID: 5828339545983651224, guid: 7366cac5e1e12184ba76374593bf2c61, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
     - target: {fileID: 5938451482851829246, guid: 7366cac5e1e12184ba76374593bf2c61, type: 3}
       propertyPath: m_Name
       value: Henchman
@@ -541,10 +568,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
-    - target: {fileID: 7530166151877216938, guid: 7366cac5e1e12184ba76374593bf2c61, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.65
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -566,6 +589,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7738873639461323707, guid: 80d1c747ed561d748a578caa2ece52a5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
     - target: {fileID: 7767064959154942945, guid: 80d1c747ed561d748a578caa2ece52a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.18

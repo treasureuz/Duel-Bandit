@@ -216,11 +216,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf4addfed8f3cb4b8ec3010e30986fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Henchman
-  _raycastDist: 8.35
-  _stoppingDist: 3.62
+  _leftMovePoint: {fileID: 0}
+  _midMovePoint: {fileID: 0}
+  _rightMovePoint: {fileID: 0}
   _playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _moveSpeed: 2.67
+  _timeBetweenPatrol: 3
+  _raycastDist: 8.35
+  _raycastHeight: 3.21
+  _state: 1
 --- !u!50 &8198601435421412497
 Rigidbody2D:
   serializedVersion: 5
@@ -310,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 8711476418325868638}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.35, y: 0, z: 0}
+  m_LocalPosition: {x: 0.65, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

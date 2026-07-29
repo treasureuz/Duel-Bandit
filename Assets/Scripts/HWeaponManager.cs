@@ -9,7 +9,7 @@ public class HWeaponManager : WeaponManager {
     }
 
     protected override void Update() {
-        if (this._henchman.state == Henchman.HenchmanState.Idle) return;
+        if (this._henchman.GetCurrentState() != Henchman.HenchmanState.Attack) return;
         HandleShooting();
     }
 
