@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Ground")) {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
             this._isOnGround = true;
         }
     }

@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7615376912515548972
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4452091449481180078, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_Name
+      value: GroundPatrolHenchman
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4125743660889721762, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 6180662659540773666}
+  m_SourcePrefab: {fileID: 100100000, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+--- !u!1 &5831834911632624782 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4125743660889721762, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+  m_PrefabInstance: {fileID: 7615376912515548972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6180662659540773666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5831834911632624782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4478023b8612934faeebbb1a4c12fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatrolHenchman
+  leftMovePoint: {fileID: 7359240996097087197}
+  rightMovePoint: {fileID: 7897185332548728052}
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  moveSpeed: 2.67
+  raycastDistance: 8.35
+  raycastHeight: 3.21
+  desiredState: 1
+  _waitTimeUntilPatrol: 2
+--- !u!4 &7359240996097087197 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1120840254340239857, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+  m_PrefabInstance: {fileID: 7615376912515548972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7897185332548728052 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 303765153454666712, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+  m_PrefabInstance: {fileID: 7615376912515548972}
+  m_PrefabAsset: {fileID: 0}

@@ -4,17 +4,18 @@ using UnityEngine.InputSystem;
 public class PWeaponManager : WeaponManager {
     private int _currentMagazineCount;
 
-    protected override void Update() {
+    protected override void FixedUpdate() {
+        // Handles shooting
         RotateTowardsTarget(GetTargetPosition());
-        HandleShooting();
+        if (!Mouse.current.leftButton.isPressed ||
+            this.nextShootTime > Time.time) return;
+        Shoot(); // Shoots gun
+        this.nextShootTime = Time.time + this.timeBetweenShots;
     }
 
-    protected override void HandleShooting() {
-        base.HandleShooting();
-        this.nextShootTime += Time.deltaTime;
-        if (!Mouse.current.leftButton.isPressed ||
-            this.nextShootTime < this.timeBetweenShots) return;
-        Shoot(); this.nextShootTime = 0f;
+    protected override void Shoot() {
+        base.Shoot();
+        //--this.currentMagazineCount; // Decrement mag count
     }
 
     protected override Vector3 GetTargetPosition() {

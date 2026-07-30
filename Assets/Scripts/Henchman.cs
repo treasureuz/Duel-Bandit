@@ -2,151 +2,95 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Henchman : MonoBehaviour {
+public abstract class Henchman : MonoBehaviour {
     [Header("References")]
-    [SerializeField] private Transform _leftMovePoint;
-    [SerializeField] private Transform _midMovePoint;
-    [SerializeField] private Transform _rightMovePoint;
-    [SerializeField] private LayerMask _playerLayerMask;
+    [SerializeField] protected Transform leftMovePoint;
+    [SerializeField] protected Transform rightMovePoint;
 
     [Header("Settings")]
-    [SerializeField] private float _moveSpeed = 2.67f;
-    [SerializeField] private float _waitTimeUntilPatrol = 3.46f;
-    [SerializeField] private float _waitTimeUntilIdle = 3f;
-    [SerializeField] private float _raycastDist = 2.5f;
-    [SerializeField] private float _raycastHeight = 3.21f;
+    [SerializeField] protected float moveSpeed = 2.67f;
+    [SerializeField] protected float maxDistFromPlayer = 4.843f;
+    [SerializeField] protected float raycastDistance = 8.35f;
+    [SerializeField] protected float raycastHeight = 3.21f;
 
-    private Rigidbody2D _rb2d;
-    private Transform _currTargetPoint;
+    protected Rigidbody2D rb2d;
+    protected Transform currTargetPoint;
 
-    private float _nextIdleTime;
-    private float _nextPatrolTime;
-    private bool _isPatrolling;
-    private bool _isMovingToIdlePoint;
-    private bool _hasReachedIdlePoint;
     private bool _isMovingToAttackPoint;
     private bool _hasReachedAttackPoint;
 
-    [Header("Desired HenchmanState (based on HenchmanType)")]
-    [SerializeField] private HenchmanState _desiredState = HenchmanState.Idle;
-    private HenchmanState _currentState;
+    [Header("Desired HenchmanState (based on Henchman)")]
+    [SerializeField] protected HenchmanState desiredState = HenchmanState.None;
+    protected HenchmanState currentState;
 
-    void Awake() {
-        this._rb2d = this.GetComponent<Rigidbody2D>();
+    protected virtual void Awake() {
+        this.rb2d = this.GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate() {
+    protected virtual void FixedUpdate() {
+        var playerLayerMask = 1 << Player.instance.gameObject.layer;
         RaycastHit2D hit = Physics2D.BoxCast(this.transform.position,
-            new Vector2(0.1f, this._raycastHeight), 0f, Vector2.left,
-                this._raycastDist, this._playerLayerMask);
-        this._currentState = hit ? HenchmanState.Attack : this._desiredState;
+            new Vector2(0.1f, this.raycastHeight), 0f, Vector2.left,
+                this.raycastDistance, playerLayerMask);
+        if (hit) {
+            if (this.currentState == this.desiredState) { // Previous state
+                // Could've accumulated waitTime before activating to be AttackState
+                ResetDesiredState(); // Therefore, reset main state
+            }
+            this.currentState = HenchmanState.Attack;
+        } else {
+            if (this.currentState == HenchmanState.Attack) // Previous state
+                ResetAttackState(); // Reset if previous state was AttackState
+            this.currentState = this.desiredState;
+        }
         HandleStateSwitch();
     }
 
-    private void HandleStateSwitch() {
-        switch (this._currentState) {
-            case HenchmanState.Idle: IdleState(); break;
-            case HenchmanState.Patrol: PatrolState(); break;
+    protected virtual void HandleStateSwitch() {
+        switch (this.currentState) {
             case HenchmanState.Attack: AttackState(); break;
         }
     }
 
     #region StateSwitch Methods/Helpers
-    private void IdleState() {
-        if (this._hasReachedIdlePoint) return;
-
-        if (this._isMovingToIdlePoint) {
-            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-            // Stop moving if reached currTargetPoint
-            if (!(Vector2.Distance(this._rb2d.position,
-                    this._currTargetPoint.position) < 0.1f)) return;
-            this._isMovingToIdlePoint = false;
-            this._hasReachedIdlePoint = true;
-            return;
-        }
-        this._nextIdleTime += Time.fixedDeltaTime;
-        if (this._nextIdleTime < this._waitTimeUntilIdle) return;
-
-        // Pick Idle movePoint: MidMovePoint
-        this._currTargetPoint = this._midMovePoint;
-
-        this._nextIdleTime = 0f; // Reset nextIdleTime
-        this._isMovingToIdlePoint = true; // Starts moving next frame
-    }
-
-    private void PatrolState() {
-        if (this._isPatrolling) {
-            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-            // Stop moving if reached currTargetPoint
-            if (Vector2.Distance(this._rb2d.position,
-                    this._currTargetPoint.position) < 0.1f)
-                this._isPatrolling = false;
-            return;
-        }
-        // Not patrolling, wait until it's time to patrol
-        this._nextPatrolTime += Time.fixedDeltaTime;
-        if (this._nextPatrolTime < this._waitTimeUntilPatrol) return;
-
-        // Decide next movePoint
-        if (!this._currTargetPoint) {
-            List<Transform> movePoints = new() { this._leftMovePoint, this._rightMovePoint };
-            this._currTargetPoint = movePoints[Random.Range(0, movePoints.Count)];
-        } else if (this._currTargetPoint == this._leftMovePoint) {
-            this._currTargetPoint = this._rightMovePoint;
-        } else this._currTargetPoint = this._leftMovePoint;
-
-        this._nextPatrolTime = 0f; // Reset nextPatrolTime
-        this._isPatrolling = true; // Starts patrolling next frame
-    }
-
-    private void AttackState() {
-        if (this._hasReachedAttackPoint) return;
-        // Could've accumulated wait time before this state was activated
-        DisablePatrolState(); DisableIdleState();
+    protected void AttackState() {
+        var distFromPlayer = Mathf.Abs(this.rb2d.position.x - Player.instance.transform.position.x);
+        // Stops moving if Henchman is at an appropriate distance away from Player
+        if (this._hasReachedAttackPoint || distFromPlayer <= this.maxDistFromPlayer) return;
 
         if (this._isMovingToAttackPoint) {
             MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
             // Stop moving if reached currTargetPoint
-            if (!(Vector2.Distance(this._rb2d.position,
-                    this._currTargetPoint.position) < 0.1f)) return;
+            if (!(Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.
+                    position.x) < 0.1f)) return;
             this._isMovingToAttackPoint = false;
             this._hasReachedAttackPoint = true;
             return;
         }
         // Pick closest movePoint to the Player to get a good view for shooting
-        var playerToLeftMP = Vector2.Distance(this._leftMovePoint.position,
+        var playerToLeftMP = Vector2.Distance(this.leftMovePoint.position,
             Player.instance.transform.position);
-        var playerToRightMP = Vector2.Distance(this._rightMovePoint.position,
+        var playerToRightMP = Vector2.Distance(this.rightMovePoint.position,
             Player.instance.transform.position);
-        this._currTargetPoint = playerToLeftMP < playerToRightMP ?
-            this._leftMovePoint : this._rightMovePoint;
+        this.currTargetPoint = playerToLeftMP < playerToRightMP ?
+            this.leftMovePoint : this.rightMovePoint;
 
         this._isMovingToAttackPoint = true; // Starts moving next frame
     }
 
-    //TODO: Add DisableDesiredState method in replacement of below
-    private void DisablePatrolState() {
-        this._isPatrolling = false;
-        this._nextPatrolTime = 0f;
-    }
-
-    private void DisableIdleState() {
-        this._isMovingToIdlePoint = false;
-        this._hasReachedIdlePoint = false;
-        this._nextIdleTime = 0f;
-    }
-
-    private void DisableAttackState() {
+    protected void ResetAttackState() {
         this._isMovingToAttackPoint = false;
-        this._hasReachedAttackPoint = false;
     }
+    protected abstract void ResetDesiredState();
 
-    private void MoveTowardsTargetPoint() {
-        Vector2 position = Vector2.MoveTowards(this._rb2d.position,
-            this._currTargetPoint.position, this._moveSpeed * Time.fixedDeltaTime);
-        this._rb2d.MovePosition(position);
+    protected void MoveTowardsTargetPoint() {
+        var posX = Mathf.MoveTowards(this.rb2d.position.x,
+            this.currTargetPoint.position.x, this.moveSpeed * Time.fixedDeltaTime);
+        Vector2 position = new(posX, this.rb2d.position.y);
+        this.rb2d.MovePosition(position);
     }
     #endregion
 
-    public HenchmanState GetCurrentState() => this._currentState;
+    public HenchmanState GetCurrentState() => this.currentState;
+    public float GetRaycastDistance() => this.raycastDistance;
 }

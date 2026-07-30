@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &90993495716611263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7755041636103261139, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_Name
+      value: HoverPatrolHenchman
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3661729878618270716, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 2182549435483857046}
+  m_SourcePrefab: {fileID: 100100000, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+--- !u!1 &3716127160461078339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3661729878618270716, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_PrefabInstance: {fileID: 90993495716611263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2182549435483857046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3716127160461078339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4478023b8612934faeebbb1a4c12fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatrolHenchman
+  leftMovePoint: {fileID: 7495771196123480152}
+  rightMovePoint: {fileID: 7668536150997618113}
+  moveSpeed: 2.67
+  maxDistFromPlayer: 4.82
+  raycastDistance: 8.35
+  raycastHeight: 4.21
+  desiredState: 1
+  _waitTimeUntilPatrol: 2
+--- !u!4 &7495771196123480152 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7585489120777258215, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_PrefabInstance: {fileID: 90993495716611263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7668536150997618113 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7723491828887652734, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_PrefabInstance: {fileID: 90993495716611263}
+  m_PrefabAsset: {fileID: 0}
