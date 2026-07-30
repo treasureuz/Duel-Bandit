@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2947496768216004921}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.99, y: 0, z: 0}
+  m_LocalPosition: {x: 0.88, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 7738873639461323707}
   - component: {fileID: 8830187443331689638}
   - component: {fileID: 27821200348028212}
-  - component: {fileID: 4287689894477471221}
+  - component: {fileID: 3527758080112505089}
   - component: {fileID: 1423329427847284223}
   m_Layer: 6
   m_Name: Player
@@ -170,7 +170,7 @@ Transform:
   m_GameObject: {fileID: 7279625477253558365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.18, y: -0.44, z: 0}
+  m_LocalPosition: {x: -5.12, y: -2.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -226,7 +226,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.18396229, g: 0.5671267, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -277,8 +277,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   _moveSpeed: 3
   _jumpForce: 5
---- !u!70 &4287689894477471221
-CapsuleCollider2D:
+--- !u!61 &3527758080112505089
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -312,8 +312,17 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
-  m_Direction: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &1423329427847284223
 MonoBehaviour:
   m_ObjectHideFlags: 0

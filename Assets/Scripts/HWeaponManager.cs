@@ -9,9 +9,10 @@ public class HWeaponManager : WeaponManager {
     }
 
     protected override void Update() {
-        if (this._henchman.GetCurrentState() != Henchman.HenchmanState.Attack) return;
+        if (this._henchman.GetCurrentState() != HenchmanState.Attack) return;
         HandleShooting();
     }
+
 
     protected override void HandleShooting() {
         base.HandleShooting();
