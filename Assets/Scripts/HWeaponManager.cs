@@ -9,16 +9,20 @@ public class HWeaponManager : WeaponManager {
     }
 
     protected override void FixedUpdate() {
-        var playerLayerMask = 1 << Player.instance.gameObject.layer;
-        if (this._henchman.GetCurrentState() != HenchmanState.Attack) return;
+        var canShoot = this._henchman.GetCurrentState() == HenchmanState.Attack;
+        if (!canShoot) {
+            // If Henchman isnt waiting before moving to its desired point
+            if (!this._henchman.IsWaitingUntilDesired()) return;
+            Quaternion smoothedRotation = Quaternion.RotateTowards(this.transform.
+                rotation, Quaternion.identity, this.rotationSpeed);
+            this.rb2d.MoveRotation(smoothedRotation);
+            return;
+        }
         RotateTowardsTarget(GetTargetPosition());
-        // RaycastHit2D hit = Physics2D.Raycast(this.rb2d.position, Vector2.left,
-        //     this._henchman.GetRaycastDistance(), playerLayerMask);
-        // if (!hit) return;
         // Handles shooting
-        if (this.nextShootTime > Time.time) return;
+        if (this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
-        this.nextShootTime = Time.time + this.timeBetweenShots;
+        this.elapsedShootTime = Time.time + this.timeBetweenShots;
     }
 
     protected override Vector3 GetTargetPosition() {

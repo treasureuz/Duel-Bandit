@@ -25,22 +25,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -77,14 +61,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4478023b8612934faeebbb1a4c12fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolHenchman
+  FOV: 125
+  moveSpeed: 2.67
+  raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 72
   leftMovePoint: {fileID: 7495771196123480152}
   rightMovePoint: {fileID: 7668536150997618113}
-  moveSpeed: 2.67
-  maxDistFromPlayer: 4.82
-  raycastDistance: 8.35
-  raycastHeight: 4.21
+  waitTimeUntilDesired: 2
+  maxDistFromPlayer: 4.843
+  raycastDistance: 7.35
   desiredState: 1
-  _waitTimeUntilPatrol: 2
 --- !u!4 &7495771196123480152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7585489120777258215, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}

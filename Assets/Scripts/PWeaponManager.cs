@@ -2,15 +2,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PWeaponManager : WeaponManager {
+    private Camera cam;
+
     private int _currentMagazineCount;
 
+    protected override void Awake() {
+        this.cam = Camera.main;
+        base.Awake();
+    }
     protected override void FixedUpdate() {
         // Handles shooting
         RotateTowardsTarget(GetTargetPosition());
         if (!Mouse.current.leftButton.isPressed ||
-            this.nextShootTime > Time.time) return;
+            this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
-        this.nextShootTime = Time.time + this.timeBetweenShots;
+        this.elapsedShootTime = Time.time + this.timeBetweenShots;
     }
 
     protected override void Shoot() {
