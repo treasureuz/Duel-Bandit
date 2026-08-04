@@ -9,23 +9,25 @@ public class HWeaponManager : WeaponManager {
     }
 
     protected override void FixedUpdate() {
-        var canShoot = this._henchman.GetCurrentState() == HenchmanState.Attack;
-        if (!canShoot) {
+        if (!this._henchman.IsAttacking) {
             // If Henchman isnt waiting before moving to its desired point
             if (!this._henchman.IsWaitingUntilDesired()) return;
-            Quaternion smoothedRotation = Quaternion.RotateTowards(this.transform.
-                rotation, Quaternion.identity, this.rotationSpeed);
-            this.rb2d.MoveRotation(smoothedRotation);
+            RotateToIdentity();
             return;
         }
-        RotateTowardsTarget(GetTargetPosition());
+        RotateTowardsTargetPos();
         // Handles shooting
         if (this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
         this.elapsedShootTime = Time.time + this.timeBetweenShots;
     }
 
-    protected override Vector3 GetTargetPosition() {
+    public void RotateToIdentity() {
+        Quaternion smoothedRot = Quaternion.RotateTowards(this.transform.
+            rotation, Quaternion.identity, this.rotationSpeed * Time.fixedDeltaTime);
+        this.rb2d.MoveRotation(smoothedRot);
+    }
+    protected override Vector2 GetTargetPosition() {
         return Player.instance.transform.position;
     }
 }

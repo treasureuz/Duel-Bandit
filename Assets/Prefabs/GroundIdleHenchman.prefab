@@ -82,15 +82,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82572ee6f9f1be4ea45aeadc27b8869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
+  fieldOfView: 180
+  moveSpeed: 2.67
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
   leftMovePoint: {fileID: 7429608613023790376}
   rightMovePoint: {fileID: 7827945694811985665}
-  FOV: 125
-  moveSpeed: 2.67
-  waitTimeUntilDesired: 2
-  maxDistFromPlayer: 4.843
+  timeUntilDesired: 2.62
+  timeUntilSearch: 1
+  timeUntilSearchEnd: 3
+  minDistFromPlayer: 4.843
   raycastDistance: 7.35
   desiredState: 0
   _midMovePoint: {fileID: 3333395528526465175}

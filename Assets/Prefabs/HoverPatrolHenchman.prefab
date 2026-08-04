@@ -61,15 +61,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4478023b8612934faeebbb1a4c12fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolHenchman
-  FOV: 125
+  fieldOfView: 180
   moveSpeed: 2.67
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
   leftMovePoint: {fileID: 7495771196123480152}
   rightMovePoint: {fileID: 7668536150997618113}
-  waitTimeUntilDesired: 2
-  maxDistFromPlayer: 4.843
+  timeUntilDesired: 2.62
+  timeUntilSearch: 1
+  timeUntilSearchEnd: 3
+  minDistFromPlayer: 4.843
   raycastDistance: 7.35
   desiredState: 1
 --- !u!4 &7495771196123480152 stripped

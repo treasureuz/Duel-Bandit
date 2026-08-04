@@ -12,7 +12,7 @@ public class PWeaponManager : WeaponManager {
     }
     protected override void FixedUpdate() {
         // Handles shooting
-        RotateTowardsTarget(GetTargetPosition());
+        RotateTowardsTargetPos();
         if (!Mouse.current.leftButton.isPressed ||
             this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
@@ -24,8 +24,8 @@ public class PWeaponManager : WeaponManager {
         //--this.currentMagazineCount; // Decrement mag count
     }
 
-    protected override Vector3 GetTargetPosition() {
-        Vector3 mousePos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+    protected override Vector2 GetTargetPosition() {
+        Vector2 mousePos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         return mousePos;
     }
 

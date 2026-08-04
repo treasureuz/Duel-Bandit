@@ -11,9 +11,11 @@ public class PatrolHenchman : Henchman {
 
     private void PatrolState() {
         if (!this.isMovingToDesiredPoint) {
-            // Not patrolling, wait until it's time to patrol
-            this.elapsedDesiredTime += Time.fixedDeltaTime;
-            if (this.elapsedDesiredTime < this.waitTimeUntilDesired) return;
+            // Wait until it's time to patrol
+            if (this.elapsedTimeUntilDesired < this.timeUntilDesired) {
+                this.elapsedTimeUntilDesired += Time.fixedDeltaTime;
+                return;
+            }
 
             // Decide next movePoint
             if (!this.currTargetPoint) {
@@ -23,18 +25,14 @@ public class PatrolHenchman : Henchman {
                 this.currTargetPoint = this.rightMovePoint;
             } else this.currTargetPoint = this.leftMovePoint;
 
-            this.elapsedDesiredTime = 0f; // Reset nextPatrolTime
+            this.elapsedTimeUntilDesired = 0f; // Reset nextPatrolTime
             this.isMovingToDesiredPoint = true; // Starts patrolling next frame
-            return;
+        } else {
+            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+            // Stop moving if reached currTargetPoint
+            if (Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.position.x) < 0.1f)
+                this.isMovingToDesiredPoint = false;
         }
-        MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-        // Stop moving if reached currTargetPoint
-        if (Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.position.x) < 0.1f)
-            this.isMovingToDesiredPoint = false;
-    }
 
-    protected override void ResetDesiredState() {
-        this.isMovingToDesiredPoint = false;
-        this.elapsedDesiredTime = 0f;
     }
 }

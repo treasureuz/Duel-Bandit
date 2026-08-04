@@ -17,27 +17,28 @@ public class IdleHenchman : Henchman {
         if (this._hasReachedIdlePoint) return;
 
         if (!this.isMovingToDesiredPoint) {
-            this.elapsedDesiredTime += Time.fixedDeltaTime;
-            if (this.elapsedDesiredTime < this.waitTimeUntilDesired) return;
+            if (this.elapsedTimeUntilDesired < this.timeUntilDesired) {
+                this.elapsedTimeUntilDesired += Time.fixedDeltaTime;
+                return;
+            };
 
             // Pick Idle movePoint: MidMovePoint
             this.currTargetPoint = this._midMovePoint;
 
-            this.elapsedDesiredTime = 0f; // Reset nextIdleTime
+            this.elapsedTimeUntilDesired = 0f; // Reset nextIdleTime
             this.isMovingToDesiredPoint = true; // Starts moving next frame
-            return;
+        } else {
+            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+            // Stop moving if reached currTargetPoint
+            if (!(Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.
+                    position.x) < 0.1f)) return;
+            this.isMovingToDesiredPoint = false;
+            this._hasReachedIdlePoint = true;
         }
-        MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-        // Stop moving if reached currTargetPoint
-        if (!(Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.
-                position.x) < 0.1f)) return;
-        this.isMovingToDesiredPoint = false;
-        this._hasReachedIdlePoint = true;
     }
 
     protected override void ResetDesiredState() {
-        this.isMovingToDesiredPoint = false;
+        base.ResetDesiredState();
         this._hasReachedIdlePoint = false;
-        this.elapsedDesiredTime = 0f;
     }
 }

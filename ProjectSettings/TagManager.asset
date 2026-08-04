@@ -17,9 +17,9 @@ TagManager:
   - UI
   - Player
   - Henchman
-  - 
-  - 
-  - 
+  - CameraBounds
+  - PlayerBullet
+  - HenchmanBullet
   - 
   - 
   - 
