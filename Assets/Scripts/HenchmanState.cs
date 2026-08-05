@@ -1,6 +1,6 @@
 // Separate class for "HenchmanState" enum
 public enum HenchmanState {
-    None,
+    None = -1,
     Idle = 0,
     Patrol = 1,
     Attack = 2,

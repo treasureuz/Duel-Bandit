@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Henchman : Character<HWeaponManager> {
+public class Henchman : Character<HGunManager> {
     [Header("References")]
     [SerializeField] protected LayerMask raycastLayerMask;
     [SerializeField] protected Transform leftMovePoint;
@@ -28,6 +28,10 @@ public class Henchman : Character<HWeaponManager> {
     protected HenchmanState currentState = HenchmanState.None;
 
     protected virtual void FixedUpdate() {
+        if (!Player.instance) {
+            this.currentState = this.desiredState;
+            return;
+        }
         var playerInLOS = IsPlayerInLOS();
         if (playerInLOS || this._isShot) {
             if (this.currentState == this.desiredState) { // Previous state check
@@ -54,14 +58,20 @@ public class Henchman : Character<HWeaponManager> {
     }
 
     protected override void HandleLocalScale() {
+        Vector3 localScale = this.transform.localScale;
         if (!IsAttacking) {
             // If negative, the currTargetPoint is to the left, otherwise right
             // Therefore, flip this Henchman to that dirX
             var dirXToTargetPoint = this.currTargetPoint.position.x - this.rb2d.position.x;
-            Vector3 localScale = this.transform.localScale;
             localScale.x = dirXToTargetPoint <= 0f ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
-            this.transform.localScale = localScale;
-        } else FlipScaleWithDir(GetDirToPlayer()); // Uses dirToPlayer to flip localScale
+        } else {
+            Vector2 dirToPlayer = GetDirToPlayer();
+            var angle = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
+            // Flip localScale if angle created by direction to mousePos "<" or ">" this FOV
+            var isWithinFOV = Mathf.Abs(angle) <= (this.FOV / 2f);
+            localScale.x = isWithinFOV ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
+        }
+        this.transform.localScale = localScale;
     }
 
     protected virtual void HandleStateSwitch() {
@@ -153,9 +163,12 @@ public class Henchman : Character<HWeaponManager> {
             position - this.rb2d.position).normalized;
     }
 
-    public void OnCollisionEnter2D(Collision2D col) {
-        if (col.collider.CompareTag("PlayerBullet")) {
+    public void OnCollisionEnter2D(Collision2D collision) {
+        GameObject colObj = collision.gameObject;
+        if (colObj.CompareTag("PlayerBullet")) {
             this._isShot = true;
+            BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
+            TakeDamage(bullet.GetDamage());
         }
     }
 

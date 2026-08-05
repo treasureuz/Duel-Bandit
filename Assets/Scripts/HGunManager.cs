@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HWeaponManager : WeaponManager {
+public class HGunManager : GunManager {
     private Henchman _henchman;
 
     protected override void Awake() {
@@ -27,7 +27,7 @@ public class HWeaponManager : WeaponManager {
             rotation, Quaternion.identity, this.rotationSpeed * Time.fixedDeltaTime);
         this.rb2d.MoveRotation(smoothedRot);
     }
-    protected override Vector2 GetTargetPosition() {
+    public override Vector2 GetTargetPosition() {
         return Player.instance.transform.position;
     }
 }

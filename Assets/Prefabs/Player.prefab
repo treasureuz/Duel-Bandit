@@ -139,9 +139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PWeaponManager
   bulletPrefab: {fileID: 7312025525634554652, guid: 29e9f9c1ad4094c49aca95700e2d6905, type: 3}
   rotationSpeed: 325
-  timeBetweenShots: 1.46
-  bulletMagazineCount: Infinity
-  bulletDamage: 13.5
+  timeBetweenShots: 1.86
+  _maxMagCount: 30
 --- !u!50 &7323114094686359107
 Rigidbody2D:
   serializedVersion: 5
@@ -277,8 +276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8b0d849c098aa4e90cc784e4296020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  fieldOfView: 180
+  FOV: 180
+  maxHealth: 200
   moveSpeed: 2.95
+  _maxLives: 3
   _jumpForce: 6.28
 --- !u!50 &8830187443331689638
 Rigidbody2D:

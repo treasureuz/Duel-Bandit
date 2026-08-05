@@ -1,15 +1,13 @@
 using System;
 using UnityEngine;
 
-public abstract class WeaponManager : MonoBehaviour {
+public abstract class GunManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] protected GameObject bulletPrefab;
 
     [Header("Settings")]
-    [SerializeField] protected float rotationSpeed = 100f;
+    [SerializeField] protected float rotationSpeed = 325f;
     [SerializeField] protected float timeBetweenShots = 1.46f;
-    [SerializeField] protected float bulletMagazineCount = Mathf.Infinity;
-    [SerializeField] protected float bulletDamage = 13.5f;
 
     protected Rigidbody2D rb2d;
     protected Transform bulletSpawnPoint;
@@ -55,7 +53,5 @@ public abstract class WeaponManager : MonoBehaviour {
         MeasureAngleToTargetPos();
         ApplyRotation();
     }
-    protected abstract Vector2 GetTargetPosition();
-
-    public float GetBulletDamage() => this.bulletDamage;
+    public abstract Vector2 GetTargetPosition();
 }
