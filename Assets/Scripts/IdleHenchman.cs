@@ -16,25 +16,18 @@ public class IdleHenchman : Henchman {
     private void IdleState() {
         if (this._hasReachedIdlePoint) return;
 
-        if (!this.isMovingToDesiredPoint) {
-            if (this.elapsedTimeUntilDesired < this.timeUntilDesired) {
-                this.elapsedTimeUntilDesired += Time.fixedDeltaTime;
-                return;
-            };
-
-            // Pick Idle movePoint: MidMovePoint
+        if (!this.hasSetCurrTargetPoint) { // Removes the redundancy of setting it every frame
+            // Sets to Idle movePoint: MidMovePoint
             this.currTargetPoint = this._midMovePoint;
-
-            this.elapsedTimeUntilDesired = 0f; // Reset nextIdleTime
-            this.isMovingToDesiredPoint = true; // Starts moving next frame
-        } else {
-            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-            // Stop moving if reached currTargetPoint
-            if (!(Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.
-                    position.x) < 0.1f)) return;
-            this.isMovingToDesiredPoint = false;
-            this._hasReachedIdlePoint = true;
+            this.hasSetCurrTargetPoint = true;
         }
+        if (!this.isMovingToDesiredPoint) return;
+        MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+        // Stop moving if reached currTargetPoint
+        var hasReachedTargetPoint = HasReachedTargetPoint();
+        if (!hasReachedTargetPoint) return;
+        this.isMovingToDesiredPoint = false;
+        this._hasReachedIdlePoint = true;
     }
 
     protected override void ResetDesiredState() {

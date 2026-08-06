@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBehavior
   _speed: 33
+  _damage: 6.21
 --- !u!70 &7649184054949396856
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

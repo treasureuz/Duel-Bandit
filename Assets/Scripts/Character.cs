@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Character<TGunManager> : MonoBehaviour
     where TGunManager : GunManager {
+    [Header("Settings")]
     [SerializeField] protected int FOV = 180; // 90 degrees upward/downward this obj
     [SerializeField] protected float maxHealth = 200f;
     [SerializeField] protected float moveSpeed = 2.67f;
@@ -26,7 +27,6 @@ public abstract class Character<TGunManager> : MonoBehaviour
 
     protected virtual void TakeDamage(float amount) {
         SetCurrentHealth(this.currentHealth - amount);
-        if (this.currentHealth == 0f) Destroy(this.gameObject);
     }
 
     public void SetCurrentHealth(float health) {

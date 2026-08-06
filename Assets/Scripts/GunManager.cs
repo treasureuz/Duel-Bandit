@@ -30,7 +30,7 @@ public abstract class GunManager : MonoBehaviour {
     public void MeasureAngleToTargetPos() {
         // Check if direction is positive (target position is to the right)
         // or negative (target position is to the left)
-        Vector2 direction = (GetTargetPosition() - this.rb2d.position).normalized;
+        Vector2 direction = (GetTargetPos() - this.rb2d.position).normalized;
         this._rawAngleToTarget = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // -> Deg
     }
 
@@ -53,5 +53,5 @@ public abstract class GunManager : MonoBehaviour {
         MeasureAngleToTargetPos();
         ApplyRotation();
     }
-    public abstract Vector2 GetTargetPosition();
+    public abstract Vector2 GetTargetPos();
 }

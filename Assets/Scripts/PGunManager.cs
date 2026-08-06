@@ -8,8 +8,6 @@ public class PGunManager : GunManager {
     private Camera _cam;
     private int _currentMagCount;
 
-    public EventHandler OnShot;
-
     protected override void Awake() {
         this._cam = Camera.main;
         base.Awake();
@@ -27,10 +25,10 @@ public class PGunManager : GunManager {
     protected override void Shoot() {
         base.Shoot();
         --this._currentMagCount; // Decrement mag count
-        OnShot?.Invoke(this, EventArgs.Empty);
+        PlayerManager.instance.OnPlayerGunShot?.Invoke(this, EventArgs.Empty);
     }
 
-    public override Vector2 GetTargetPosition() {
+    public override Vector2 GetTargetPos() {
         Vector2 mousePos = this._cam.ScreenToWorldPoint(
             Mouse.current.position.ReadValue());
         return mousePos;

@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 27.83
       objectReference: {fileID: 0}
     - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolHenchman
   FOV: 180
-  maxHealth: 200
+  maxHealth: 100
   moveSpeed: 2.67
   raycastLayerMask:
     serializedVersion: 2

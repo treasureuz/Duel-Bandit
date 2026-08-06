@@ -10,8 +10,8 @@ public class HGunManager : GunManager {
 
     protected override void FixedUpdate() {
         if (!this._henchman.IsAttacking) {
-            // If Henchman isnt waiting before moving to its desired point
-            if (!this._henchman.IsWaitingUntilDesired()) return;
+            // If Henchman isnt in desiredState
+            if (!this._henchman.IsInDesiredState) return;
             RotateToIdentity();
             return;
         }
@@ -27,7 +27,8 @@ public class HGunManager : GunManager {
             rotation, Quaternion.identity, this.rotationSpeed * Time.fixedDeltaTime);
         this.rb2d.MoveRotation(smoothedRot);
     }
-    public override Vector2 GetTargetPosition() {
-        return Player.instance.transform.position;
+    public override Vector2 GetTargetPos() {
+        Player player = PlayerManager.instance.GetPlayer();
+        return player.transform.position;
     }
 }

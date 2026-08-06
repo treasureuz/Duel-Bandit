@@ -2,6 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolHenchman : Henchman {
+    [Header("PatrolHenchman")]
+    [SerializeField] private float _timeUntilPatrol = 2.62f;
+
+    private float _elapsedTimeUntilPatrol;
+
     protected override void HandleStateSwitch() {
         base.HandleStateSwitch();
         switch (this.currentState) {
@@ -10,13 +15,7 @@ public class PatrolHenchman : Henchman {
     }
 
     private void PatrolState() {
-        if (!this.isMovingToDesiredPoint) {
-            // Wait until it's time to patrol
-            if (this.elapsedTimeUntilDesired < this.timeUntilDesired) {
-                this.elapsedTimeUntilDesired += Time.fixedDeltaTime;
-                return;
-            }
-
+        if (!hasSetCurrTargetPoint) {
             // Decide next movePoint
             if (!this.currTargetPoint) {
                 List<Transform> movePoints = new() { this.leftMovePoint, this.rightMovePoint };
@@ -24,15 +23,27 @@ public class PatrolHenchman : Henchman {
             } else if (this.currTargetPoint == this.leftMovePoint) {
                 this.currTargetPoint = this.rightMovePoint;
             } else this.currTargetPoint = this.leftMovePoint;
-
-            this.elapsedTimeUntilDesired = 0f; // Reset nextPatrolTime
-            this.isMovingToDesiredPoint = true; // Starts patrolling next frame
-        } else {
-            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-            // Stop moving if reached currTargetPoint
-            if (Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.position.x) < 0.1f)
-                this.isMovingToDesiredPoint = false;
+            hasSetCurrTargetPoint = true;
         }
 
+        if (this.isMovingToDesiredPoint) {
+            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+            // Stop moving if reached currTargetPoint
+            var hasReachedTargetPoint = HasReachedTargetPoint();
+            if (hasReachedTargetPoint) this.isMovingToDesiredPoint = false;
+        } else {
+            // Wait until it's time to patrol
+            if (this._elapsedTimeUntilPatrol < this._timeUntilPatrol) {
+                this._elapsedTimeUntilPatrol += Time.fixedDeltaTime;
+                return;
+            }
+            this._elapsedTimeUntilPatrol = 0f; // Reset nextPatrolTime
+            hasSetCurrTargetPoint = false;
+        }
+    }
+
+    protected override void ResetDesiredState() {
+        base.ResetDesiredState();
+        this._elapsedTimeUntilPatrol = 0f;
     }
 }

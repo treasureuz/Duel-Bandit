@@ -13,23 +13,26 @@ public class GameUIManager : MonoBehaviour {
     }
 
     void Start() {
-        Player.instance.OnDamaged += UpdatePlayerHealthText;
-        Player.instance.GunManager.OnShot += UpdateMagazineCount;
+        PlayerManager.instance.OnPlayerSpawned += UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerDamaged += UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerGunShot += UpdateMagazineCount;
     }
 
     void OnDisable() {
-        Player.instance.OnDamaged -= UpdatePlayerHealthText;
-        Player.instance.GunManager.OnShot -= UpdateMagazineCount;
+        PlayerManager.instance.OnPlayerSpawned -= UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerDamaged -= UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerGunShot -= UpdateMagazineCount;
     }
 
     private void UpdatePlayerHealthText(object sender, EventArgs e) {
-        this._playerHealthText.text = $"HP: {Player.instance.GetCurrentHealth():F1}" +
-                                      $"/{Player.instance.GetMaxHealth()}";
+        Player player = PlayerManager.instance.GetPlayer();
+        this._playerHealthText.text = $"HP: {player.GetCurrentHealth():F1}" +
+                                      $"/{player.GetMaxHealth()}";
     }
 
     private void UpdateMagazineCount(object sender, EventArgs e) {
-        PGunManager gunManager = Player.instance.GunManager;
-        this._magCountText.text = $"Bullets: {gunManager.GetCurrentMagCount()}" +
-                                  $"/{gunManager.GetMaxMagCount()}";
+        Player player = PlayerManager.instance.GetPlayer();
+        this._magCountText.text = $"Bullets: {player.GunManager.GetCurrentMagCount()}" +
+                                  $"/{player.GunManager.GetMaxMagCount()}";
     }
 }

@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
   FOV: 180
-  maxHealth: 200
+  maxHealth: 100
   moveSpeed: 2.67
   raycastLayerMask:
     serializedVersion: 2

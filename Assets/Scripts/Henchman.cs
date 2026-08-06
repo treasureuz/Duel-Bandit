@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Henchman : Character<HGunManager> {
@@ -7,69 +8,78 @@ public class Henchman : Character<HGunManager> {
     [SerializeField] protected Transform rightMovePoint;
 
     [Header("Settings")]
-    [SerializeField] protected float timeUntilDesired = 2f;
     [SerializeField] protected float timeUntilSearch = 1f;
     [SerializeField] protected float timeUntilSearchEnd = 3.16f;
     [SerializeField] protected float viewDistance = 6.35f;
 
     protected Transform currTargetPoint;
 
-    protected float elapsedTimeUntilDesired;
     private float _elapsedTimeUntilSearchEnd;
     private float _elapsedTimeUntilSearch;
 
-    private bool _isShot;
+    protected bool hasSetCurrTargetPoint;
     protected bool isMovingToDesiredPoint;
-    private bool _isMovingToAggroPoint;
-    private bool _hasReachedAggroPoint;
+    private bool _isShot;
+    private bool _isMovingToSearchPoint;
+    private bool _hasReachedSearchPoint;
 
     [Header("Desired HenchmanState (based on Henchman)")]
     [SerializeField] protected HenchmanState desiredState = HenchmanState.None;
     protected HenchmanState currentState = HenchmanState.None;
 
+    void OnEnable() {
+        PlayerManager.instance.OnPlayerDead += SetCurrentStateToNone;
+    }
+
+    void OnDisable() {
+        PlayerManager.instance.OnPlayerDead -= SetCurrentStateToNone;
+    }
+
     protected virtual void FixedUpdate() {
-        if (!Player.instance) {
-            this.currentState = this.desiredState;
-            return;
-        }
+        if (!PlayerManager.instance.GetPlayer()) return;
         var playerInLOS = IsPlayerInLOS();
-        if (playerInLOS || this._isShot) {
+        if (playerInLOS || ShouldSwitchToSearchOnShot()) {
             if (this.currentState == this.desiredState) { // Previous state check
                 // Could've accumulated waitTime before activating the to be AttackState
                 ResetDesiredState(); // Therefore, reset main state
-            } else if (this.currentState is HenchmanState.Search && playerInLOS) {
-                this._elapsedTimeUntilSearch = 0f;
+            } else if (this.currentState == HenchmanState.Search && playerInLOS) {
+                // If Henchman was in Search and now Player is in LOS:
+                // If Henchman had not reached targetPoint, reset the time would need to
+                // wait before moving towards the targetPoint. Otherwise,
+                // If Henchman had reached its targetPoint, reset the time it would need to
+                // accumulate until SearchState deactivates.
+                if (!this._hasReachedSearchPoint) this._elapsedTimeUntilSearch = 0f;
+                else this._elapsedTimeUntilSearchEnd = 0f;
             }
             this.currentState = playerInLOS ? HenchmanState.Attack : HenchmanState.Search;
         } else {
+            // Player not in LOS
             if (IsInAggroState) { // Previous state check -- In Attack/SearchState
-                // Set state to Search if Henchman hadn't reached targetPoint or
-                // still in SearchState (elapsedTimeUntilSearchEnd hasn't finished)
-                if (!this._hasReachedAggroPoint || IsInSearchState()) {
+                // Switches state to Search if previous state was Attack
+                // Or if Henchman is still in SearchState (previous/current state
+                // was Search and elapsedTimeUntilSearchEnd hasn't finished)
+                if (this.currentState == HenchmanState.Attack || IsInSearchState()) {
                     this.currentState = HenchmanState.Search;
-                    HandleStateSwitch();
+                    HandleStateSwitch(); // Continues the moving/timer until SearchEnd
                     return;
                 }
-                ResetAggroState(); // Reset if previous state was Attack or Search
+                ResetSearchState(); // Reset if previous state was Search
             }
             this.currentState = this.desiredState;
         }
-        HandleStateSwitch();
+        HandleStateSwitch(); // Applies the CurrentState
     }
 
     protected override void HandleLocalScale() {
         Vector3 localScale = this.transform.localScale;
+        // If negative, the targetPos is to the left, otherwise right
+        // Therefore, flip this Henchman to that dirX
         if (!IsAttacking) {
-            // If negative, the currTargetPoint is to the left, otherwise right
-            // Therefore, flip this Henchman to that dirX
             var dirXToTargetPoint = this.currTargetPoint.position.x - this.rb2d.position.x;
             localScale.x = dirXToTargetPoint <= 0f ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
         } else {
-            Vector2 dirToPlayer = GetDirToPlayer();
-            var angle = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
-            // Flip localScale if angle created by direction to mousePos "<" or ">" this FOV
-            var isWithinFOV = Mathf.Abs(angle) <= (this.FOV / 2f);
-            localScale.x = isWithinFOV ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
+            var dirXToPlayer = GetDirToPlayer().x;
+            localScale.x = dirXToPlayer <= 0f ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
         }
         this.transform.localScale = localScale;
     }
@@ -82,7 +92,7 @@ public class Henchman : Character<HGunManager> {
     }
     protected void SearchState() {
         Debug.Log("In Search");
-        if (this._hasReachedAggroPoint) {
+        if (this._hasReachedSearchPoint) {
             if (this._elapsedTimeUntilSearchEnd < this.timeUntilSearchEnd) {
                 this._elapsedTimeUntilSearchEnd += Time.fixedDeltaTime;
                 return;
@@ -93,16 +103,35 @@ public class Henchman : Character<HGunManager> {
                 this._elapsedTimeUntilSearch += Time.fixedDeltaTime;
                 return;
             }
-            MoveToClosestPointToPlayer(); // Sets flags to true/false once reached
+            // Moves to the closest movePoint to the Player
+            Player player = PlayerManager.instance.GetPlayer();
+            if (!this._isMovingToSearchPoint) {
+                // Pick closest movePoint to the Player to get a good view for shooting
+                var playerToLeftMP = Vector2.Distance(this.leftMovePoint.position,
+                    player.transform.position);
+                var playerToRightMP = Vector2.Distance(this.rightMovePoint.position,
+                    player.transform.position);
+                this.currTargetPoint = playerToLeftMP < playerToRightMP ?
+                    this.leftMovePoint : this.rightMovePoint;
+                // Starts moving to currTargetPoint next frame
+                this._isMovingToSearchPoint = true;
+            } else {
+                MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+                // Stop moving if reached currTargetPoint
+                var hasReachedTargetPoint = HasReachedTargetPoint();
+                if (!hasReachedTargetPoint) return;
+                this._isMovingToSearchPoint = false;
+                this._hasReachedSearchPoint = true;
+            }
         }
     }
     protected void AttackState() {
         HandleLocalScale(); // Specifically flips localScale to face the Player
     }
 
-    protected void ResetAggroState() {
-        this._isMovingToAggroPoint = false;
-        this._hasReachedAggroPoint = false;
+    protected void ResetSearchState() {
+        this._isMovingToSearchPoint = false;
+        this._hasReachedSearchPoint = false;
         this._elapsedTimeUntilSearchEnd = 0f;
         this._elapsedTimeUntilSearch = 0f;
         this._isShot = false;
@@ -110,29 +139,8 @@ public class Henchman : Character<HGunManager> {
     // Same for PatrolHenchman
     protected virtual void ResetDesiredState() {
         this.isMovingToDesiredPoint = true; // Instantly moves when desiredState activated
-        this.elapsedTimeUntilDesired = 0f;
     }
 
-    private void MoveToClosestPointToPlayer() {
-        if (!this._isMovingToAggroPoint) {
-            // Pick closest movePoint to the Player to get a good view for shooting
-            var playerToLeftMP = Vector2.Distance(this.leftMovePoint.position,
-                Player.instance.transform.position);
-            var playerToRightMP = Vector2.Distance(this.rightMovePoint.position,
-                Player.instance.transform.position);
-            this.currTargetPoint = playerToLeftMP < playerToRightMP ?
-                this.leftMovePoint : this.rightMovePoint;
-
-            this._isMovingToAggroPoint = true; // Starts moving next frame
-        } else {
-            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-            // Stop moving if reached currTargetPoint
-            if (!(Mathf.Abs(this.rb2d.position.x - this.currTargetPoint.
-                    position.x) < 0.1f)) return;
-            this._isMovingToAggroPoint = false;
-            this._hasReachedAggroPoint = true;
-        }
-    }
     protected void MoveTowardsTargetPoint() {
         HandleLocalScale(); // Flip towards targetPoint
         // Starts the actual moving
@@ -150,7 +158,7 @@ public class Henchman : Character<HGunManager> {
         var angleToPlayer = Vector2.Angle(facingDir, dirToPlayer);
 
         // If the rotation towards the player calculated is within FOV
-        var isPlayerWithinFOV = angleToPlayer <= (FOV / 2f);
+        var isPlayerWithinFOV = angleToPlayer <= (this.FOV / 2f);
         if (!isPlayerWithinFOV) return false;
 
         RaycastHit2D hit = Physics2D.Raycast(this.rb2d.position, dirToPlayer,
@@ -159,8 +167,28 @@ public class Henchman : Character<HGunManager> {
     }
 
     private Vector2 GetDirToPlayer() {
-        return ((Vector2)Player.instance.transform.
-            position - this.rb2d.position).normalized;
+        Player player = PlayerManager.instance.GetPlayer();
+        return ((Vector2) player.transform.position - this.rb2d.position).normalized;
+    }
+
+    protected override void TakeDamage(float amount) {
+        base.TakeDamage(amount);
+        if (this.currentHealth == 0f) Destroy(this.gameObject);
+    }
+
+    private void SetCurrentStateToNone(object sender, EventArgs e) {
+        this.currentState = HenchmanState.None;
+    }
+
+    private bool ShouldSwitchToSearchOnShot() {
+        // If Henchman is/was shot at and isn't at the targetPoint
+        return this._isShot && !HasReachedTargetPoint();
+    }
+
+    protected bool HasReachedTargetPoint() {
+        var distXToTargetPoint = Mathf.Abs(
+            this.rb2d.position.x - this.currTargetPoint.position.x);
+        return distXToTargetPoint < 0.1f;
     }
 
     public void OnCollisionEnter2D(Collision2D collision) {
@@ -173,12 +201,12 @@ public class Henchman : Character<HGunManager> {
     }
 
     public bool IsAttacking => this.currentState is HenchmanState.Attack;
+    public bool IsInDesiredState => this.currentState == this.desiredState;
     private bool IsInAggroState =>
         this.currentState is HenchmanState.Attack or HenchmanState.Search;
     private bool IsInSearchState() {
         return this.currentState is HenchmanState.Search &&
             this._elapsedTimeUntilSearchEnd < this.timeUntilSearchEnd;
     }
-    public bool IsWaitingUntilDesired() => this.elapsedTimeUntilDesired < this.timeUntilDesired;
     public HenchmanState GetCurrentState() => this.currentState;
 }

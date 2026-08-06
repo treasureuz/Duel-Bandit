@@ -4,10 +4,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class Player : Character<PGunManager> {
+    [Header("Settings")]
     [SerializeField] private int _maxLives = 3;
     [SerializeField] private float _jumpForce = 5f;
-
-    public static Player instance;
 
     private InputAction _forward;
     private InputAction _backward;
@@ -15,10 +14,7 @@ public class Player : Character<PGunManager> {
     private int _currentLives;
     private bool _isOnGround;
 
-    public EventHandler OnDamaged;
-
     protected override void Awake() {
-        if (!instance) instance = this;
         base.Awake();
         PlayerInput playerInput = this.GetComponent<PlayerInput>();
         this._forward = playerInput.actions.FindAction("Forward"); // Or "["Forward"]"
@@ -48,20 +44,19 @@ public class Player : Character<PGunManager> {
     }
 
     protected override void HandleLocalScale() {
-        Vector2 mousePos = this.gunManager.GetTargetPosition();
-        Vector2 dirToMouse = (mousePos - this.rb2d.position).normalized;
-        var angle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg;
-        // Flip localScale if angle created by direction to mousePos "<" or ">" this FOV
-        Vector3 localScale = this.transform.localScale;
-        var isWithinFOV = Mathf.Abs(angle) <= (this.FOV / 2f);
-        localScale.x = isWithinFOV ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
+        Vector2 mousePos = this.gunManager.GetTargetPos(); // No need for recalculation
+        var dirXToMouse = mousePos.x - this.rb2d.position.x;
+        Vector2 localScale = this.transform.localScale;
+        localScale.x = dirXToMouse > 0f ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
         this.transform.localScale = localScale;
     }
 
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
-        OnDamaged?.Invoke(this, EventArgs.Empty);
-        //if (this.currentHealth == 0) SceneManager.LoadScene("GameScene");
+        PlayerManager.instance.OnPlayerDamaged?.Invoke(this, EventArgs.Empty);
+        if (this.currentHealth != 0f) return;
+        PlayerManager.instance.OnPlayerDead?.Invoke(this, EventArgs.Empty);
+        Destroy(this.gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
