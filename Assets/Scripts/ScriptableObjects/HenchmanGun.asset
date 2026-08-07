@@ -16,6 +16,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: -7283726574832556982, guid: 6160b8930fe96cd4d916de3aff7382af, type: 3}
   gunName: Henchman Gun
   localScale: {x: 0.65, y: 0.23, z: 1}
+  bulletSpawnPoint: {x: 0.92, y: 0, z: 0}
   bulletDamage: 10.176
   timeBetweenShots: 2
   maxMagCount: 2147483647

@@ -9,16 +9,15 @@ public class PGunManager : GunManager {
     protected override void Awake() {
         base.Awake();
         this._cam = Camera.main;
-        SetCurrentMagCount(this.currentGunData.maxMagCount);
+        SetCurrentMagCount(this.maxMagCount);
     }
-
 
     protected override void FixedUpdate() {
         // Handles shooting (Player handles the gun rotation towards mousePos)
         if (!HasBullets || !Mouse.current.leftButton.isPressed
             || this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
-        this.elapsedShootTime = Time.time + this.currentGunData.timeBetweenShots;
+        this.elapsedShootTime = Time.time + this.timeBetweenShots;
     }
 
     protected override void Shoot() {
@@ -35,8 +34,8 @@ public class PGunManager : GunManager {
 
     protected bool HasBullets => this.CurrentMagCount > 0;
     public void SetCurrentMagCount(int count) {
-        this.CurrentMagCount = Mathf.Clamp(count, 0, this.currentGunData.maxMagCount);
+        this.CurrentMagCount = Mathf.Clamp(count, 0, this.maxMagCount);
     }
-    public void SetMaxMagCount(int count) => this.currentGunData.maxMagCount = count;
-    public int GetMaxMagCount() => this.currentGunData.maxMagCount;
+    public void SetMaxMagCount(int count) => this.maxMagCount = count;
+    public int GetMaxMagCount() => this.maxMagCount;
 }

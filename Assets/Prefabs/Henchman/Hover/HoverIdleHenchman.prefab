@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82572ee6f9f1be4ea45aeadc27b8869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
-  FOV: 180
+  baseGun: {fileID: 335399879488327440, guid: 90cb9471b5046024ca94af6c76c9f56e, type: 3}
   maxHealth: 100
   moveSpeed: 2.67
   raycastLayerMask:
@@ -85,6 +85,7 @@ MonoBehaviour:
     m_Bits: 72
   leftMovePoint: {fileID: 8433398655976787029}
   rightMovePoint: {fileID: 8602785318552142284}
+  FOV: 180
   timeUntilSearch: 1
   timeUntilSearchEnd: 3
   baseViewDistance: 8.35

@@ -9,6 +9,7 @@ public class GunData : ScriptableObject {
     [Header("Settings")]
     public string gunName;
     public Vector3 localScale;
+    public Vector3 bulletSpawnPoint;
     public float bulletDamage;
     public float timeBetweenShots = 1.46f;
     public int maxMagCount = int.MaxValue;

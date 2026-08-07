@@ -3,24 +3,31 @@ using UnityEngine;
 
 public abstract class Character<TGunManager> : MonoBehaviour
     where TGunManager : GunManager {
+    [Header("References")]
+    [SerializeField] protected TGunManager baseGun;
+
     [Header("Settings")]
-    [SerializeField] protected int FOV = 180; // 90 degrees upward/downward this obj
     [SerializeField] protected float maxHealth = 200f;
     [SerializeField] protected float moveSpeed = 2.67f;
 
     protected Rigidbody2D rb2d;
-    protected TGunManager gunManager;
-    public TGunManager GunManager => this.gunManager;
+    public TGunManager GunManager { get; private set; }
 
     public float CurrentHealth { get; private set; }
 
     protected virtual void Awake() {
         this.rb2d = this.GetComponent<Rigidbody2D>();
-        this.gunManager = this.GetComponentInChildren<TGunManager>();
+        this.GunManager = this.GetComponentInChildren<TGunManager>();
         SetCurrentHealth(this.maxHealth);
+        EquipGun(this.baseGun); // If Get<TGunManager> returned null, it equips baseGun
     }
 
     protected abstract void HandleLocalScale();
+
+    public void EquipGun(TGunManager gunPrefab) {
+        if (this.GunManager) return;
+        this.GunManager = Instantiate(gunPrefab, this.transform);
+    }
 
     protected virtual void TakeDamage(float amount) {
         SetCurrentHealth(this.CurrentHealth - amount);

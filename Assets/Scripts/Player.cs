@@ -42,7 +42,7 @@ public class Player : Character<PGunManager> {
     }
 
     protected override void HandleLocalScale() {
-        Vector2 mousePos = this.gunManager.GetTargetPos(); // No need for recalculation
+        Vector2 mousePos = this.GunManager.GetTargetPos(); // No need for recalculation
         var dirXToMouse = mousePos.x - this.rb2d.position.x;
         Vector2 localScale = this.transform.localScale;
         localScale.x = dirXToMouse > 0f ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
@@ -50,9 +50,9 @@ public class Player : Character<PGunManager> {
     }
 
     private void HandleGunRotationOrder() {
-        this.gunManager.MeasureAngleToTargetPos();
+        this.GunManager.MeasureAngleToTargetPos();
         HandleLocalScale(); // Flips localScale if mouse is within FOV
-        this.gunManager.ApplyRotation();
+        this.GunManager.ApplyRotation();
     }
 
     protected override void TakeDamage(float amount) {

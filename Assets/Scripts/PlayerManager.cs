@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviour {
     [Header("References")]
@@ -9,7 +10,7 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private Transform _playerSpawnPoint;
 
     [Header("Player Settings")]
-    [SerializeField] private List<GunData> _gunsList;
+    [SerializeField] private List<PGunManager> _gunsList;
     [SerializeField] private float _timeBeforePlayerRespawn = 2f;
 
     public static PlayerManager instance;
@@ -51,9 +52,7 @@ public class PlayerManager : MonoBehaviour {
     private IEnumerator HandleRespawnPlayer() {
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
         SpawnPlayer(); // Spawns a new Player at its spawnPoint
-        PGunManager pGunManager = this.Player.GunManager;
-        pGunManager.EquipGun(pGunManager.GetCurrentGunData().
-            gunName == this._gunsList[0].gunName ?
-            this._gunsList[1] : this._gunsList[0]);
+        PGunManager newGun = this._gunsList[Random.Range(0, this._gunsList.Count)];
+        this.Player.EquipGun(newGun);
     }
 }

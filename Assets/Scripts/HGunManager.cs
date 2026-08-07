@@ -19,7 +19,7 @@ public class HGunManager : GunManager {
         // Handles shooting
         if (this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
-        this.elapsedShootTime = Time.time + this.currentGunData.timeBetweenShots;
+        this.elapsedShootTime = Time.time + this.timeBetweenShots;
     }
 
     public override Vector2 GetTargetPos() {

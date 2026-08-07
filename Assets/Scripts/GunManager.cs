@@ -2,11 +2,19 @@ using System;
 using UnityEngine;
 
 public abstract class GunManager : MonoBehaviour {
-    [SerializeField] protected GunData currentGunData;
+    [Header("References")]
+    [SerializeField] protected BulletBehavior bulletPrefab;
+
+    [Header("Settings")]
+    [SerializeField] protected string gunName;
+    [SerializeField] protected float bulletDamage;
+    [SerializeField] protected float timeBetweenShots = 1.46f;
+    [SerializeField] protected int maxMagCount = int.MaxValue;
+    //[SerializeField] protected GunData currentGunData;
 
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;
-    protected Transform bulletSpawnPoint;
+    public Transform BulletSpawnPoint {get; private set;}
 
     protected float elapsedShootTime;
     protected const float rotationSpeed = 330f;
@@ -16,28 +24,27 @@ public abstract class GunManager : MonoBehaviour {
     protected virtual void Awake() {
         this.rb2d = this.GetComponent<Rigidbody2D>();
         this.spriteRenderer = this.GetComponent<SpriteRenderer>();
-        this.bulletSpawnPoint = this.transform.GetChild(0);
-        ApplyGunData(); // Sets current sprite
+        this.BulletSpawnPoint = this.transform.GetChild(0);
+        //ApplyGunData(); // Sets current sprite
     }
 
     protected abstract void FixedUpdate();
 
-    public void EquipGun(GunData newGunData) {
-        this.currentGunData = newGunData;
-        ApplyGunData(); // Sets Unity gameObj-specific components to newGunData's
-    }
+    // public void EquipGun(GunData newGunData) {
+    //     this.currentGunData = newGunData;
+    //     ApplyGunData(); // Sets Unity gameObj-specific components to newGunData's
+    // }
 
-    private void ApplyGunData() {
-       this.spriteRenderer.sprite = this.currentGunData.sprite;
-       this.transform.localScale = this.currentGunData.localScale;
-    }
+    // private void ApplyGunData() {
+    //    this.spriteRenderer.sprite = this.currentGunData.sprite;
+    //    this.transform.localScale = this.currentGunData.localScale;
+    // }
 
     protected virtual void Shoot() {
-        Quaternion spawnRot = this.bulletSpawnPoint.rotation * this.
-            currentGunData.bulletPrefab.transform.rotation;
-        BulletBehavior bullet = Instantiate(this.currentGunData.bulletPrefab,
-            this.bulletSpawnPoint.position, spawnRot);
-        bullet.Init(this.currentGunData.bulletDamage);
+        Quaternion spawnRot = this.BulletSpawnPoint.rotation * this.bulletPrefab.transform.rotation;
+        BulletBehavior bullet = Instantiate(this.bulletPrefab,
+            this.BulletSpawnPoint.position, spawnRot);
+        bullet.Init(this.bulletDamage);
     }
 
     public void MeasureAngleToTargetPos() {
@@ -49,7 +56,7 @@ public abstract class GunManager : MonoBehaviour {
     public void ApplyRotation() {
         // Initial angle without respect to localScale (for Bullet to use)
         // Keeps its transform.right pointing towards the targetPos
-        this.bulletSpawnPoint.rotation = Quaternion.Euler(0f, 0f, this._rawAngleToTarget);
+        this.BulletSpawnPoint.rotation = Quaternion.Euler(0f, 0f, this._rawAngleToTarget);
 
         // Takes this gun's scale sign into account: + or - (even its parent)
         // Rotates the gun by 180 if facing left (-), otherwise no additional rotation (+)
@@ -69,6 +76,6 @@ public abstract class GunManager : MonoBehaviour {
         this.rb2d.MoveRotation(smoothedRot);
     }
 
-    public GunData GetCurrentGunData() => this.currentGunData;
+    //public GunData GetCurrentGunData() => this.currentGunData;
     public abstract Vector2 GetTargetPos();
 }

@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &714194882054192006
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2416882197092406608, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624892730292742406, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_Name
+      value: Ralph's RapidFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484417943475633989, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: gunName
+      value: Ralph's RapidFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: maxMagCount
+      value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: bulletDamage
+      value: 6.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 7612595165298161861, guid: db8ce0f469b35ee4082019f7fa0f151f, type: 3}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: timeBetweenShots
+      value: 0.845
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
