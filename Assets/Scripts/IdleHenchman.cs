@@ -8,7 +8,7 @@ public class IdleHenchman : Henchman {
 
     protected override void HandleStateSwitch() {
         base.HandleStateSwitch();
-        switch (this.currentState) {
+        switch (this.CurrentState) {
             case HenchmanState.Idle: IdleState(); break;
         }
     }
@@ -16,15 +16,16 @@ public class IdleHenchman : Henchman {
     private void IdleState() {
         if (this._hasReachedIdlePoint) return;
 
-        if (!this.hasSetCurrTargetPoint) { // Removes the redundancy of setting it every frame
+        if (!this.hasSetCurrDesiredPoint) { // Removes the redundancy of setting it every frame
             // Sets to Idle movePoint: MidMovePoint
             this.currTargetPoint = this._midMovePoint;
-            this.hasSetCurrTargetPoint = true;
+            this.hasSetCurrDesiredPoint = true;
+            this.isMovingToDesiredPoint = true;
         }
         if (!this.isMovingToDesiredPoint) return;
         MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
         // Stop moving if reached currTargetPoint
-        var hasReachedTargetPoint = HasReachedTargetPoint();
+        var hasReachedTargetPoint = HasReachedCurrTargetPoint();
         if (!hasReachedTargetPoint) return;
         this.isMovingToDesiredPoint = false;
         this._hasReachedIdlePoint = true;

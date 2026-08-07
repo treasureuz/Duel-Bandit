@@ -6,31 +6,21 @@ public class CameraManager : MonoBehaviour {
     [SerializeField] private CinemachineCamera _spawnPosCam;
     [SerializeField] private CinemachineCamera _followCam;
 
+    public static CameraManager instance;
+
     void Awake() {
-        SwitchToSpawnPosCam(this, EventArgs.Empty); // Starts at playerSpawnPoint
+        if (!instance) instance = this;
     }
 
-    void OnEnable() {
-        PlayerManager.instance.OnPlayerSpawned += SwitchToFollowCam;
-        PlayerManager.instance.OnPlayerDead += SwitchToSpawnPosCam;
-    }
-
-    void OnDisable() {
-        PlayerManager.instance.OnPlayerSpawned -= SwitchToFollowCam;
-        PlayerManager.instance.OnPlayerDead -= SwitchToSpawnPosCam;
-    }
-
-    private void SwitchToSpawnPosCam(object sender, EventArgs e) {
-        Transform spawnPos = PlayerManager.instance.GetPlayerSpawnPoint();
+    public void SwitchToSpawnPosCam(Transform spawnPos) {
         this._spawnPosCam.transform.position =
             new Vector3(spawnPos.position.x, spawnPos.position.y, -10);
         this._spawnPosCam.enabled = true;
         this._followCam.enabled = false;
     }
 
-    public void SwitchToFollowCam(object sender, EventArgs e) {
-        Transform follow = PlayerManager.instance.GetPlayer().transform;
-        this._followCam.Follow = follow;
+    public void SwitchToFollowCam(Transform followPos) {
+        this._followCam.Follow = followPos;
         this._followCam.enabled = true;
         this._spawnPosCam.enabled = false;
     }

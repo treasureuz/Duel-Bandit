@@ -3,28 +3,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PGunManager : GunManager {
-    [SerializeField] private int _maxMagCount = 30;
-
     private Camera _cam;
-    private int _currentMagCount;
+    public int CurrentMagCount { get; private set; }
 
     protected override void Awake() {
-        this._cam = Camera.main;
         base.Awake();
-        this._currentMagCount = this._maxMagCount;
+        this._cam = Camera.main;
+        SetCurrentMagCount(this.currentGunData.maxMagCount);
     }
+
+
     protected override void FixedUpdate() {
-        // Handles shooting
-        RotateTowardsTargetPos();
-        if (!HasBullets() || !Mouse.current.leftButton.isPressed
+        // Handles shooting (Player handles the gun rotation towards mousePos)
+        if (!HasBullets || !Mouse.current.leftButton.isPressed
             || this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
-        this.elapsedShootTime = Time.time + this.timeBetweenShots;
+        this.elapsedShootTime = Time.time + this.currentGunData.timeBetweenShots;
     }
 
     protected override void Shoot() {
         base.Shoot();
-        --this._currentMagCount; // Decrement mag count
+        SetCurrentMagCount(--this.CurrentMagCount); // Decrement mag count
         PlayerManager.instance.OnPlayerGunShot?.Invoke(this, EventArgs.Empty);
     }
 
@@ -34,11 +33,10 @@ public class PGunManager : GunManager {
         return mousePos;
     }
 
-    protected bool HasBullets() => this._currentMagCount > 0;
+    protected bool HasBullets => this.CurrentMagCount > 0;
     public void SetCurrentMagCount(int count) {
-        this._currentMagCount = Mathf.Clamp(count, 0, this._maxMagCount);
+        this.CurrentMagCount = Mathf.Clamp(count, 0, this.currentGunData.maxMagCount);
     }
-    public void SetMaxMagCount(int count) => this._maxMagCount = count;
-    public int GetCurrentMagCount() => this._currentMagCount;
-    public int GetMaxMagCount() => this._maxMagCount;
+    public void SetMaxMagCount(int count) => this.currentGunData.maxMagCount = count;
+    public int GetMaxMagCount() => this.currentGunData.maxMagCount;
 }

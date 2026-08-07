@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
@@ -8,11 +9,12 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private Transform _playerSpawnPoint;
 
     [Header("Player Settings")]
+    [SerializeField] private List<GunData> _gunsList;
     [SerializeField] private float _timeBeforePlayerRespawn = 2f;
 
     public static PlayerManager instance;
 
-    private Player _player;
+    public Player Player { get; private set; }
 
     public EventHandler OnPlayerSpawned;
     public EventHandler OnPlayerDead;
@@ -28,6 +30,7 @@ public class PlayerManager : MonoBehaviour {
     }
 
     void Start() {
+        CameraManager.instance.SwitchToSpawnPosCam(this._playerSpawnPoint);
         SpawnPlayer(); // Spawns start Player
     }
 
@@ -36,10 +39,10 @@ public class PlayerManager : MonoBehaviour {
     }
 
     private void SpawnPlayer() {
-        if (this._player) return; // If Player isnt null
-        this._player = Instantiate(this._playerPrefab,
-            this._playerSpawnPoint.position, Quaternion.identity);
-        OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
+        if (this.Player) return; // If Player isnt null
+        this.Player = Instantiate(this._playerPrefab,
+            this._playerSpawnPoint.position, Quaternion.identity, this.transform);
+        CameraManager.instance.SwitchToFollowCam(this.Player.transform);
     }
     // Respawns Player after time
     private void RespawnPlayer(object sender, EventArgs e) {
@@ -48,8 +51,9 @@ public class PlayerManager : MonoBehaviour {
     private IEnumerator HandleRespawnPlayer() {
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
         SpawnPlayer(); // Spawns a new Player at its spawnPoint
+        PGunManager pGunManager = this.Player.GunManager;
+        pGunManager.EquipGun(pGunManager.GetCurrentGunData().
+            gunName == this._gunsList[0].gunName ?
+            this._gunsList[1] : this._gunsList[0]);
     }
-
-    public Player GetPlayer() => this._player;
-    public Transform GetPlayerSpawnPoint() => this._playerSpawnPoint;
 }

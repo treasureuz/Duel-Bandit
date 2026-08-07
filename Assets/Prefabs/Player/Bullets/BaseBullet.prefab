@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7649184054949396856}
   - component: {fileID: 6347896025869358693}
   m_Layer: 9
-  m_Name: PlayerBullet
+  m_Name: BaseBullet
   m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.01248593, g: 0.4811321, b: 0, a: 1}
+  m_Color: {r: 0.019607844, g: 0.49019608, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -106,8 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ad80a5d85c6f240aeb5f93927ccdb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBehavior
-  _speed: 33
-  _damage: 6.21
 --- !u!70 &7649184054949396856
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -157,7 +155,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.031599518
+  m_Mass: 0.029826565
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0.5

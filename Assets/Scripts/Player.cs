@@ -19,22 +19,20 @@ public class Player : Character<PGunManager> {
         PlayerInput playerInput = this.GetComponent<PlayerInput>();
         this._forward = playerInput.actions.FindAction("Forward"); // Or "["Forward"]"
         this._backward = playerInput.actions.FindAction("Backward");
+        this._currentLives = this._maxLives;
     }
 
-    protected override void Start() {
-        base.Start();
-        this._currentLives = this._maxLives;
+    protected void Start() {
+        PlayerManager.instance.OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     void FixedUpdate() {
         var direction = 0f;
-        this.gunManager.MeasureAngleToTargetPos();
-        HandleLocalScale(); // Flips localScale if mouse is within FOV
-        this.gunManager.ApplyRotation();
+        HandleGunRotationOrder(); // MeasureAngle -> HandleScale -> ApplyRotation
         if (this._forward.IsPressed()) direction = 1f;
         if (this._backward.IsPressed()) direction = -1f;
-        this.rb2d.linearVelocity = new Vector2(direction * this.moveSpeed,
-            this.rb2d.linearVelocity.y);
+        this.rb2d.linearVelocity = new Vector2(
+            direction * this.moveSpeed, this.rb2d.linearVelocity.y);
     }
 
     public void OnJump() {
@@ -51,21 +49,27 @@ public class Player : Character<PGunManager> {
         this.transform.localScale = localScale;
     }
 
+    private void HandleGunRotationOrder() {
+        this.gunManager.MeasureAngleToTargetPos();
+        HandleLocalScale(); // Flips localScale if mouse is within FOV
+        this.gunManager.ApplyRotation();
+    }
+
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
         PlayerManager.instance.OnPlayerDamaged?.Invoke(this, EventArgs.Empty);
-        if (this.currentHealth != 0f) return;
+        if (this.CurrentHealth != 0f) return;
         PlayerManager.instance.OnPlayerDead?.Invoke(this, EventArgs.Empty);
         Destroy(this.gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject colObj = collision.gameObject;
-        if (colObj.CompareTag("Platform")) {
+        if (colObj.CompareTag("Ground")) {
             this._isOnGround = true;
         } else if (colObj.CompareTag("HenchmanBullet")) {
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
-            TakeDamage(bullet.GetDamage());
+            TakeDamage(bullet.Damage);
         }
     }
 }

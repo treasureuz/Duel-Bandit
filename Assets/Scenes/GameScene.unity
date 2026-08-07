@@ -511,7 +511,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   _playerPrefab: {fileID: 27821200348028212, guid: 80d1c747ed561d748a578caa2ece52a5, type: 3}
   _playerSpawnPoint: {fileID: 963221663}
-  _cam: {fileID: 156410985}
+  _gunsList:
+  - {fileID: 11400000, guid: ac602ecaa32b7974eb37f6e199e52a1e, type: 2}
+  - {fileID: 11400000, guid: 31d124a75d0389a478d48abd87f99970, type: 2}
   _timeBeforePlayerRespawn: 2
 --- !u!4 &484253424
 Transform:
@@ -1914,6 +1916,10 @@ PrefabInstance:
     - target: {fileID: 973205753332860690, guid: a2e30dd270eac204d925b68996d71542, type: 3}
       propertyPath: m_Name
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311687802792733400, guid: a2e30dd270eac204d925b68996d71542, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8515512919324701971, guid: a2e30dd270eac204d925b68996d71542, type: 3}
       propertyPath: m_LocalPosition.x

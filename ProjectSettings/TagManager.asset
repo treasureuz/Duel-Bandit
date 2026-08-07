@@ -7,7 +7,8 @@ TagManager:
   - Henchman
   - PlayerBullet
   - HenchmanBullet
-  - Platform
+  - Ground
+  - HoverPlatform
   layers:
   - Default
   - TransparentFX

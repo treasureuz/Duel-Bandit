@@ -14,25 +14,27 @@ public class GameUIManager : MonoBehaviour {
 
     void Start() {
         PlayerManager.instance.OnPlayerSpawned += UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerSpawned += UpdateMagazineCount;
         PlayerManager.instance.OnPlayerDamaged += UpdatePlayerHealthText;
         PlayerManager.instance.OnPlayerGunShot += UpdateMagazineCount;
     }
 
     void OnDisable() {
         PlayerManager.instance.OnPlayerSpawned -= UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerSpawned -= UpdateMagazineCount;
         PlayerManager.instance.OnPlayerDamaged -= UpdatePlayerHealthText;
         PlayerManager.instance.OnPlayerGunShot -= UpdateMagazineCount;
     }
 
     private void UpdatePlayerHealthText(object sender, EventArgs e) {
-        Player player = PlayerManager.instance.GetPlayer();
-        this._playerHealthText.text = $"HP: {player.GetCurrentHealth():F1}" +
+        Player player = PlayerManager.instance.Player;
+        this._playerHealthText.text = $"HP: {player.CurrentHealth:F1}" +
                                       $"/{player.GetMaxHealth()}";
     }
 
     private void UpdateMagazineCount(object sender, EventArgs e) {
-        Player player = PlayerManager.instance.GetPlayer();
-        this._magCountText.text = $"Bullets: {player.GunManager.GetCurrentMagCount()}" +
+        Player player = PlayerManager.instance.Player;
+        this._magCountText.text = $"Bullets: {player.GunManager.CurrentMagCount}" +
                                   $"/{player.GunManager.GetMaxMagCount()}";
     }
 }

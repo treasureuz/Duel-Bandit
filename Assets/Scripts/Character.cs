@@ -12,27 +12,23 @@ public abstract class Character<TGunManager> : MonoBehaviour
     protected TGunManager gunManager;
     public TGunManager GunManager => this.gunManager;
 
-    protected float currentHealth;
+    public float CurrentHealth { get; private set; }
 
     protected virtual void Awake() {
         this.rb2d = this.GetComponent<Rigidbody2D>();
         this.gunManager = this.GetComponentInChildren<TGunManager>();
-    }
-
-    protected virtual void Start() {
-        this.currentHealth = this.maxHealth;
+        SetCurrentHealth(this.maxHealth);
     }
 
     protected abstract void HandleLocalScale();
 
     protected virtual void TakeDamage(float amount) {
-        SetCurrentHealth(this.currentHealth - amount);
+        SetCurrentHealth(this.CurrentHealth - amount);
     }
 
     public void SetCurrentHealth(float health) {
-        this.currentHealth = Mathf.Clamp(health, 0f, this.maxHealth);
+        this.CurrentHealth = Mathf.Clamp(health, 0f, this.maxHealth);
     }
     public void SetMaxHealth(float health) => this.maxHealth = health;
-    public float GetCurrentHealth() => this.currentHealth;
     public float GetMaxHealth() => this.maxHealth;
 }

@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 20.09
       objectReference: {fileID: 0}
     - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.99
       objectReference: {fileID: 0}
     - target: {fileID: 8246876070664019224, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -85,10 +85,10 @@ MonoBehaviour:
     m_Bits: 72
   leftMovePoint: {fileID: 8433398655976787029}
   rightMovePoint: {fileID: 8602785318552142284}
-  timeUntilDesired: 2.62
   timeUntilSearch: 1
   timeUntilSearchEnd: 3
-  viewDistance: 8.35
+  baseViewDistance: 8.35
+  onShotViewDistance: 10.74
   desiredState: 0
   _midMovePoint: {fileID: 5126586146553558907}
 --- !u!4 &5126586146553558907 stripped

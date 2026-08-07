@@ -9,13 +9,13 @@ public class PatrolHenchman : Henchman {
 
     protected override void HandleStateSwitch() {
         base.HandleStateSwitch();
-        switch (this.currentState) {
+        switch (this.CurrentState) {
             case HenchmanState.Patrol: PatrolState(); break;
         }
     }
 
     private void PatrolState() {
-        if (!hasSetCurrTargetPoint) {
+        if (!hasSetCurrDesiredPoint) {
             // Decide next movePoint
             if (!this.currTargetPoint) {
                 List<Transform> movePoints = new() { this.leftMovePoint, this.rightMovePoint };
@@ -23,13 +23,14 @@ public class PatrolHenchman : Henchman {
             } else if (this.currTargetPoint == this.leftMovePoint) {
                 this.currTargetPoint = this.rightMovePoint;
             } else this.currTargetPoint = this.leftMovePoint;
-            hasSetCurrTargetPoint = true;
+            hasSetCurrDesiredPoint = true;
+            this.isMovingToDesiredPoint = true;
         }
 
         if (this.isMovingToDesiredPoint) {
             MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
             // Stop moving if reached currTargetPoint
-            var hasReachedTargetPoint = HasReachedTargetPoint();
+            var hasReachedTargetPoint = HasReachedCurrTargetPoint();
             if (hasReachedTargetPoint) this.isMovingToDesiredPoint = false;
         } else {
             // Wait until it's time to patrol
@@ -38,7 +39,7 @@ public class PatrolHenchman : Henchman {
                 return;
             }
             this._elapsedTimeUntilPatrol = 0f; // Reset nextPatrolTime
-            hasSetCurrTargetPoint = false;
+            hasSetCurrDesiredPoint = false;
         }
     }
 
