@@ -90,11 +90,11 @@ MonoBehaviour:
     m_Bits: 72
   leftMovePoint: {fileID: 7429608613023790376}
   rightMovePoint: {fileID: 7827945694811985665}
-  FOV: 180
+  FOV: 185
   timeUntilSearch: 1
   timeUntilSearchEnd: 3
-  baseViewDistance: 8.35
-  onShotViewDistance: 10.74
+  baseViewDistance: 7.35
+  onShotViewDistance: 9.64
   desiredState: 0
   _midMovePoint: {fileID: 3333395528526465175}
 --- !u!4 &7429608613023790376 stripped

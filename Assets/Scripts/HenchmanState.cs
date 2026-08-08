@@ -4,5 +4,6 @@ public enum HenchmanState {
     Idle = 0,
     Patrol = 1,
     Attack = 2,
-    Search = 3
+    WaitingToSearch = 3,
+    Search = 4
 }

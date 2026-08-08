@@ -25,7 +25,7 @@ public abstract class Character<TGunManager> : MonoBehaviour
     protected abstract void HandleLocalScale();
 
     public void EquipGun(TGunManager gunPrefab) {
-        if (this.GunManager) return;
+        if (this.GunManager) Destroy(this.GunManager.gameObject);
         this.GunManager = Instantiate(gunPrefab, this.transform);
     }
 

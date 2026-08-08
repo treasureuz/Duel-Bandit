@@ -5,13 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Player : Character<PGunManager> {
     [Header("Settings")]
-    [SerializeField] private int _maxLives = 3;
     [SerializeField] private float _jumpForce = 5f;
 
     private InputAction _forward;
     private InputAction _backward;
 
-    private int _currentLives;
     private bool _isOnGround;
 
     protected override void Awake() {
@@ -19,7 +17,6 @@ public class Player : Character<PGunManager> {
         PlayerInput playerInput = this.GetComponent<PlayerInput>();
         this._forward = playerInput.actions.FindAction("Forward"); // Or "["Forward"]"
         this._backward = playerInput.actions.FindAction("Backward");
-        this._currentLives = this._maxLives;
     }
 
     protected void Start() {
