@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class Player : Character<PGunManager> {
     [Header("Settings")]
@@ -20,12 +19,13 @@ public class Player : Character<PGunManager> {
     }
 
     protected void Start() {
-        PlayerManager.instance.OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
+        AmmoEventArgs ammoEventArgs = new (this.GunManager.CurrentAmmo, this.GunManager.GetMaxAmmo());
+        PlayerManager.instance.OnPlayerSpawned?.Invoke(this, ammoEventArgs);
     }
 
     void FixedUpdate() {
         var direction = 0f;
-        HandleGunRotationOrder(); // MeasureAngle -> HandleScale -> ApplyRotation
+        HandleLocalScale(); // Flips localScale if mouse is left or right of Player
         if (this._forward.IsPressed()) direction = 1f;
         if (this._backward.IsPressed()) direction = -1f;
         this.rb2d.linearVelocity = new Vector2(
@@ -46,15 +46,9 @@ public class Player : Character<PGunManager> {
         this.transform.localScale = localScale;
     }
 
-    private void HandleGunRotationOrder() {
-        this.GunManager.MeasureAngleToTargetPos();
-        HandleLocalScale(); // Flips localScale if mouse is within FOV
-        this.GunManager.ApplyRotation();
-    }
-
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
-        PlayerManager.instance.OnPlayerDamaged?.Invoke(this, EventArgs.Empty);
+        PlayerManager.instance.OnPlayerDamaged?.Invoke(this, new BulletDamageEventArgs(amount));
         if (this.CurrentHealth != 0f) return;
         PlayerManager.instance.OnPlayerDead?.Invoke(this, EventArgs.Empty);
         Destroy(this.gameObject);

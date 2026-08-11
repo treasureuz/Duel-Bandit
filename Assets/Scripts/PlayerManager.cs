@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour {
     [Header("Player Settings")]
     [SerializeField] private int _maxLives = 3;
     [SerializeField] private float _timeBeforePlayerRespawn = 2f;
-    [SerializeField] private List<PGunManager> _gunsList;
+    [SerializeField] private List<PGunManager> _guns;
 
     public static PlayerManager instance;
 
@@ -20,11 +20,11 @@ public class PlayerManager : MonoBehaviour {
 
     public int CurrentLives { get; private set; }
 
-    public EventHandler OnPlayerSpawned;
+    public EventHandler<AmmoEventArgs> OnPlayerSpawned;
     public EventHandler OnPlayerDead;
     public EventHandler OnPlayerOOL;
-    public EventHandler OnPlayerDamaged;
-    public EventHandler OnPlayerGunShot;
+    public EventHandler<BulletDamageEventArgs> OnPlayerDamaged;
+    public EventHandler<AmmoEventArgs> OnPlayerGunShot;
 
     void Awake() {
         if (!instance) instance = this;
@@ -61,7 +61,7 @@ public class PlayerManager : MonoBehaviour {
         }
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
         SpawnPlayer(this, EventArgs.Empty); // Spawns a new Player at its spawnPoint
-        PGunManager newGun = this._gunsList[Random.Range(0, this._gunsList.Count)];
+        PGunManager newGun = this._guns[Random.Range(0, this._guns.Count)];
         this.Player.EquipGun(newGun);
         --this.CurrentLives; // Decrease lives when Player Respawns
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class BulletBehavior : MonoBehaviour {
     private Rigidbody2D _rb2d;
 
-    public float Damage { get; private set; } = 13.5f;
+    public float Damage { get; private set; }
 
     private const float _speed = 35f;
     private const float _timeBeforeDestroyed = 2f;

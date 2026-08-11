@@ -110,7 +110,7 @@ MonoBehaviour:
   gunName: BasePlayerGun
   bulletDamage: 8.94
   timeBetweenShots: 1.25
-  maxMagCount: 35
+  maxAmmo: 35
 --- !u!50 &995328610891964459
 Rigidbody2D:
   serializedVersion: 5

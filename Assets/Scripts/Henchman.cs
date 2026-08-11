@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -30,7 +29,6 @@ public class Henchman : Character<HGunManager> {
 
     private bool _isShot;
     private bool _hasSetCurrTargetPoint;
-    //private bool _isMovingToSearchPoint;
     private bool _hasReachedSearchPoint;
 
     [Header("Desired HenchmanState (based on Henchman)")]
@@ -193,6 +191,8 @@ public class Henchman : Character<HGunManager> {
 
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
+        HenchmanManager.instance.OnHenchmanDamaged?.Invoke(this,
+            new BulletDamageEventArgs(amount));
         if (this.CurrentHealth == 0f) Destroy(this.gameObject);
     }
 
@@ -205,8 +205,7 @@ public class Henchman : Character<HGunManager> {
     public void OnCollisionEnter2D(Collision2D collision) {
         GameObject colObj = collision.gameObject;
         if (colObj.CompareTag("PlayerBullet")) {
-            var playerInLOS = IsPlayerInLOS();
-            if (!playerInLOS) this._isShot = true; // Only set to true if Player not in LOS
+            if (!IsPlayerInLOS()) this._isShot = true; // Only set to true if Player not in LOS
             this.currViewDistance = this.onShotViewDistance;
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
             TakeDamage(bullet.Damage);

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class GunManager : MonoBehaviour {
@@ -9,7 +8,7 @@ public abstract class GunManager : MonoBehaviour {
     [SerializeField] protected string gunName;
     [SerializeField] protected float bulletDamage;
     [SerializeField] protected float timeBetweenShots = 1.46f;
-    [SerializeField] protected int maxMagCount = int.MaxValue;
+    [SerializeField] protected int maxAmmo = int.MaxValue;
     //[SerializeField] protected GunData currentGunData;
 
     protected Rigidbody2D rb2d;
@@ -17,9 +16,8 @@ public abstract class GunManager : MonoBehaviour {
     public Transform BulletSpawnPoint {get; private set;}
 
     protected float elapsedShootTime;
+    protected float rotationAngle;
     protected const float rotationSpeed = 330f;
-
-    private float _rawAngleToTarget;
 
     protected virtual void Awake() {
         this.rb2d = this.GetComponent<Rigidbody2D>();
@@ -47,27 +45,22 @@ public abstract class GunManager : MonoBehaviour {
         bullet.Init(this.bulletDamage);
     }
 
-    public void MeasureAngleToTargetPos() {
+    protected void RotateTowardsTargetPos() {
         // Check if direction is positive (target position is to the right)
         // or negative (target position is to the left)
         Vector2 direction = (GetTargetPos() - this.rb2d.position).normalized;
-        this._rawAngleToTarget = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // -> Deg
-    }
-    public void ApplyRotation() {
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // -> Deg
+
         // Initial angle without respect to localScale (for Bullet to use)
         // Keeps its transform.right pointing towards the targetPos
-        this.BulletSpawnPoint.rotation = Quaternion.Euler(0f, 0f, this._rawAngleToTarget);
+        this.BulletSpawnPoint.rotation = Quaternion.Euler(0f, 0f, angle);
 
         // Takes this gun's scale sign into account: + or - (even its parent)
         // Rotates the gun by 180 if facing left (-), otherwise no additional rotation (+)
-        var angle = this._rawAngleToTarget;
-        if (this.transform.lossyScale.x < 0f) angle += 180f;
-        Quaternion targetRot = Quaternion.Euler(0f, 0f, angle); // Needs angle in Degrees
+        this.rotationAngle = angle;
+        if (this.transform.lossyScale.x < 0f) rotationAngle += 180f;
+        Quaternion targetRot = Quaternion.Euler(0f, 0f, rotationAngle); // Needs angle in Degrees
         SmoothlyRotateTowards(targetRot);
-    }
-    protected void RotateTowardsTargetPos() {
-        MeasureAngleToTargetPos();
-        ApplyRotation();
     }
 
     protected void SmoothlyRotateTowards(Quaternion targetRot) {

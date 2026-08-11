@@ -1,20 +1,19 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PGunManager : GunManager {
     private Camera _cam;
-    public int CurrentMagCount { get; private set; }
+    public int CurrentAmmo { get; private set; }
 
     protected override void Awake() {
         base.Awake();
         this._cam = Camera.main;
-        SetCurrentMagCount(this.maxMagCount);
+        SetCurrentAmmo(this.maxAmmo);
     }
 
     protected override void FixedUpdate() {
-        // Handles shooting (Player handles the gun rotation towards mousePos)
-        if (!HasBullets || !Mouse.current.leftButton.isPressed
+        RotateTowardsTargetPos(); // Handles gun rotation
+        if (!HasAmmo || !Mouse.current.leftButton.isPressed
             || this.elapsedShootTime > Time.time) return;
         Shoot(); // Shoots gun
         this.elapsedShootTime = Time.time + this.timeBetweenShots;
@@ -22,8 +21,9 @@ public class PGunManager : GunManager {
 
     protected override void Shoot() {
         base.Shoot();
-        SetCurrentMagCount(--this.CurrentMagCount); // Decrement mag count
-        PlayerManager.instance.OnPlayerGunShot?.Invoke(this, EventArgs.Empty);
+        SetCurrentAmmo(--this.CurrentAmmo); // Decrement mag count
+        AmmoEventArgs ammoEventArgs = new (this.CurrentAmmo, this.maxAmmo);
+        PlayerManager.instance.OnPlayerGunShot?.Invoke(this, ammoEventArgs);
     }
 
     public override Vector2 GetTargetPos() {
@@ -32,10 +32,10 @@ public class PGunManager : GunManager {
         return mousePos;
     }
 
-    protected bool HasBullets => this.CurrentMagCount > 0;
-    public void SetCurrentMagCount(int count) {
-        this.CurrentMagCount = Mathf.Clamp(count, 0, this.maxMagCount);
+    protected bool HasAmmo => this.CurrentAmmo > 0;
+    public void SetCurrentAmmo(int count) {
+        this.CurrentAmmo = Mathf.Clamp(count, 0, this.maxAmmo);
     }
-    public void SetMaxMagCount(int count) => this.maxMagCount = count;
-    public int GetMaxMagCount() => this.maxMagCount;
+    public void SetMaxAmmo(int count) => this.maxAmmo = count;
+    public int GetMaxAmmo() => this.maxAmmo;
 }

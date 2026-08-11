@@ -41,6 +41,10 @@ PrefabInstance:
       value: Sora's Snowball
       objectReference: {fileID: 0}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: maxAmmo
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: maxMagCount
       value: 50
       objectReference: {fileID: 0}
