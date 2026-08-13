@@ -9,7 +9,6 @@ public abstract class GunManager : MonoBehaviour {
     [SerializeField] protected float bulletDamage;
     [SerializeField] protected float timeBetweenShots = 1.46f;
     [SerializeField] protected int maxAmmo = int.MaxValue;
-    //[SerializeField] protected GunData currentGunData;
 
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;
@@ -23,20 +22,9 @@ public abstract class GunManager : MonoBehaviour {
         this.rb2d = this.GetComponent<Rigidbody2D>();
         this.spriteRenderer = this.GetComponent<SpriteRenderer>();
         this.BulletSpawnPoint = this.transform.GetChild(0);
-        //ApplyGunData(); // Sets current sprite
     }
 
     protected abstract void FixedUpdate();
-
-    // public void EquipGun(GunData newGunData) {
-    //     this.currentGunData = newGunData;
-    //     ApplyGunData(); // Sets Unity gameObj-specific components to newGunData's
-    // }
-
-    // private void ApplyGunData() {
-    //    this.spriteRenderer.sprite = this.currentGunData.sprite;
-    //    this.transform.localScale = this.currentGunData.localScale;
-    // }
 
     protected virtual void Shoot() {
         Quaternion spawnRot = this.BulletSpawnPoint.rotation * this.bulletPrefab.transform.rotation;
@@ -69,6 +57,5 @@ public abstract class GunManager : MonoBehaviour {
         this.rb2d.MoveRotation(smoothedRot);
     }
 
-    //public GunData GetCurrentGunData() => this.currentGunData;
-    public abstract Vector2 GetTargetPos();
+    protected abstract Vector2 GetTargetPos();
 }

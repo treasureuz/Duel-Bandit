@@ -108,9 +108,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PWeaponManager
   bulletPrefab: {fileID: -7283726574832556982, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
   gunName: BasePlayerGun
-  bulletDamage: 8.94
-  timeBetweenShots: 1.25
-  maxAmmo: 35
+  bulletDamage: 11.48
+  timeBetweenShots: 1.5
+  maxAmmo: 36
 --- !u!50 &995328610891964459
 Rigidbody2D:
   serializedVersion: 5

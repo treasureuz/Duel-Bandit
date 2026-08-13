@@ -26,7 +26,7 @@ public class PGunManager : GunManager {
         PlayerManager.instance.OnPlayerGunShot?.Invoke(this, ammoEventArgs);
     }
 
-    public override Vector2 GetTargetPos() {
+    protected override Vector2 GetTargetPos() {
         Vector2 mousePos = this._cam.ScreenToWorldPoint(
             Mouse.current.position.ReadValue());
         return mousePos;

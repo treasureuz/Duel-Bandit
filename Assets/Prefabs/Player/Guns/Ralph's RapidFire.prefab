@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: bulletDamage
-      value: 6.71
+      value: 7.13
       objectReference: {fileID: 0}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: bulletPrefab
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 7612595165298161861, guid: db8ce0f469b35ee4082019f7fa0f151f, type: 3}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: timeBetweenShots
-      value: 0.845
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

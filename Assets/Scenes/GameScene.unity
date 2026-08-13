@@ -829,7 +829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   _playerPrefab: {fileID: 27821200348028212, guid: 80d1c747ed561d748a578caa2ece52a5, type: 3}
   _playerSpawnPoint: {fileID: 963221663}
-  _maxLives: 3
+  _maxPlayerLives: 3
   _timeBeforePlayerRespawn: 2
   _guns:
   - {fileID: 6578481183587691746, guid: 5a6c5cf90ce86d54e9982fc040ab5a93, type: 3}
@@ -1212,12 +1212,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b0d7b2d6291254ebf44da21b8cc08d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameUIManager
-  _canvas: {fileID: 1981649371}
+  _canvas: {fileID: 1981649370}
   _respawnScreen: {fileID: 2113228418}
   _playerHealthText: {fileID: 476022346}
   _playerCurrentLives: {fileID: 6150975}
-  _magCountText: {fileID: 955920699}
-  _henchmanDamageText: {fileID: 5153118922742269452, guid: a59a8f517ef8b5d4d8b6b99e01bd9ffa, type: 3}
+  _ammoText: {fileID: 955920699}
+  _damageTextPrefab: {fileID: 5153118922742269452, guid: a59a8f517ef8b5d4d8b6b99e01bd9ffa, type: 3}
+  _damageTextOffset: {x: 0.5, y: 0.5}
 --- !u!4 &706918020
 Transform:
   m_ObjectHideFlags: 0
@@ -1608,7 +1609,7 @@ GameObject:
   - component: {fileID: 955920700}
   - component: {fileID: 955920699}
   m_Layer: 5
-  m_Name: PlayerMagCountText
+  m_Name: PlayerAmmoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

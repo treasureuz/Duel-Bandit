@@ -11,11 +11,13 @@ public class GameUIManager : MonoBehaviour {
     [SerializeField] private GameObject _respawnScreen;
     [SerializeField] private TextMeshProUGUI _playerHealthText;
     [SerializeField] private TextMeshProUGUI _playerCurrentLives;
-    [SerializeField] private TextMeshProUGUI _magCountText;
+    [SerializeField] private TextMeshProUGUI _ammoText;
 
     [Header("Henchman UI")]
-    //[SerializeField] private float _henchmanHealthTextOffset = 1f;
-    [SerializeField] private TextMeshProUGUI _henchmanDamageText;
+    [SerializeField] private TextMeshProUGUI _damageTextPrefab;
+    [SerializeField] private Vector2 _damageTextOffset = new (0.5f, 0.5f);
+    //[SerializeField] private float _henchmanHealthTextOffsetY = 1f;
+    private TextMeshProUGUI _henchmanHealthText; // Switch text -> bar
 
     public static GameUIManager instance;
 
@@ -25,23 +27,21 @@ public class GameUIManager : MonoBehaviour {
     }
 
     void Start() {
-        PlayerManager.instance.OnPlayerSpawned += UpdatePlayerHealthText;
-        PlayerManager.instance.OnPlayerSpawned += UpdatePlayerCurrLivesText;
-        PlayerManager.instance.OnPlayerSpawned += UpdatePlayerMagCountText;
+        PlayerManager.instance.OnPlayerSpawned += UpdateUIOnPlayerSpawned;
         PlayerManager.instance.OnPlayerDamaged += UpdatePlayerHealthText;
-        HenchmanManager.instance.OnHenchmanDamaged += SpawnHenchmanDamageText;
+        HenchmanManager.instance.OnHenchmanDamaged += SpawnOnHenchmanDamagedText;
+        //HenchmanManager.instance.OnHenchmanDamaged += UpdateHenchmanHealthUI;
         PlayerManager.instance.OnPlayerOOL += EnableRespawnScreen;
-        PlayerManager.instance.OnPlayerGunShot += UpdatePlayerMagCountText;
+        PlayerManager.instance.OnPlayerGunShot += UpdatePlayerAmmoText;
     }
 
     void OnDisable() {
-        PlayerManager.instance.OnPlayerSpawned -= UpdatePlayerHealthText;
-        PlayerManager.instance.OnPlayerSpawned -= UpdatePlayerCurrLivesText;
-        PlayerManager.instance.OnPlayerSpawned -= UpdatePlayerMagCountText;
+        PlayerManager.instance.OnPlayerSpawned -= UpdateUIOnPlayerSpawned;
         PlayerManager.instance.OnPlayerDamaged -= UpdatePlayerHealthText;
-        HenchmanManager.instance.OnHenchmanDamaged -= SpawnHenchmanDamageText;
+        HenchmanManager.instance.OnHenchmanDamaged -= SpawnOnHenchmanDamagedText;
+        //HenchmanManager.instance.OnHenchmanDamaged -= UpdateHenchmanHealthUI;
         PlayerManager.instance.OnPlayerOOL -= EnableRespawnScreen;
-        PlayerManager.instance.OnPlayerGunShot -= UpdatePlayerMagCountText;
+        PlayerManager.instance.OnPlayerGunShot -= UpdatePlayerAmmoText;
     }
 
     public void OnRespawnClicked() {
@@ -49,30 +49,47 @@ public class GameUIManager : MonoBehaviour {
         SceneManager.LoadScene("GameScene"); // Player is OOL, reload scene
     }
 
+    private void UpdateUIOnPlayerSpawned(object sender, AmmoEventArgs e) {
+        UpdatePlayerHealthText(sender, e);
+        UpdatePlayerCurrLivesText(sender, e);
+        UpdatePlayerAmmoText(sender, e);
+    }
+
     private void UpdatePlayerHealthText(object sender, EventArgs e) {
-        Player player = PlayerManager.instance.Player;
+        Player player = (Player) sender;
         this._playerHealthText.text = $"HP: {player.CurrentHealth:F1}" +
                                       $"/{player.GetMaxHealth()}";
     }
 
-    private void SpawnHenchmanDamageText(object sender, BulletDamageEventArgs e) {
+    private void UpdateHenchmanHealthUI(object sender, EventArgs e) {
         Henchman henchman = (Henchman) sender;
-        Vector3 spawnPos = henchman.transform.position;
-        TextMeshProUGUI damageText = Instantiate(this._henchmanDamageText,
-            spawnPos, Quaternion.identity, this._canvas.transform);
+        Vector2 spawnPos = henchman.GetHealthBarPos().position;
+        if (!this._henchmanHealthText) {
+            this._henchmanHealthText = Instantiate(this._damageTextPrefab, spawnPos,
+                Quaternion.identity, this._canvas.transform);
+        }
+        this._henchmanHealthText.rectTransform.position = spawnPos;
+        this._henchmanHealthText.text = $"HP: {henchman.CurrentHealth:F1}" +
+                                        $"/{henchman.GetMaxHealth()}";
+    }
+
+    private void SpawnOnHenchmanDamagedText(object sender, BulletDamageEventArgs e) {
+        Henchman henchman = (Henchman) sender;
+        Vector2 spawnPos = (Vector2)henchman.transform.position + this._damageTextOffset;
+        TextMeshProUGUI damageText = Instantiate(this._damageTextPrefab, spawnPos,
+            Quaternion.identity, this._canvas.transform);
         var dmgAmount = Mathf.RoundToInt(e.BulletDamage);
         damageText.text = $"{dmgAmount}";
-        Destroy(damageText, 1.45f);
+        Destroy(damageText, 0.45f);
     }
 
     private void UpdatePlayerCurrLivesText(object sender, EventArgs e) {
-        var currLives = PlayerManager.instance.CurrentLives;
-        var maxLives = PlayerManager.instance.GetMaxLives();
-        this._playerCurrentLives.text = $"Lives: {currLives}/{maxLives}";
+        Player player = (Player) sender;
+        this._playerCurrentLives.text = $"Lives: {player.CurrentLives}/{player.MaxLives}";
     }
 
-    private void UpdatePlayerMagCountText(object sender, AmmoEventArgs e) {
-        this._magCountText.text = $"Bullets: {e.CurrentAmmo}/{e.MaxAmmo}";
+    private void UpdatePlayerAmmoText(object sender, AmmoEventArgs e) {
+        this._ammoText.text = $"Bullets: {e.CurrentAmmo}/{e.MaxAmmo}";
     }
 
     private void EnableRespawnScreen(object sender, EventArgs e) {

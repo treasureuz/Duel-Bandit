@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private Transform _playerSpawnPoint;
 
     [Header("Player Settings")]
-    [SerializeField] private int _maxLives = 3;
+    [SerializeField] private int _maxPlayerLives = 3;
     [SerializeField] private float _timeBeforePlayerRespawn = 2f;
     [SerializeField] private List<PGunManager> _guns;
 
@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour {
 
     public Player Player { get; private set; }
 
-    public int CurrentLives { get; private set; }
+    private int _currentPlayerLives;
 
     public EventHandler<AmmoEventArgs> OnPlayerSpawned;
     public EventHandler OnPlayerDead;
@@ -28,12 +28,12 @@ public class PlayerManager : MonoBehaviour {
 
     void Awake() {
         if (!instance) instance = this;
-        this.CurrentLives = this._maxLives;
+        this._currentPlayerLives = this._maxPlayerLives;
     }
 
     void Start() {
         CameraManager.instance.SwitchToSpawnPosCam(this._playerSpawnPoint);
-        SpawnPlayer(this, EventArgs.Empty); // Spawns start Player
+        SpawnPlayer(); // Spawns start Player
     }
 
     void OnEnable() {
@@ -44,10 +44,11 @@ public class PlayerManager : MonoBehaviour {
         OnPlayerDead -= RespawnPlayer;
     }
 
-    private void SpawnPlayer(object sender, EventArgs e) {
+    private void SpawnPlayer() {
         if (this.Player) return; // If Player isnt null
         this.Player = Instantiate(this._playerPrefab,
             this._playerSpawnPoint.position, Quaternion.identity, this.transform);
+        this.Player.Init(this._currentPlayerLives, this._maxPlayerLives);
         CameraManager.instance.SwitchToFollowCam(this.Player.transform);
     }
     // Respawns Player after time
@@ -55,16 +56,14 @@ public class PlayerManager : MonoBehaviour {
         StartCoroutine(HandleRespawnPlayer());
     }
     private IEnumerator HandleRespawnPlayer() {
-        if (this.CurrentLives == 0) {
+        if (this._currentPlayerLives == 0) {
             OnPlayerOOL?.Invoke(this, EventArgs.Empty);
             yield break;
         }
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
-        SpawnPlayer(this, EventArgs.Empty); // Spawns a new Player at its spawnPoint
+        SpawnPlayer(); // Spawns a new Player at its spawnPoint
         PGunManager newGun = this._guns[Random.Range(0, this._guns.Count)];
         this.Player.EquipGun(newGun);
-        --this.CurrentLives; // Decrease lives when Player Respawns
+        --this._currentPlayerLives; // Decrease lives when Player Respawns
     }
-
-    public int GetMaxLives() => this._maxLives;
 }

@@ -139,9 +139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HWeaponManager
   bulletPrefab: {fileID: -7283726574832556982, guid: 6160b8930fe96cd4d916de3aff7382af, type: 3}
   gunName: HenchmanGun
-  bulletDamage: 10.176
-  timeBetweenShots: 2
-  maxMagCount: 2147483647
+  bulletDamage: 10.76
+  timeBetweenShots: 1.45
+  maxAmmo: 2147483647
 --- !u!50 &3918006513290117829
 Rigidbody2D:
   serializedVersion: 5

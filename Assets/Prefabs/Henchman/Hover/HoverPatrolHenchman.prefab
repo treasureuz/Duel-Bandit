@@ -69,6 +69,7 @@ MonoBehaviour:
     m_Bits: 72
   leftMovePoint: {fileID: 7495771196123480152}
   rightMovePoint: {fileID: 7668536150997618113}
+  _healthBarPos: {fileID: 4463457277385435596}
   FOV: 185
   timeUntilSearch: 1
   timeUntilSearchEnd: 3
@@ -76,6 +77,11 @@ MonoBehaviour:
   onShotViewDistance: 9.64
   desiredState: 1
   _timeUntilPatrol: 2.62
+--- !u!4 &4463457277385435596 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4373598479180606835, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_PrefabInstance: {fileID: 90993495716611263}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7495771196123480152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7585489120777258215, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class Character<TGunManager> : MonoBehaviour
@@ -29,7 +28,7 @@ public abstract class Character<TGunManager> : MonoBehaviour
         this.GunManager = Instantiate(gunPrefab, this.transform);
     }
 
-    protected virtual void TakeDamage(float amount) {
+    protected virtual void OnDamaged(float amount) {
         SetCurrentHealth(this.CurrentHealth - amount);
     }
 

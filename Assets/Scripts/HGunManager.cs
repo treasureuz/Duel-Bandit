@@ -27,7 +27,7 @@ public class HGunManager : GunManager {
             eulerAngles.z, this.rotationAngle));
         return angleDiff < 0.5f;
     }
-    public override Vector2 GetTargetPos() {
+    protected override Vector2 GetTargetPos() {
         Player player = PlayerManager.instance.Player;
         return player.transform.position;
     }
