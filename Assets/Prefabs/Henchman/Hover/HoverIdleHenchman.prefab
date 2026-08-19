@@ -85,6 +85,7 @@ MonoBehaviour:
   baseGun: {fileID: 335399879488327440, guid: 90cb9471b5046024ca94af6c76c9f56e, type: 3}
   maxHealth: 100
   moveSpeed: 2.67
+  _healthBarUIPrefab: {fileID: 2519169964552877946, guid: 4a80b7d364ff3084b8486606caf8e2d5, type: 3}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
@@ -94,8 +95,7 @@ MonoBehaviour:
   FOV: 185
   timeUntilSearch: 1
   timeUntilSearchEnd: 3
-  baseViewDistance: 7.35
-  onShotViewDistance: 9.64
+  baseViewDistance: 8.35
   desiredState: 0
   _midMovePoint: {fileID: 5126586146553558907}
 --- !u!4 &5126586146553558907 stripped

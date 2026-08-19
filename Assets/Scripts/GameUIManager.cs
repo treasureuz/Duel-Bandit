@@ -1,23 +1,24 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour {
     [SerializeField] private Canvas _canvas;
 
     [Header("Player UI")]
     [SerializeField] private GameObject _respawnScreen;
+    [SerializeField] private Image _playerHealthBar;
     [SerializeField] private TextMeshProUGUI _playerHealthText;
-    [SerializeField] private TextMeshProUGUI _playerCurrentLives;
+    [SerializeField] private List<Image> _heartIcons;
     [SerializeField] private TextMeshProUGUI _ammoText;
 
     [Header("Henchman UI")]
     [SerializeField] private TextMeshProUGUI _damageTextPrefab;
     [SerializeField] private Vector2 _damageTextOffset = new (0.5f, 0.5f);
-    //[SerializeField] private float _henchmanHealthTextOffsetY = 1f;
-    private TextMeshProUGUI _henchmanHealthText; // Switch text -> bar
 
     public static GameUIManager instance;
 
@@ -27,19 +28,17 @@ public class GameUIManager : MonoBehaviour {
     }
 
     void Start() {
-        PlayerManager.instance.OnPlayerSpawned += UpdateUIOnPlayerSpawned;
-        PlayerManager.instance.OnPlayerDamaged += UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerSpawned += UpdateOnPlayerSpawnedUI;
+        PlayerManager.instance.OnPlayerDamaged += UpdatePlayerHealthUI;
         HenchmanManager.instance.OnHenchmanDamaged += SpawnOnHenchmanDamagedText;
-        //HenchmanManager.instance.OnHenchmanDamaged += UpdateHenchmanHealthUI;
         PlayerManager.instance.OnPlayerOOL += EnableRespawnScreen;
         PlayerManager.instance.OnPlayerGunShot += UpdatePlayerAmmoText;
     }
 
     void OnDisable() {
-        PlayerManager.instance.OnPlayerSpawned -= UpdateUIOnPlayerSpawned;
-        PlayerManager.instance.OnPlayerDamaged -= UpdatePlayerHealthText;
+        PlayerManager.instance.OnPlayerSpawned -= UpdateOnPlayerSpawnedUI;
+        PlayerManager.instance.OnPlayerDamaged -= UpdatePlayerHealthUI;
         HenchmanManager.instance.OnHenchmanDamaged -= SpawnOnHenchmanDamagedText;
-        //HenchmanManager.instance.OnHenchmanDamaged -= UpdateHenchmanHealthUI;
         PlayerManager.instance.OnPlayerOOL -= EnableRespawnScreen;
         PlayerManager.instance.OnPlayerGunShot -= UpdatePlayerAmmoText;
     }
@@ -49,47 +48,44 @@ public class GameUIManager : MonoBehaviour {
         SceneManager.LoadScene("GameScene"); // Player is OOL, reload scene
     }
 
-    private void UpdateUIOnPlayerSpawned(object sender, AmmoEventArgs e) {
-        UpdatePlayerHealthText(sender, e);
-        UpdatePlayerCurrLivesText(sender, e);
+    private void UpdateOnPlayerSpawnedUI(object sender, AmmoEventArgs e) {
+        UpdatePlayerHealthUI(sender, e);
+        UpdatePlayerCurrLivesUI(sender, e);
         UpdatePlayerAmmoText(sender, e);
     }
 
-    private void UpdatePlayerHealthText(object sender, EventArgs e) {
+    private void UpdatePlayerHealthUI(object sender, EventArgs e) {
         Player player = (Player) sender;
-        this._playerHealthText.text = $"HP: {player.CurrentHealth:F1}" +
-                                      $"/{player.GetMaxHealth()}";
+        this._playerHealthBar.fillAmount = player.CurrentHealth/player.GetMaxHealth();
+        this._playerHealthText.text = $"HP: {player.CurrentHealth:F1}";
     }
 
-    private void UpdateHenchmanHealthUI(object sender, EventArgs e) {
-        Henchman henchman = (Henchman) sender;
-        Vector2 spawnPos = henchman.GetHealthBarPos().position;
-        if (!this._henchmanHealthText) {
-            this._henchmanHealthText = Instantiate(this._damageTextPrefab, spawnPos,
-                Quaternion.identity, this._canvas.transform);
+    private void UpdatePlayerCurrLivesUI(object sender, EventArgs e) {
+        Player player = (Player) sender;
+        var heartIconsCount = this._heartIcons.Count;
+        // How many to set false
+        var iconsToLivesDiff = heartIconsCount - player.CurrentLives;
+        for (var i = 1; i <= iconsToLivesDiff; ++i) {
+            this._heartIcons[heartIconsCount - i].gameObject.SetActive(false);
         }
-        this._henchmanHealthText.rectTransform.position = spawnPos;
-        this._henchmanHealthText.text = $"HP: {henchman.CurrentHealth:F1}" +
-                                        $"/{henchman.GetMaxHealth()}";
-    }
-
-    private void SpawnOnHenchmanDamagedText(object sender, BulletDamageEventArgs e) {
-        Henchman henchman = (Henchman) sender;
-        Vector2 spawnPos = (Vector2)henchman.transform.position + this._damageTextOffset;
-        TextMeshProUGUI damageText = Instantiate(this._damageTextPrefab, spawnPos,
-            Quaternion.identity, this._canvas.transform);
-        var dmgAmount = Mathf.RoundToInt(e.BulletDamage);
-        damageText.text = $"{dmgAmount}";
-        Destroy(damageText, 0.45f);
-    }
-
-    private void UpdatePlayerCurrLivesText(object sender, EventArgs e) {
-        Player player = (Player) sender;
-        this._playerCurrentLives.text = $"Lives: {player.CurrentLives}/{player.MaxLives}";
     }
 
     private void UpdatePlayerAmmoText(object sender, AmmoEventArgs e) {
         this._ammoText.text = $"Bullets: {e.CurrentAmmo}/{e.MaxAmmo}";
+    }
+
+    private void SpawnOnHenchmanDamagedText(object sender, BulletDamageEventArgs e) {
+        Henchman henchman = (Henchman) sender;
+        Vector2 henchmanPos = henchman.transform.position;
+        var spawnPosX = henchmanPos.x + (henchman.transform.localScale.x < 0
+            ? -this._damageTextOffset.x : this._damageTextOffset.x);
+        var spawnPosY = henchmanPos.y + this._damageTextOffset.y;
+        Vector3 spawnPos = new(spawnPosX, spawnPosY);
+        TextMeshProUGUI damageText = Instantiate(this._damageTextPrefab, spawnPos,
+            Quaternion.identity, this._canvas.transform);
+        var dmgAmount = Mathf.RoundToInt(e.BulletDamage);
+        damageText.text = $"{dmgAmount}";
+        Destroy(damageText.gameObject, 0.25f);
     }
 
     private void EnableRespawnScreen(object sender, EventArgs e) {

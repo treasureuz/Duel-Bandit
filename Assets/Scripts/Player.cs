@@ -20,11 +20,14 @@ public class Player : Character<PGunManager> {
 
     protected override void Awake() {
         base.Awake();
-        // Player spawns in the air, so double jump should be disabled on start
-        this._currNumOfJumpsInAir = this._maxNumOfJumpsInAir;
+        // Getting components
+        this._cam = Camera.main;
         PlayerInput playerInput = this.GetComponent<PlayerInput>();
         this._forward = playerInput.actions.FindAction("Forward"); // Or "["Forward"]"
         this._backward = playerInput.actions.FindAction("Backward");
+
+        // Player spawns in the air, so double jump should be disabled on start
+        this._currNumOfJumpsInAir = this._maxNumOfJumpsInAir;
     }
 
     // Gets called the same frame Awake is (before Start)

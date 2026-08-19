@@ -61,9 +61,9 @@ public class PlayerManager : MonoBehaviour {
             yield break;
         }
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
+        --this._currentPlayerLives; // Decrease lives when Player Respawns
         SpawnPlayer(); // Spawns a new Player at its spawnPoint
         PGunManager newGun = this._guns[Random.Range(0, this._guns.Count)];
         this.Player.EquipGun(newGun);
-        --this._currentPlayerLives; // Decrease lives when Player Respawns
     }
 }
