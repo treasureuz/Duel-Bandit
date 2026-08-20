@@ -28,7 +28,7 @@ public abstract class Character<TGunManager> : MonoBehaviour
         this.GunManager = Instantiate(gunPrefab, this.transform);
     }
 
-    protected virtual void OnDamaged(float amount) {
+    protected virtual void TakeDamage(float amount) {
         SetCurrentHealth(this.CurrentHealth - amount);
     }
 

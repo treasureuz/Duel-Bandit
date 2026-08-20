@@ -65,6 +65,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4373598479180606835, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
   m_PrefabInstance: {fileID: 2039111723914627250}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2943926688388016025 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3789371127142084395, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_PrefabInstance: {fileID: 2039111723914627250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3358966944433562446 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3661729878618270716, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
@@ -85,16 +90,20 @@ MonoBehaviour:
   baseGun: {fileID: 335399879488327440, guid: 90cb9471b5046024ca94af6c76c9f56e, type: 3}
   maxHealth: 100
   moveSpeed: 2.67
-  _healthBarUIPrefab: {fileID: 2519169964552877946, guid: 4a80b7d364ff3084b8486606caf8e2d5, type: 3}
+  _healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
+  healthBarPos: {fileID: 2377414532491093441}
+  collectiblesSpawnPos: {fileID: 2943926688388016025}
   leftMovePoint: {fileID: 8433398655976787029}
   rightMovePoint: {fileID: 8602785318552142284}
-  _healthBarPos: {fileID: 2377414532491093441}
   FOV: 185
   timeUntilSearch: 1
   timeUntilSearchEnd: 3
+  itemsToDropOnDead:
+  - {fileID: 850838741831945016, guid: ee1f5e58c37c0514ba99f177ac8b2931, type: 3}
+  - {fileID: 850838741831945016, guid: ee1f5e58c37c0514ba99f177ac8b2931, type: 3}
   baseViewDistance: 8.35
   desiredState: 0
   _midMovePoint: {fileID: 5126586146553558907}

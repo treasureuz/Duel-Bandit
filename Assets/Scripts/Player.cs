@@ -65,8 +65,17 @@ public class Player : Character<PGunManager> {
         this.transform.localScale = localScale;
     }
 
-    protected override void OnDamaged(float amount) {
-        base.OnDamaged(amount);
+    public void GiveHeal(float amount) {
+        SetCurrentHealth(this.CurrentHealth + amount);
+    }
+
+    public void AddAmmo(int amount) {
+        var ammo = this.GunManager.CurrentAmmo + amount;
+        this.GunManager.SetCurrentAmmo(ammo);
+    }
+
+    protected override void TakeDamage(float amount) {
+        base.TakeDamage(amount);
         PlayerManager.instance.OnPlayerDamaged?.Invoke(this, new BulletDamageEventArgs(amount));
         if (this.CurrentHealth != 0f) return;
         PlayerManager.instance.OnPlayerDead?.Invoke(this, EventArgs.Empty);
@@ -80,7 +89,7 @@ public class Player : Character<PGunManager> {
             this._currNumOfJumpsInAir = 0;
         } else if (colObj.CompareTag("HenchmanBullet")) {
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
-            OnDamaged(bullet.Damage);
+            TakeDamage(bullet.Damage);
         }
     }
 }

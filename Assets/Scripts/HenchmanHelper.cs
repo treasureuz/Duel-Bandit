@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class HenchmanManager : MonoBehaviour {
-    public static HenchmanManager instance;
+public class HenchmanHelper : MonoBehaviour {
+    public static HenchmanHelper instance;
 
     private List<Henchman> _henchmen;
 

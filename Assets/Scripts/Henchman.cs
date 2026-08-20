@@ -1,24 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Henchman : Character<HGunManager> {
     [Header("References")]
-    [SerializeField] protected GameObject _healthBarUIPrefab;
+    [SerializeField] protected HealthBarFollow _healthBarCanvasPrefab;
     [SerializeField] protected LayerMask raycastLayerMask;
+
+    [Header("Transforms")]
+    [SerializeField] protected Transform healthBarPos;
+    [SerializeField] protected Transform collectiblesSpawnPos;
     [SerializeField] protected Transform leftMovePoint;
     [SerializeField] protected Transform rightMovePoint;
 
     [Header("Settings")]
-    [SerializeField] private Transform _healthBarPos;
     [SerializeField] protected int FOV = 180; // 90 degrees upward/downward this obj
     [SerializeField] protected float timeUntilSearch = 1f;
     [SerializeField] protected float timeUntilSearchEnd = 3.16f;
+    [SerializeField] protected List<Collectible> itemsToDropOnDead;
 
     [Header("Raycast Settings")]
-    [FormerlySerializedAs("viewDistance")]
     [SerializeField] protected float baseViewDistance = 8.35f;
 
+    private HealthBarFollow _healthBarCanvas;
     private Image _healthBarImage;
 
     protected Transform currTargetPoint;
@@ -41,9 +45,11 @@ public class Henchman : Character<HGunManager> {
 
     protected override void Awake() {
         base.Awake();
-        GameObject healthBarInstance = Instantiate(this._healthBarUIPrefab, this._healthBarPos);
-        healthBarInstance.transform.localPosition = Vector3.zero;
-        this._healthBarImage = healthBarInstance.transform.Find("HealthBarFill").GetComponent<Image>();
+        this._healthBarCanvas = Instantiate(this._healthBarCanvasPrefab,
+            this.healthBarPos.position, Quaternion.identity);
+        this._healthBarCanvas.Init(this.transform, this.healthBarPos.localPosition);
+        Transform healthBarBG = this._healthBarCanvas.transform.Find("HealthBarBG/HealthBarFill");
+        this._healthBarImage = healthBarBG.GetComponent<Image>();
     }
 
     protected virtual void FixedUpdate() {
@@ -193,12 +199,20 @@ public class Henchman : Character<HGunManager> {
         return ((Vector2) player.transform.position - this.rb2d.position).normalized;
     }
 
-    protected override void OnDamaged(float amount) {
-        base.OnDamaged(amount);
+    protected override void TakeDamage(float amount) {
+        base.TakeDamage(amount);
         this._healthBarImage.fillAmount = this.CurrentHealth / this.maxHealth;
-        HenchmanManager.instance.OnHenchmanDamaged?.Invoke(this,
+        HenchmanHelper.instance.OnHenchmanDamaged?.Invoke(this,
             new BulletDamageEventArgs(amount));
-        if (this.CurrentHealth == 0f) Destroy(this.gameObject);
+        if (this.CurrentHealth != 0f) return;
+        Destroy(this._healthBarCanvas.gameObject); // Destroys the health bar
+        OnDead(); // Drops collectibles and destroys this obj
+    }
+
+    private void OnDead() {
+        foreach (Collectible item in this.itemsToDropOnDead)
+            Instantiate(item, this.collectiblesSpawnPos.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 
     protected bool HasReachedCurrTargetPoint() {
@@ -215,7 +229,7 @@ public class Henchman : Character<HGunManager> {
                 this._canWaitToSearchOnShot = true;
             }
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
-            OnDamaged(bullet.Damage);
+            TakeDamage(bullet.Damage);
         } else if (colObj.layer == LayerMask.NameToLayer("Platform")) {
             this.isOnGround = true;
         }

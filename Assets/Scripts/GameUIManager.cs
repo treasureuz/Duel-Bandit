@@ -30,7 +30,7 @@ public class GameUIManager : MonoBehaviour {
     void Start() {
         PlayerManager.instance.OnPlayerSpawned += UpdateOnPlayerSpawnedUI;
         PlayerManager.instance.OnPlayerDamaged += UpdatePlayerHealthUI;
-        HenchmanManager.instance.OnHenchmanDamaged += SpawnOnHenchmanDamagedText;
+        HenchmanHelper.instance.OnHenchmanDamaged += SpawnOnHenchmanDamagedText;
         PlayerManager.instance.OnPlayerOOL += EnableRespawnScreen;
         PlayerManager.instance.OnPlayerGunShot += UpdatePlayerAmmoText;
     }
@@ -38,7 +38,7 @@ public class GameUIManager : MonoBehaviour {
     void OnDisable() {
         PlayerManager.instance.OnPlayerSpawned -= UpdateOnPlayerSpawnedUI;
         PlayerManager.instance.OnPlayerDamaged -= UpdatePlayerHealthUI;
-        HenchmanManager.instance.OnHenchmanDamaged -= SpawnOnHenchmanDamagedText;
+        HenchmanHelper.instance.OnHenchmanDamaged -= SpawnOnHenchmanDamagedText;
         PlayerManager.instance.OnPlayerOOL -= EnableRespawnScreen;
         PlayerManager.instance.OnPlayerGunShot -= UpdatePlayerAmmoText;
     }
