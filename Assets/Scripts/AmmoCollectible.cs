@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class Ammo : Collectible {
+public class AmmoCollectible : Collectible {
     [SerializeField] private int _minAmmoAmount;
     [SerializeField] private int _maxAmmoAmount;
 
-    protected override void OnPlayerCollected() {
-        base.OnPlayerCollected();
+    protected override void OnCollected() {
+        base.OnCollected();
         Player player = PlayerManager.instance.Player;
         player.AddAmmo(AmmoAmount);
     }

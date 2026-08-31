@@ -29,18 +29,18 @@ public class GameUIManager : MonoBehaviour {
 
     void Start() {
         PlayerManager.instance.OnPlayerSpawned += UpdateOnPlayerSpawnedUI;
-        PlayerManager.instance.OnPlayerDamaged += UpdatePlayerHealthUI;
+        PlayerManager.instance.OnPlayerHealthChange += UpdatePlayerHealthUI;
         HenchmanHelper.instance.OnHenchmanDamaged += SpawnOnHenchmanDamagedText;
         PlayerManager.instance.OnPlayerOOL += EnableRespawnScreen;
-        PlayerManager.instance.OnPlayerGunShot += UpdatePlayerAmmoText;
+        PlayerManager.instance.OnPlayerRevolverShot += UpdatePlayerAmmoText;
     }
 
     void OnDisable() {
         PlayerManager.instance.OnPlayerSpawned -= UpdateOnPlayerSpawnedUI;
-        PlayerManager.instance.OnPlayerDamaged -= UpdatePlayerHealthUI;
+        PlayerManager.instance.OnPlayerHealthChange -= UpdatePlayerHealthUI;
         HenchmanHelper.instance.OnHenchmanDamaged -= SpawnOnHenchmanDamagedText;
         PlayerManager.instance.OnPlayerOOL -= EnableRespawnScreen;
-        PlayerManager.instance.OnPlayerGunShot -= UpdatePlayerAmmoText;
+        PlayerManager.instance.OnPlayerRevolverShot -= UpdatePlayerAmmoText;
     }
 
     public void OnRespawnClicked() {
@@ -71,7 +71,8 @@ public class GameUIManager : MonoBehaviour {
     }
 
     private void UpdatePlayerAmmoText(object sender, AmmoEventArgs e) {
-        this._ammoText.text = $"Bullets: {e.CurrentAmmo}/{e.MaxAmmo}";
+        this._ammoText.text = e.TotalAmmo == int.MaxValue ? "INF/INF (INF)" :
+            $"{e.CurrentAmmo}/{e.ReserveAmmo} ({e.TotalAmmo})";
     }
 
     private void SpawnOnHenchmanDamagedText(object sender, BulletDamageEventArgs e) {

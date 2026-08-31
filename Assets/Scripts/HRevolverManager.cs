@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HGunManager : GunManager {
+public class HRevolverManager : RevolverManager {
     private Henchman _henchman;
 
     protected override void Awake() {
@@ -10,16 +10,12 @@ public class HGunManager : GunManager {
 
     protected override void FixedUpdate() {
         if (!this._henchman.IsAttacking) {
-            // If Henchman isn't in desiredState
-            if (!this._henchman.IsInDesiredState) return;
             SmoothlyRotateTowards(Quaternion.identity);
             return;
         }
         RotateTowardsTargetPos(); // Handles gun rotation to Player
-        // Handles shooting
-        if (this.elapsedShootTime > Time.time || !IsAimAlignedToPlayer()) return;
-        Shoot(); // Shoots gun
-        this.elapsedShootTime = Time.time + this.timeBetweenShots;
+        if (Time.time < this.elapsedShootTime || !IsAimAlignedToPlayer()) return;
+        HandleRevolverShoot(); // Shoots gun
     }
 
     private bool IsAimAlignedToPlayer() {

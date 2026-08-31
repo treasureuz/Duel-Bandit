@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Henchman : Character<HGunManager> {
+public class Henchman : Character<HRevolverManager> {
     [Header("References")]
     [SerializeField] protected HealthBarFollow _healthBarCanvasPrefab;
     [SerializeField] protected LayerMask raycastLayerMask;
 
     [Header("Transforms")]
-    [SerializeField] protected Transform healthBarPos;
-    [SerializeField] protected Transform collectiblesSpawnPos;
+    [SerializeField] protected Transform healthBarTransform;
+    [SerializeField] protected Transform collectiblesSpawnPoint;
     [SerializeField] protected Transform leftMovePoint;
     [SerializeField] protected Transform rightMovePoint;
 
@@ -33,9 +33,7 @@ public class Henchman : Character<HGunManager> {
 
     protected bool hasSetCurrDesiredPoint;
     protected bool isMovingToDesiredPoint;
-    protected bool isOnGround;
 
-    private bool _canWaitToSearchOnShot;
     private bool _hasSetCurrTargetPoint;
     private bool _hasReachedSearchPoint;
 
@@ -46,8 +44,8 @@ public class Henchman : Character<HGunManager> {
     protected override void Awake() {
         base.Awake();
         this._healthBarCanvas = Instantiate(this._healthBarCanvasPrefab,
-            this.healthBarPos.position, Quaternion.identity);
-        this._healthBarCanvas.Init(this.transform, this.healthBarPos.localPosition);
+            this.healthBarTransform.position, Quaternion.identity);
+        this._healthBarCanvas.Init(this.transform, this.healthBarTransform.localPosition);
         Transform healthBarBG = this._healthBarCanvas.transform.Find("HealthBarBG/HealthBarFill");
         this._healthBarImage = healthBarBG.GetComponent<Image>();
     }
@@ -55,21 +53,21 @@ public class Henchman : Character<HGunManager> {
     protected virtual void FixedUpdate() {
         if (!PlayerManager.instance.Player) {
             this.CurrentState = this.desiredState;
-            HandleStateSwitch();
-            return;
+            HandleStateSwitch(); return;
         }
-        if (!this.isOnGround) return;
+        // Henchman spawn in the air, so this stops any state functionality
+        if (!this.isOnGround) return; // until its on the ground
 
         var isPlayerInLOS = IsPlayerInLOS();
-        if (isPlayerInLOS || this._canWaitToSearchOnShot) {
+        if (isPlayerInLOS) {
             // Resets prev state so if it becomes the CurrentState
             // again, its functionality starts with fresh values
             if (this.CurrentState == this.desiredState) { // Previous state check
                 ResetDesiredState(); // Reset main state settings
             } else switch (this.CurrentState) { // Previous state check
-                case HenchmanState.WaitingToSearch when isPlayerInLOS: // Repeated shots don't reset it
-                    // Resets possibly accumulated time and sets isShot to false if true
-                    ResetWaitToSearchSettings(); break;
+                case HenchmanState.WaitingToSearch: // Repeated shots don't reset it
+                    // Resets possibly accumulated time
+                    this._elapsedTimeUntilSearch = 0f; break;
                 case HenchmanState.Search: {
                     // Doesn't call ResetSearchSettings() because it resets hasReachedSearchPoint
                     // but if Henchman already reached searchPoint, it shouldn't perform a redundant move
@@ -79,14 +77,17 @@ public class Henchman : Character<HGunManager> {
                     break;
                 }
             }
-            this.CurrentState = isPlayerInLOS ? HenchmanState.Attack : HenchmanState.WaitingToSearch;
+            this.CurrentState = HenchmanState.Attack;
         } else {
             // Player not in LOS
             if (this.CurrentState == HenchmanState.Attack) {
                 this.CurrentState = HenchmanState.WaitingToSearch;
-            } else if (!IsInSelfManagedState) { // Shot/WaitingToSearch/Search - all reset themselves
-                this.CurrentState = this.desiredState;
             }
+            /* NOTE: ALL STATES EXCEPT ATTACK ARE SELF MANAGING --
+             they reset their settings and switch to their
+             corresponding states within their functions */
+            // CurrentState is switched to DesiredState automatically
+            // within SearchState() after searching is done
         }
         HandleStateSwitch(); // Applies the CurrentState
     }
@@ -113,12 +114,12 @@ public class Henchman : Character<HGunManager> {
     protected void AttackState() => HandleLocalScale();
 
     protected void WaitingToSearchState() {
-        HandleLocalScale();
+        HandleLocalScale(); // Faces Henchman towards targetPoint
         if (this._elapsedTimeUntilSearch < this.timeUntilSearch) {
             this._elapsedTimeUntilSearch += Time.fixedDeltaTime;
             return;
         }
-        ResetWaitToSearchSettings();
+        this._elapsedTimeUntilSearch = 0f;
         this.CurrentState = HenchmanState.Search;
     }
     protected void SearchState() {
@@ -149,11 +150,6 @@ public class Henchman : Character<HGunManager> {
             if (!hasReachedTargetPoint) return;
             this._hasReachedSearchPoint = true;
         }
-    }
-
-    private void ResetWaitToSearchSettings() {
-        this._elapsedTimeUntilSearch = 0f;
-        if (this._canWaitToSearchOnShot) this._canWaitToSearchOnShot = false;
     }
 
     private void ResetSearchSettings() {
@@ -211,7 +207,7 @@ public class Henchman : Character<HGunManager> {
 
     private void OnDead() {
         foreach (Collectible item in this.itemsToDropOnDead)
-            Instantiate(item, this.collectiblesSpawnPos.position, Quaternion.identity);
+            Instantiate(item, this.collectiblesSpawnPoint.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 
@@ -224,10 +220,6 @@ public class Henchman : Character<HGunManager> {
     public void OnCollisionEnter2D(Collision2D collision) {
         GameObject colObj = collision.gameObject;
         if (colObj.CompareTag("PlayerBullet")) {
-            if (!IsPlayerInLOS() && this.CurrentState != HenchmanState.Search) {
-                // Only set to true if Player not in LOS and Henchman isn't already searching
-                this._canWaitToSearchOnShot = true;
-            }
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
             TakeDamage(bullet.Damage);
         } else if (colObj.layer == LayerMask.NameToLayer("Platform")) {

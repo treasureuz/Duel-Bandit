@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public abstract class Character<TGunManager> : MonoBehaviour
-    where TGunManager : GunManager {
+    where TGunManager : RevolverManager {
     [Header("References")]
     [SerializeField] protected TGunManager baseGun;
 
@@ -13,6 +13,8 @@ public abstract class Character<TGunManager> : MonoBehaviour
     public TGunManager GunManager { get; private set; }
 
     public float CurrentHealth { get; private set; }
+
+    protected bool isOnGround;
 
     protected virtual void Awake() {
         this.rb2d = this.GetComponent<Rigidbody2D>();

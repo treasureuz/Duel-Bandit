@@ -8,18 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2416882197092406608, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.265
-      objectReference: {fileID: 0}
     - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
@@ -45,8 +33,16 @@ PrefabInstance:
       value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: fireRate
+      value: 1.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: maxMagCount
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: _maxMagCount
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: bulletDamage
@@ -57,8 +53,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7108553146822514499, guid: 40b7720dbed0e5d479f7b6af48da3837, type: 3}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: _maxTotalAmmo
+      value: 235
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: timeBetweenShots
       value: 1.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: _startingTotalAmmo
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

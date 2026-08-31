@@ -8,18 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2416882197092406608, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.92
-      objectReference: {fileID: 0}
-    - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.26
-      objectReference: {fileID: 0}
     - target: {fileID: 2762600284188794820, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
@@ -36,10 +24,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Omen's Overdrive
       objectReference: {fileID: 0}
-    - target: {fileID: 4484417943475633989, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 2747690628134850419, guid: 16037dbd798344f57a526d53d48f5ead, type: 3}
     - target: {fileID: 4654311681733695313, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -53,8 +37,16 @@ PrefabInstance:
       value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: fireRate
+      value: 2.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: maxMagCount
       value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: _maxMagCount
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: bulletDamage
@@ -65,8 +57,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6449838860082539874, guid: eebc6c24a351e6c4ca5c6ad8ddbb3359, type: 3}
     - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: _maxTotalAmmo
+      value: 156
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
       propertyPath: timeBetweenShots
       value: 2.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
+      propertyPath: _startingTotalAmmo
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

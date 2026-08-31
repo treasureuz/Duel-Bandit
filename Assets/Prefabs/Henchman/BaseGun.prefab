@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 8742226606256874332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.92, y: 0, z: 0}
+  m_LocalPosition: {x: 1.385, y: 0.445, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59,8 +59,8 @@ Transform:
   m_GameObject: {fileID: 8899859200598855795}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.125, z: 0}
-  m_LocalScale: {x: 0.65, y: 0.23, z: 1}
+  m_LocalPosition: {x: 0.35, y: 0, z: 0}
+  m_LocalScale: {x: 0.625, y: 0.625, z: 0.625}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8794215766910670379}
@@ -115,7 +115,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -138,10 +138,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HWeaponManager
   bulletPrefab: {fileID: -7283726574832556982, guid: 6160b8930fe96cd4d916de3aff7382af, type: 3}
-  gunName: HenchmanGun
   bulletDamage: 10.76
-  timeBetweenShots: 1.45
-  maxAmmo: 2147483647
+  fireRate: 1.45
 --- !u!50 &3918006513290117829
 Rigidbody2D:
   serializedVersion: 5

@@ -18,7 +18,7 @@ public class BulletBehavior : MonoBehaviour {
     }
     private void Launch() {
         // V = direction * speed
-        this._rb2d.linearVelocity = this.transform.up * _speed;
+        this._rb2d.linearVelocity = this.transform.right * _speed;
         Destroy(this.gameObject, _timeBeforeDestroyed);
     }
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4733701406374672920}
   - component: {fileID: 7361636987414953908}
   - component: {fileID: -7283726574832556982}
-  - component: {fileID: 7649184054949396856}
+  - component: {fileID: 2845113164887050193}
   - component: {fileID: 6347896025869358693}
   m_Layer: 10
   m_Name: BaseBullet
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7312025525634554652}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.23684, y: 1.23142, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.195, z: 1}
+  m_LocalScale: {x: -0.465, y: 0.465, z: 0.465}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7361636987414953908
 SpriteRenderer:
   serializedVersion: 2
@@ -84,12 +84,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: -8303968428360318273, guid: 74be8a6fb48244c46ac497d651607de3, type: 3}
   m_Color: {r: 0.01248593, g: 0.4811321, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.7, y: 0.22}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -106,9 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ad80a5d85c6f240aeb5f93927ccdb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBehavior
-  _speed: 33
---- !u!70 &7649184054949396856
-CapsuleCollider2D:
+--- !u!60 &2845113164887050193
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -142,8 +141,26 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.0000002, y: 2.0000005}
-  m_Direction: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.7, y: 0.22}
+    newSize: {x: 0.7, y: 0.22}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.28, y: 0.11}
+      - {x: -0.31, y: 0.11}
+      - {x: -0.35, y: 0.07}
+      - {x: -0.35, y: -0.089999996}
+      - {x: -0.32999998, y: -0.11}
+      - {x: 0.26999998, y: -0.11}
+      - {x: 0.35, y: -0.03}
+      - {x: 0.35, y: 0.049999997}
+  m_UseDelaunayMesh: 1
 --- !u!50 &6347896025869358693
 Rigidbody2D:
   serializedVersion: 5
@@ -156,7 +173,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.031599518
+  m_Mass: 0.031936433
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0.5

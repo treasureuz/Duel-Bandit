@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5954358757942630244}
   - component: {fileID: 995328610891964459}
   m_Layer: 0
-  m_Name: BaseGun
+  m_Name: BaseRevolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,9 +28,9 @@ Transform:
   m_GameObject: {fileID: 3624892730292742406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35, y: 0.125, z: 0}
-  m_LocalScale: {x: 0.725, y: 0.215, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.35, y: 0, z: 0}
+  m_LocalScale: {x: 0.625, y: 0.625, z: 0.625}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2416882197092406608}
   m_Father: {fileID: 0}
@@ -84,12 +84,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.38, y: 0.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -107,10 +107,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PWeaponManager
   bulletPrefab: {fileID: -7283726574832556982, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
-  gunName: BasePlayerGun
   bulletDamage: 11.48
-  timeBetweenShots: 1.5
-  maxAmmo: 36
+  fireRate: 1.5
+  _maxTotalAmmo: 2147483647
+  _startingTotalAmmo: 2147483647
+  _maxMagCount: 2147483647
 --- !u!50 &995328610891964459
 Rigidbody2D:
   serializedVersion: 5
@@ -163,7 +164,7 @@ Transform:
   m_GameObject: {fileID: 4654311681733695313}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.765, y: 0, z: 0}
+  m_LocalPosition: {x: 1.385, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

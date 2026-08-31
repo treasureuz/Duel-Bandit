@@ -4,10 +4,12 @@
 public class AmmoEventArgs : EventArgs {
     // Can only be set once (in the constructor)
     public int CurrentAmmo { get; }
-    public int MaxAmmo { get; }
+    public int ReserveAmmo { get; }
+    public int TotalAmmo { get; }
 
-    public AmmoEventArgs(int currAmmo, int maxAmmo) {
+    public AmmoEventArgs(int currAmmo, int reserveAmmo, int totalAmmo) {
         this.CurrentAmmo = currAmmo;
-        this.MaxAmmo = maxAmmo;
+        this.ReserveAmmo = reserveAmmo;
+        this.TotalAmmo = totalAmmo;
     }
 }

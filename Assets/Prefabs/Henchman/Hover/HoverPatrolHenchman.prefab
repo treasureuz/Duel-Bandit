@@ -68,8 +68,8 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
-  healthBarPos: {fileID: 4463457277385435596}
-  collectiblesSpawnPos: {fileID: 3879229772204845972}
+  healthBarTransform: {fileID: 4463457277385435596}
+  collectiblesSpawnPoint: {fileID: 3879229772204845972}
   leftMovePoint: {fileID: 7495771196123480152}
   rightMovePoint: {fileID: 7668536150997618113}
   FOV: 185

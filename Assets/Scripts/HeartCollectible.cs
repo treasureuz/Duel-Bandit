@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class Heart : Collectible {
+public class HeartCollectible : Collectible {
     [SerializeField] private float _minHealAmount;
     [SerializeField] private float _maxHealAmount;
 
-    protected override void OnPlayerCollected() {
-        base.OnPlayerCollected();
+    protected override void OnCollected() {
+        base.OnCollected();
         Player player = PlayerManager.instance.Player;
         player.GiveHeal(HealAmount);
     }

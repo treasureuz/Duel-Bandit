@@ -110,6 +110,7 @@ MonoBehaviour:
   baseGun: {fileID: 5954358757942630244, guid: 22ed3874c02329d44a1ff4bf2072165f, type: 3}
   maxHealth: 150
   moveSpeed: 2.95
+  _maxNumOfJumpsInAir: 2
   _jumpForce: 6.28
 --- !u!50 &8830187443331689638
 Rigidbody2D:
@@ -137,7 +138,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &3527758080112505089
 BoxCollider2D:
   m_ObjectHideFlags: 0

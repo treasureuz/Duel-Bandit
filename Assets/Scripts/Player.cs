@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : Character<PGunManager> {
+public class Player : Character<PRevolverManager> {
     [Header("Settings")]
     [SerializeField] private int _maxNumOfJumpsInAir = 2;
     [SerializeField] private float _jumpForce = 5f;
@@ -16,18 +16,13 @@ public class Player : Character<PGunManager> {
     public int MaxLives { get; private set; }
 
     private int _currNumOfJumpsInAir;
-    //private bool _isOnGround;
 
     protected override void Awake() {
         base.Awake();
-        // Getting components
         this._cam = Camera.main;
         PlayerInput playerInput = this.GetComponent<PlayerInput>();
         this._forward = playerInput.actions.FindAction("Forward"); // Or "["Forward"]"
         this._backward = playerInput.actions.FindAction("Backward");
-
-        // Player spawns in the air, so double jump should be disabled on start
-        this._currNumOfJumpsInAir = this._maxNumOfJumpsInAir;
     }
 
     // Gets called the same frame Awake is (before Start)
@@ -37,7 +32,8 @@ public class Player : Character<PGunManager> {
     }
 
     protected void Start() {
-        AmmoEventArgs ammoEventArgs = new (this.GunManager.CurrentAmmo, this.GunManager.GetMaxAmmo());
+        AmmoEventArgs ammoEventArgs = new (this.GunManager.CurrentMagCount,
+            this.GunManager.CurrentReserveAmmo, this.GunManager.CurrentTotalAmmo);
         PlayerManager.instance.OnPlayerSpawned?.Invoke(this, ammoEventArgs);
     }
 
@@ -51,10 +47,16 @@ public class Player : Character<PGunManager> {
     }
 
     public void OnJump() {
-        if (this._currNumOfJumpsInAir == this._maxNumOfJumpsInAir) return;
+        if (!this.isOnGround) // If Player is not on ground,
+            if (!CanDoubleJump) return; // the in-air condition (double jump) takes over
         this.rb2d.AddForce(Vector2.up * this._jumpForce, ForceMode2D.Impulse);
         ++this._currNumOfJumpsInAir;
-        //this._isOnGround = false;
+        this.isOnGround = false;
+    }
+
+    public void OnReload() {
+        Debug.Log(this.GunManager.Reload() ? "Reloading..."
+            : "Can't reload (Mag full or no reserve ammo)");
     }
 
     protected override void HandleLocalScale() {
@@ -67,25 +69,28 @@ public class Player : Character<PGunManager> {
 
     public void GiveHeal(float amount) {
         SetCurrentHealth(this.CurrentHealth + amount);
+        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, null);
     }
 
     public void AddAmmo(int amount) {
-        var ammo = this.GunManager.CurrentAmmo + amount;
-        this.GunManager.SetCurrentAmmo(ammo);
+        var ammo = this.GunManager.CurrentReserveAmmo + amount;
+        this.GunManager.SetCurrentReserveAmmo(ammo);
     }
 
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
-        PlayerManager.instance.OnPlayerDamaged?.Invoke(this, new BulletDamageEventArgs(amount));
+        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, null);
         if (this.CurrentHealth != 0f) return;
         PlayerManager.instance.OnPlayerDead?.Invoke(this, EventArgs.Empty);
         Destroy(this.gameObject);
     }
 
+    private bool CanDoubleJump => this._currNumOfJumpsInAir < this._maxNumOfJumpsInAir;
+
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject colObj = collision.gameObject;
-        if (colObj.CompareTag("Ground")) {
-            //this._isOnGround = true;
+        if (colObj.layer == LayerMask.NameToLayer("Platform")) {
+            this.isOnGround = true;
             this._currNumOfJumpsInAir = 0;
         } else if (colObj.CompareTag("HenchmanBullet")) {
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();

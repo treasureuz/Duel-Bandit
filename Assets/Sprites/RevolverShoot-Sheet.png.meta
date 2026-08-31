@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: e847396905ff516488a89d4af8c76137
+guid: 8341496aaaec2cd4bb525d6cd363d769
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4076249551127237528
-    second: HeartIcon_0
+      213: 5218329665251201988
+    second: RevolverShoot-Sheet_0
+  - first:
+      213: -571480056516012479
+    second: RevolverShoot-Sheet_1
+  - first:
+      213: -2620464904016271346
+    second: RevolverShoot-Sheet_2
+  - first:
+      213: -8898773364480446827
+    second: RevolverShoot-Sheet_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HeartIcon_0
+      name: RevolverShoot-Sheet_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 8
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 35
+        y: 55
+        width: 138
+        height: 98
+      alignment: 9
+      pivot: {x: 0.235, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 893d8ceae5fb19830800000000000000
-      internalID: 4076249551127237528
+      spriteID: 4c35e22ce2b3b6840800000000000000
+      internalID: 5218329665251201988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RevolverShoot-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 55
+        width: 142
+        height: 98
+      alignment: 9
+      pivot: {x: 0.258, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 146942b9ae1b118f0800000000000000
+      internalID: -571480056516012479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RevolverShoot-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 51
+        width: 134
+        height: 110
+      alignment: 9
+      pivot: {x: 0.242, y: 0.39}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e086bb9bd0d32abd0800000000000000
+      internalID: -2620464904016271346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RevolverShoot-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 55
+        width: 138
+        height: 98
+      alignment: 9
+      pivot: {x: 0.235, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59e6f61d5c4318480800000000000000
+      internalID: -8898773364480446827
       vertices: []
       indices: 
       edges: []
@@ -138,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: ea991f00b5484f64085892142abded0f
     internalID: 0
     vertices: []
     indices: 
@@ -146,9 +221,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      HeartIcon_0: 4076249551127237528
+      RevolverShoot-Sheet_0: 5218329665251201988
+      RevolverShoot-Sheet_1: -571480056516012479
+      RevolverShoot-Sheet_2: -2620464904016271346
+      RevolverShoot-Sheet_3: -8898773364480446827
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
