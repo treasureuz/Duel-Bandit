@@ -47,4 +47,10 @@ public class PatrolHenchman : Henchman {
         base.ResetDesiredState();
         this._elapsedTimeUntilPatrol = 0f;
     }
+
+    protected override void FlipLocalScaleOnShot() {
+        base.FlipLocalScaleOnShot();
+        this.currTargetPoint = this.transform.localScale.x < 0 ?
+            this.leftMovePoint : this.rightMovePoint; 
+    }
 }

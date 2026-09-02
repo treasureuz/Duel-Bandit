@@ -1,6 +1,9 @@
 using UnityEngine;
 
 public class HRevolverManager : RevolverManager {
+    [Header("HRevolver Settings")]
+    [SerializeField] private float _minFireRate;
+
     private Henchman _henchman;
 
     protected override void Awake() {
@@ -26,5 +29,10 @@ public class HRevolverManager : RevolverManager {
     protected override Vector2 GetTargetPos() {
         Player player = PlayerManager.instance.Player;
         return player.transform.position;
+    }
+    
+    public override void SetCurrentFireRate(float fireRate) {
+        float newFireRate = Mathf.Clamp(fireRate, this._minFireRate, this.baseFireRate);
+        SetCurrentFireRate(newFireRate);
     }
 }

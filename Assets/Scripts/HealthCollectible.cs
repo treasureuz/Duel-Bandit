@@ -7,7 +7,7 @@ public class HeartCollectible : Collectible {
     protected override void OnCollected() {
         base.OnCollected();
         Player player = PlayerManager.instance.Player;
-        player.GiveHeal(HealAmount);
+        player.AddHealth(HealAmount);
     }
 
     private float HealAmount => Random.Range(this._minHealAmount, this._maxHealAmount);

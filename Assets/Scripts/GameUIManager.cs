@@ -15,6 +15,7 @@ public class GameUIManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _playerHealthText;
     [SerializeField] private List<Image> _heartIcons;
     [SerializeField] private TextMeshProUGUI _ammoText;
+    [SerializeField] private TextMeshProUGUI _revolverNameText;
 
     [Header("Henchman UI")]
     [SerializeField] private TextMeshProUGUI _damageTextPrefab;
@@ -32,7 +33,7 @@ public class GameUIManager : MonoBehaviour {
         PlayerManager.instance.OnPlayerHealthChange += UpdatePlayerHealthUI;
         HenchmanHelper.instance.OnHenchmanDamaged += SpawnOnHenchmanDamagedText;
         PlayerManager.instance.OnPlayerOOL += EnableRespawnScreen;
-        PlayerManager.instance.OnPlayerRevolverShot += UpdatePlayerAmmoText;
+        PlayerManager.instance.OnPlayerRevolverShot += UpdatePlayerAmmoUI;
     }
 
     void OnDisable() {
@@ -40,7 +41,7 @@ public class GameUIManager : MonoBehaviour {
         PlayerManager.instance.OnPlayerHealthChange -= UpdatePlayerHealthUI;
         HenchmanHelper.instance.OnHenchmanDamaged -= SpawnOnHenchmanDamagedText;
         PlayerManager.instance.OnPlayerOOL -= EnableRespawnScreen;
-        PlayerManager.instance.OnPlayerRevolverShot -= UpdatePlayerAmmoText;
+        PlayerManager.instance.OnPlayerRevolverShot -= UpdatePlayerAmmoUI;
     }
 
     public void OnRespawnClicked() {
@@ -51,7 +52,7 @@ public class GameUIManager : MonoBehaviour {
     private void UpdateOnPlayerSpawnedUI(object sender, AmmoEventArgs e) {
         UpdatePlayerHealthUI(sender, e);
         UpdatePlayerCurrLivesUI(sender, e);
-        UpdatePlayerAmmoText(sender, e);
+        UpdatePlayerAmmoUI(sender, e);
     }
 
     private void UpdatePlayerHealthUI(object sender, EventArgs e) {
@@ -63,14 +64,16 @@ public class GameUIManager : MonoBehaviour {
     private void UpdatePlayerCurrLivesUI(object sender, EventArgs e) {
         Player player = (Player) sender;
         var heartIconsCount = this._heartIcons.Count;
-        // How many to set false
+        // How many heartIcons to disable
         var iconsToLivesDiff = heartIconsCount - player.CurrentLives;
         for (var i = 1; i <= iconsToLivesDiff; ++i) {
             this._heartIcons[heartIconsCount - i].gameObject.SetActive(false);
         }
     }
 
-    private void UpdatePlayerAmmoText(object sender, AmmoEventArgs e) {
+    private void UpdatePlayerAmmoUI(object sender, AmmoEventArgs e) {
+        Player player = (Player) sender;
+        this._revolverNameText.text = $"{player.GetRevolverName()}";
         this._ammoText.text = e.TotalAmmo == int.MaxValue ? "INF/INF (INF)" :
             $"{e.CurrentAmmo}/{e.ReserveAmmo} ({e.TotalAmmo})";
     }

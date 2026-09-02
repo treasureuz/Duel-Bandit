@@ -32,18 +32,19 @@ public class Player : Character<PRevolverManager> {
     }
 
     protected void Start() {
-        AmmoEventArgs ammoEventArgs = new (this.GunManager.CurrentMagCount,
-            this.GunManager.CurrentReserveAmmo, this.GunManager.CurrentTotalAmmo);
+        AmmoEventArgs ammoEventArgs = new (this.RevolverManager.CurrentMagCount,
+            this.RevolverManager.CurrentReserveAmmo, this.RevolverManager.CurrentTotalAmmo);
         PlayerManager.instance.OnPlayerSpawned?.Invoke(this, ammoEventArgs);
     }
 
     void FixedUpdate() {
         var direction = 0f;
-        HandleLocalScale(); // Flips localScale if mouse is left or right of Player
+        Vector2 mousePos = this._cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        HandleLocalScale(mousePos); // Flips localScale if mouse is left or right of Player
         if (this._forward.IsPressed()) direction = 1f;
         if (this._backward.IsPressed()) direction = -1f;
         this.rb2d.linearVelocity = new Vector2(
-            direction * this.moveSpeed, this.rb2d.linearVelocity.y);
+            direction * this.CurrentMoveSpeed, this.rb2d.linearVelocity.y);
     }
 
     public void OnJump() {
@@ -55,26 +56,18 @@ public class Player : Character<PRevolverManager> {
     }
 
     public void OnReload() {
-        Debug.Log(this.GunManager.Reload() ? "Reloading..."
+        Debug.Log(this.RevolverManager.Reload() ? "Reloading..."
             : "Can't reload (Mag full or no reserve ammo)");
     }
 
-    protected override void HandleLocalScale() {
-        Vector2 mousePos = this._cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        var dirXToMouse = mousePos.x - this.rb2d.position.x;
-        Vector2 localScale = this.transform.localScale;
-        localScale.x = dirXToMouse > 0f ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
-        this.transform.localScale = localScale;
-    }
-
-    public void GiveHeal(float amount) {
+    public void AddHealth(float amount) {
         SetCurrentHealth(this.CurrentHealth + amount);
         PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, null);
     }
 
     public void AddAmmo(int amount) {
-        var ammo = this.GunManager.CurrentReserveAmmo + amount;
-        this.GunManager.SetCurrentReserveAmmo(ammo);
+        var ammo = this.RevolverManager.CurrentReserveAmmo + amount;
+        this.RevolverManager.SetCurrentReserveAmmo(ammo);
     }
 
     protected override void TakeDamage(float amount) {
@@ -97,4 +90,6 @@ public class Player : Character<PRevolverManager> {
             TakeDamage(bullet.Damage);
         }
     }
+
+    public string GetRevolverName() => this.RevolverManager.GetName();
 }

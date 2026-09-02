@@ -7,8 +7,8 @@ public abstract class RevolverManager : MonoBehaviour {
 
     [Header("Settings")]
     [SerializeField] protected float bulletDamage;
-    [FormerlySerializedAs("timeBetweenShots")]
-    [SerializeField] protected float fireRate = 1.46f;
+    [FormerlySerializedAs("fireRate")]
+    [SerializeField] protected float baseFireRate = 1.46f;
 
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;
@@ -18,10 +18,15 @@ public abstract class RevolverManager : MonoBehaviour {
     protected float rotationAngle;
     protected const float rotationSpeed = 380f;
 
+    public float CurrentFireRate {get; private set;}
+
     protected virtual void Awake() {
+        // Getting components
         this.rb2d = this.GetComponent<Rigidbody2D>();
         this.spriteRenderer = this.GetComponent<SpriteRenderer>();
         this._bulletSpawnPoint = this.transform.GetChild(0);
+        
+        SetCurrentFireRate(this.baseFireRate);
     }
 
     protected abstract void FixedUpdate();
@@ -34,7 +39,7 @@ public abstract class RevolverManager : MonoBehaviour {
         BulletBehavior bullet = Instantiate(this.bulletPrefab, this.
             _bulletSpawnPoint.position, spawnRotation);
         bullet.Init(this.bulletDamage);
-        this.elapsedShootTime = Time.time + this.fireRate;
+        this.elapsedShootTime = Time.time + this.CurrentFireRate;
     }
 
     protected void RotateTowardsTargetPos() {
@@ -62,4 +67,8 @@ public abstract class RevolverManager : MonoBehaviour {
     }
 
     protected abstract Vector2 GetTargetPos();
+
+    public virtual void SetCurrentFireRate(float fireRate) {
+        this.CurrentFireRate = fireRate;
+    }
 }

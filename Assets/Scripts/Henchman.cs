@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,19 +16,25 @@ public class Henchman : Character<HRevolverManager> {
 
     [Header("Settings")]
     [SerializeField] protected int FOV = 180; // 90 degrees upward/downward this obj
+    [SerializeField] protected float minMoveSpeed = 1.05f;
     [SerializeField] protected float timeUntilSearch = 1f;
     [SerializeField] protected float timeUntilSearchEnd = 3.16f;
+    [SerializeField] protected float shotDuration = 3f; // how long Henchman stays "shot"
     [SerializeField] protected List<Collectible> itemsToDropOnDead;
 
     [Header("Raycast Settings")]
     [SerializeField] protected float baseViewDistance = 8.35f;
+    [SerializeField] protected float maxViewDistance = 11.2f;
+    [SerializeField] protected float viewDistIncrements = 0.107f;
 
+    // Health Bar References
     private HealthBarFollow _healthBarCanvas;
     private Image _healthBarImage;
 
     protected Transform currTargetPoint;
 
-    private float _elapsedShotStateDur;
+    private Coroutine _onShotCoroutine;
+
     private float _elapsedTimeUntilSearchEnd;
     private float _elapsedTimeUntilSearch;
 
@@ -36,6 +43,10 @@ public class Henchman : Character<HRevolverManager> {
 
     private bool _hasSetCurrTargetPoint;
     private bool _hasReachedSearchPoint;
+
+    private int _shotCounter;
+
+    public float CurrentViewDistance {get; private set;}
 
     [Header("Desired HenchmanState (based on Henchman)")]
     [SerializeField] protected HenchmanState desiredState = HenchmanState.None;
@@ -92,17 +103,7 @@ public class Henchman : Character<HRevolverManager> {
         HandleStateSwitch(); // Applies the CurrentState
     }
 
-    protected override void HandleLocalScale() {
-        Vector3 localScale = this.transform.localScale;
-        // ShouldFacePlayer if Henchman is in Attack/WaitingToSearch/ShotState
-        var dirX = ShouldFacePlayer ? GetDirToPlayer().x :
-            this.currTargetPoint.position.x - this.rb2d.position.x;
-        // If negative, the targetPos is to the left, otherwise right
-        // Therefore, flip this Henchman to that dirX
-        localScale.x = dirX <= 0f ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
-        this.transform.localScale = localScale;
-    }
-
+    #region State Handling
     protected virtual void HandleStateSwitch() {
         switch (this.CurrentState) {
             case HenchmanState.Attack: AttackState(); break;
@@ -111,10 +112,9 @@ public class Henchman : Character<HRevolverManager> {
         }
     }
     // Only flips localScale to face the Player
-    protected void AttackState() => HandleLocalScale();
-
+    protected void AttackState() => HandleLocalScale(GetDirToPlayer());
     protected void WaitingToSearchState() {
-        HandleLocalScale(); // Faces Henchman towards targetPoint
+        HandleLocalScale(GetDirToCurrTarget()); // Faces Henchman towards targetPoint
         if (this._elapsedTimeUntilSearch < this.timeUntilSearch) {
             this._elapsedTimeUntilSearch += Time.fixedDeltaTime;
             return;
@@ -157,18 +157,20 @@ public class Henchman : Character<HRevolverManager> {
         this._hasReachedSearchPoint = false;
         this._elapsedTimeUntilSearchEnd = 0f;
     }
-    // Same for PatrolHenchman
+    
     protected virtual void ResetDesiredState() {
-        // "if (!hasSetCDPoint) is true, it sets isMovingToDPoint to true, instantly moving Henchman
+        // "if (!hasSetCDPoint) is true, it sets isMovingToDPoint to true, 
+        // which instantly moves Henchman
         this.hasSetCurrDesiredPoint = false;
         this.isMovingToDesiredPoint = false;
     }
+    #endregion
 
     protected void MoveTowardsTargetPoint() {
-        HandleLocalScale(); // Flip towards targetPoint
+        HandleLocalScale(GetDirToCurrTarget()); // Flip towards targetPoint
         // Starts the actual moving
         var posX = Mathf.MoveTowards(this.rb2d.position.x,
-            this.currTargetPoint.position.x, this.moveSpeed * Time.fixedDeltaTime);
+            this.currTargetPoint.position.x, this.CurrentMoveSpeed * Time.fixedDeltaTime);
         Vector2 position = new(posX, this.rb2d.position.y);
         this.rb2d.MovePosition(position);
     }
@@ -186,7 +188,7 @@ public class Henchman : Character<HRevolverManager> {
 
         Vector2 originPos = this.rb2d.position;
         RaycastHit2D hit = Physics2D.Raycast(originPos, dirToPlayer,
-            this.baseViewDistance, this.raycastLayerMask);
+            this.CurrentViewDistance, this.raycastLayerMask);
         return hit && hit.collider.gameObject.CompareTag("Player");
     }
 
@@ -194,6 +196,62 @@ public class Henchman : Character<HRevolverManager> {
         Player player = PlayerManager.instance.Player;
         return ((Vector2) player.transform.position - this.rb2d.position).normalized;
     }
+
+    private Vector2 GetDirToCurrTarget() {
+        return (Vector2)this.currTargetPoint.position - this.rb2d.position;
+    }
+    
+    protected bool HasReachedCurrTargetPoint() {
+        var distXToTargetPoint = Mathf.Abs(
+            this.rb2d.position.x - this.currTargetPoint.position.x);
+        return distXToTargetPoint < 0.08f;
+    }
+
+    #region On Shot Mechanics - View Distance & Local Scale
+    private void HandleOnShotMechanics() {
+        if (this.CurrentViewDistance != this.maxViewDistance){
+            ++this._shotCounter; // Used by the method below
+            UpdateViewDistanceOnShot();
+        }
+        // Only flips local scale if Player is not in LOS
+        if (IsPlayerInLOS()) return;
+        FlipLocalScaleOnShot();
+    }
+
+    private void StartOnShotCoroutine(){
+        if (this._onShotCoroutine != null) {
+            StopCoroutine(this._onShotCoroutine);
+            this._onShotCoroutine = null;
+        }
+        this._onShotCoroutine = StartCoroutine(HandleAfterOnShot());
+    }
+
+    private IEnumerator HandleAfterOnShot(){
+        yield return new WaitForSeconds(this.shotDuration);
+        SetCurrentViewDistance(this.baseViewDistance);
+        this._shotCounter = 0;
+    }
+
+    private void UpdateViewDistanceOnShot() {
+        // The more Henchman gets shot the more the view distance increments by
+        float newViewDistIncrements = this.viewDistIncrements * this._shotCounter;
+        float newViewDist = this.CurrentViewDistance + newViewDistIncrements;
+        SetCurrentViewDistance(newViewDist);
+    }
+
+    private void SetCurrentViewDistance(float viewDist) {
+        this.CurrentViewDistance = Mathf.Clamp(viewDist, this.baseViewDistance, 
+            this.maxViewDistance);
+    }
+
+    protected virtual void FlipLocalScaleOnShot() {
+        // Flips Henchman's local scale to face the opposite movePoint
+        Vector2 dirToOppMovePoint = this.transform.localScale.x < 0 ? 
+            (Vector2)this.rightMovePoint.position - this.rb2d.position :
+            (Vector2)this.leftMovePoint.position - this.rb2d.position;
+        HandleLocalScale(dirToOppMovePoint);
+    }
+    #endregion
 
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
@@ -211,28 +269,29 @@ public class Henchman : Character<HRevolverManager> {
         Destroy(this.gameObject);
     }
 
-    protected bool HasReachedCurrTargetPoint() {
-        var distXToTargetPoint = Mathf.Abs(
-            this.rb2d.position.x - this.currTargetPoint.position.x);
-        return distXToTargetPoint < 0.08f;
-    }
-
     public void OnCollisionEnter2D(Collision2D collision) {
         GameObject colObj = collision.gameObject;
         if (colObj.CompareTag("PlayerBullet")) {
+            StartOnShotCoroutine(); // Resets view dist and shot counter after shotDuration
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
             TakeDamage(bullet.Damage);
+            HandleOnShotMechanics(); // Handles view distance & local scale
         } else if (colObj.layer == LayerMask.NameToLayer("Platform")) {
             this.isOnGround = true;
         }
     }
 
-    private bool ShouldFacePlayer =>
-        IsAttacking || this.CurrentState is HenchmanState.WaitingToSearch;
-    private bool IsInSelfManagedState =>
-        this.CurrentState is HenchmanState.WaitingToSearch or HenchmanState.Search;
-
     public bool IsAttacking => this.CurrentState is HenchmanState.Attack;
     public bool IsInDesiredState => this.CurrentState == this.desiredState;
+
+    public override void SetCurrentMoveSpeed(float speed) {
+        float newMoveSpeed = Mathf.Clamp(speed, this.minMoveSpeed, this.baseMoveSpeed);
+        base.SetCurrentMoveSpeed(newMoveSpeed);
+    }
+    public void SetCurrRevolverFireRate(float fireRate) {
+        this.RevolverManager.SetCurrentFireRate(fireRate);
+    }
+    public float GetCurrRevolverFireRate() => this.RevolverManager.CurrentFireRate;
+
     public HenchmanState GetCurrentState() => this.CurrentState;
 }

@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PRevolverManager : RevolverManager {
     [Header("PRevolver Settings")]
+    [SerializeField] private string _name;
     [SerializeField] private int _maxTotalAmmo;
     // the extra ammo/bullets that move into the current mag when reloading
     [SerializeField] private int _startingTotalAmmo;
@@ -68,4 +69,6 @@ public class PRevolverManager : RevolverManager {
         var maxReserveAmmo = this._maxTotalAmmo - this.CurrentMagCount;
         this.CurrentReserveAmmo = Mathf.Clamp(count, 0, maxReserveAmmo);
     }
+
+    public string GetName() => this._name;
 }

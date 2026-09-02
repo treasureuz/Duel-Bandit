@@ -22,7 +22,7 @@ public class BulletBehavior : MonoBehaviour {
         Destroy(this.gameObject, _timeBeforeDestroyed);
     }
 
-    public void OnCollisionEnter2D(Collision2D col) {
+    public virtual void OnCollisionEnter2D(Collision2D col) {
         Destroy(this.gameObject);
     }
 }
