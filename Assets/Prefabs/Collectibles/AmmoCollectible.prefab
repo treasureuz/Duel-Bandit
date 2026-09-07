@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3635009889808860788}
   - component: {fileID: 606939266847492540}
   - component: {fileID: 850838741831945016}
-  - component: {fileID: 166230893151111233}
+  - component: {fileID: 1919277832535242739}
   - component: {fileID: -481600047173325647}
   m_Layer: 11
   m_Name: AmmoCollectible
@@ -84,8 +84,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -253123260731695901, guid: badd048691015f548a8f9fdf6fb6020c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -108,8 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ammo
   _minAmmoAmount: 12
   _maxAmmoAmount: 18
---- !u!60 &166230893151111233
-PolygonCollider2D:
+--- !u!61 &1919277832535242739
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,21 +146,14 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.8828125, y: 1}
+    oldSize: {x: 1.21, y: 1.21}
     newSize: {x: 0.8828125, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.43359375, y: 0.25}
-      - {x: -0.43359375, y: -0.25}
-      - {x: 0, y: -0.5}
-      - {x: 0.43359375, y: -0.25}
-      - {x: 0.43359375, y: 0.25}
-      - {x: 0, y: 0.5}
-  m_UseDelaunayMesh: 1
+  m_Size: {x: 1.21, y: 1.21}
+  m_EdgeRadius: 0
 --- !u!50 &-481600047173325647
 Rigidbody2D:
   serializedVersion: 5

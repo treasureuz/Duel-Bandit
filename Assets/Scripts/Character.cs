@@ -1,15 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 
 public abstract class Character<TRevolverManager> : MonoBehaviour
     where TRevolverManager : RevolverManager {
     [Header("References")]
-    [SerializeField] protected TRevolverManager baseRevolver;
+    //[SerializeField] protected TRevolverManager baseRevolver;
 
     [Header("Settings")]
     [SerializeField] protected float maxHealth = 200f;
     [FormerlySerializedAs("moveSpeed")]
-    [SerializeField] protected float baseMoveSpeed = 2.67f;
+    [SerializeField] protected float standardMoveSpeed = 2.67f;
 
     protected Rigidbody2D rb2d;
     public TRevolverManager RevolverManager { get; private set; }
@@ -24,8 +24,8 @@ public abstract class Character<TRevolverManager> : MonoBehaviour
         this.RevolverManager = this.GetComponentInChildren<TRevolverManager>();
 
         SetCurrentHealth(this.maxHealth);
-        SetCurrentMoveSpeed(this.baseMoveSpeed);
-        EquipGun(this.baseRevolver); // If Get<TGunManager> returned null, it equips baseGun
+        SetCurrentMoveSpeed(this.standardMoveSpeed);
+        //EquipGun(this.baseRevolver); // If Get<TGunManager> returned null, it equips baseGun
     }
 
     protected void HandleLocalScale(Vector2 dirToTarget) {
@@ -34,10 +34,10 @@ public abstract class Character<TRevolverManager> : MonoBehaviour
         this.transform.localScale = localScale;
     }
 
-    public void EquipGun(TRevolverManager gunPrefab) {
-        if (this.RevolverManager) Destroy(this.RevolverManager.gameObject);
-        this.RevolverManager = Instantiate(gunPrefab, this.transform);
-    }
+    // public void EquipGun(TRevolverManager gunPrefab) {
+    //     if (this.RevolverManager) Destroy(this.RevolverManager.gameObject);
+    //     this.RevolverManager = Instantiate(gunPrefab, this.transform);
+    // }
 
     protected virtual void TakeDamage(float amount) {
         SetCurrentHealth(this.CurrentHealth - amount);

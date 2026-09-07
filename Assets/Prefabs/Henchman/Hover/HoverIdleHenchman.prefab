@@ -87,24 +87,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82572ee6f9f1be4ea45aeadc27b8869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
-  baseGun: {fileID: 335399879488327440, guid: 90cb9471b5046024ca94af6c76c9f56e, type: 3}
   maxHealth: 100
-  moveSpeed: 2.67
+  standardMoveSpeed: 2.67
   _healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
   healthBarTransform: {fileID: 2377414532491093441}
-  collectiblesSpawnPoint: {fileID: 2943926688388016025}
+  collectiblesSpawnPos: {fileID: 2943926688388016025}
   leftMovePoint: {fileID: 8433398655976787029}
   rightMovePoint: {fileID: 8602785318552142284}
   FOV: 185
-  timeUntilSearch: 1
-  timeUntilSearchEnd: 3
+  minMoveSpeed: 1.05
   itemsToDropOnDead:
   - {fileID: 850838741831945016, guid: ee1f5e58c37c0514ba99f177ac8b2931, type: 3}
   - {fileID: 850838741831945016, guid: ee1f5e58c37c0514ba99f177ac8b2931, type: 3}
+  timeUntilSearch: 1
+  timeUntilSearchEnd: 3
+  shotDuration: 3
   baseViewDistance: 8.35
+  maxViewDistance: 11.2
+  viewDistIncrements: 0.107
   desiredState: 0
   _midMovePoint: {fileID: 5126586146553558907}
 --- !u!4 &5126586146553558907 stripped

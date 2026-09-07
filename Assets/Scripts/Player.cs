@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using RevolverEventArgs;
 
 public class Player : Character<PRevolverManager> {
     [Header("Settings")]
@@ -40,7 +41,8 @@ public class Player : Character<PRevolverManager> {
     void FixedUpdate() {
         var direction = 0f;
         Vector2 mousePos = this._cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        HandleLocalScale(mousePos); // Flips localScale if mouse is left or right of Player
+        Vector2 dirToMousePos = mousePos - this.rb2d.position;
+        HandleLocalScale(dirToMousePos); // Flips localScale if mouse is left or right of Player
         if (this._forward.IsPressed()) direction = 1f;
         if (this._backward.IsPressed()) direction = -1f;
         this.rb2d.linearVelocity = new Vector2(
@@ -55,14 +57,30 @@ public class Player : Character<PRevolverManager> {
         this.isOnGround = false;
     }
 
+    public void EquipRevolver(PRevolverData revolverData){
+        this.RevolverManager.SetCurrentRevolver(revolverData);
+    }
+
+    public void OnSwapToNextRevolver(){
+        this.RevolverManager.SwitchToNextRevolver();
+    }
+
+    public void OnSwapToPreviousRevolver(){
+        this.RevolverManager.SwitchToPreviousRevolver();
+    }
+
     public void OnReload() {
-        Debug.Log(this.RevolverManager.Reload() ? "Reloading..."
-            : "Can't reload (Mag full or no reserve ammo)");
+        this.RevolverManager.Reload();
+        // if (this.RevolverManager.Reload()) {
+        //      PlayerManager.instance.OnPlayerReloading?.Invoke(this, EventArgs.Empty);
+        // } else {
+        //     PlayerManager.instance.OnPlayerCantReload?.Invoke(this, EventArgs.Empty);
+        // }
     }
 
     public void AddHealth(float amount) {
         SetCurrentHealth(this.CurrentHealth + amount);
-        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, null);
+        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, EventArgs.Empty);
     }
 
     public void AddAmmo(int amount) {
@@ -72,7 +90,7 @@ public class Player : Character<PRevolverManager> {
 
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
-        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, null);
+        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, EventArgs.Empty);
         if (this.CurrentHealth != 0f) return;
         PlayerManager.instance.OnPlayerDead?.Invoke(this, EventArgs.Empty);
         Destroy(this.gameObject);
@@ -91,5 +109,5 @@ public class Player : Character<PRevolverManager> {
         }
     }
 
-    public string GetRevolverName() => this.RevolverManager.GetName();
+    public float GetRevolverReloadDuration() => this.RevolverManager.GetReloadDuration();
 }

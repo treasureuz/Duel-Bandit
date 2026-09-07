@@ -73,20 +73,28 @@ PrefabInstance:
       value: SoraBullet
       objectReference: {fileID: 0}
     - target: {fileID: 7361636987414953908, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 7361636987414953908, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
+      propertyPath: m_Size.y
+      value: 0.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 7361636987414953908, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 5623098966955256727, guid: b3fdc621658b9704faea86b5e5d03f99, type: 3}
+      objectReference: {fileID: -6834510972417756851, guid: 3ab953a6c9829cf43b9792eab2ef2a20, type: 3}
     - target: {fileID: 7361636987414953908, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7361636987414953908, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_Color.g
-      value: 0.8338405
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7361636987414953908, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_Color.r
-      value: 0.5707547
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7649184054949396856, guid: 437105faf776cc543960bbd74433bd6d, type: 3}

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolHenchman : Henchman {
@@ -15,7 +15,7 @@ public class PatrolHenchman : Henchman {
     }
 
     private void PatrolState() {
-        if (!hasSetCurrDesiredPoint) {
+        if (!this.hasSetCurrDesiredPoint) {
             // Decide next movePoint
             if (!this.currTargetPoint) {
                 List<Transform> movePoints = new() { this.leftMovePoint, this.rightMovePoint };
@@ -23,7 +23,7 @@ public class PatrolHenchman : Henchman {
             } else if (this.currTargetPoint == this.leftMovePoint) {
                 this.currTargetPoint = this.rightMovePoint;
             } else this.currTargetPoint = this.leftMovePoint;
-            hasSetCurrDesiredPoint = true;
+            this.hasSetCurrDesiredPoint = true;
             this.isMovingToDesiredPoint = true;
         }
 
@@ -46,11 +46,5 @@ public class PatrolHenchman : Henchman {
     protected override void ResetDesiredState() {
         base.ResetDesiredState();
         this._elapsedTimeUntilPatrol = 0f;
-    }
-
-    protected override void FlipLocalScaleOnShot() {
-        base.FlipLocalScaleOnShot();
-        this.currTargetPoint = this.transform.localScale.x < 0 ?
-            this.leftMovePoint : this.rightMovePoint; 
     }
 }

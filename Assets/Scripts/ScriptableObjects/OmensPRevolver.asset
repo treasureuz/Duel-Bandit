@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807355650d0101546a4871beb68d8714, type: 3}
+  m_Name: OmensPRevolver
+  m_EditorClassIdentifier: Assembly-CSharp::PRevolverData
+  sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
+  bulletPrefab: {fileID: 6449838860082539874, guid: eebc6c24a351e6c4ca5c6ad8ddbb3359, type: 3}
+  bulletDamage: 22
+  standardFireRate: 2.34
+  revolverName: Omen
+  revolverColor: {r: 0.5137255, g: 0.29803923, b: 0.29411766, a: 0}
+  maxTotalAmmo: 156
+  startingTotalAmmo: 80
+  maxMagCount: 23
+  reloadDuration: 2.86

@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class HRevolverManager : RevolverManager {
-    [Header("HRevolver Settings")]
-    [SerializeField] private float _minFireRate;
+public class HRevolverManager : TRevolverManager<HRevolverData> {
+    // [Header("HRevolver Settings")]
+    // [SerializeField] private float _minFireRate;
 
     private Henchman _henchman;
 
@@ -12,13 +12,14 @@ public class HRevolverManager : RevolverManager {
     }
 
     protected override void FixedUpdate() {
+        if (!PlayerManager.instance.Player) return;
         if (!this._henchman.IsAttacking) {
             SmoothlyRotateTowards(Quaternion.identity);
             return;
         }
         RotateTowardsTargetPos(); // Handles gun rotation to Player
         if (Time.time < this.elapsedShootTime || !IsAimAlignedToPlayer()) return;
-        HandleRevolverShoot(); // Shoots gun
+        HandleShoot(); // Shoots gun
     }
 
     private bool IsAimAlignedToPlayer() {
@@ -30,9 +31,11 @@ public class HRevolverManager : RevolverManager {
         Player player = PlayerManager.instance.Player;
         return player.transform.position;
     }
-    
+
     public override void SetCurrentFireRate(float fireRate) {
-        float newFireRate = Mathf.Clamp(fireRate, this._minFireRate, this.baseFireRate);
-        SetCurrentFireRate(newFireRate);
+        var newFireRate = Mathf.Clamp(fireRate,
+        this.currentRevolverData.minFireRate,
+        this.currentRevolverData.standardFireRate);
+        base.SetCurrentFireRate(newFireRate);
     }
 }

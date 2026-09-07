@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using RevolverEventArgs;
 
 public class PlayerManager : MonoBehaviour {
     [Header("References")]
@@ -12,7 +11,7 @@ public class PlayerManager : MonoBehaviour {
     [Header("Player Settings")]
     [SerializeField] private int _maxPlayerLives = 3;
     [SerializeField] private float _timeBeforePlayerRespawn = 2f;
-    [SerializeField] private List<PRevolverManager> _revolvers;
+    //[SerializeField] private List<PRevolverManager> _revolvers;
 
     public static PlayerManager instance;
 
@@ -23,8 +22,12 @@ public class PlayerManager : MonoBehaviour {
     public EventHandler<AmmoEventArgs> OnPlayerSpawned;
     public EventHandler OnPlayerDead;
     public EventHandler OnPlayerOOL;
-    public EventHandler<BulletDamageEventArgs> OnPlayerHealthChange;
+    public EventHandler<EventArgs> OnPlayerHealthChange;
+    public EventHandler<RevolverDisplayInfoEventArgs> OnPlayerRevolverEquipped;
     public EventHandler<AmmoEventArgs> OnPlayerRevolverShot;
+    public EventHandler<AmmoEventArgs> OnPlayerRevolverAmmoChanged;
+    public EventHandler OnPlayerReloading;
+    public EventHandler OnPlayerCantReload;
 
     void Awake() {
         if (!instance) instance = this;
@@ -63,7 +66,7 @@ public class PlayerManager : MonoBehaviour {
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
         --this._currentPlayerLives; // Decrease lives when Player Respawns
         SpawnPlayer(); // Spawns a new Player at its spawnPoint
-        PRevolverManager newRevolver = this._revolvers[Random.Range(0, this._revolvers.Count)];
-        this.Player.EquipGun(newRevolver);
+        // PRevolverManager newRevolver = this._revolvers[Random.Range(0, this._revolvers.Count)];
+        // this.Player.EquipGun(newRevolver);
     }
 }
