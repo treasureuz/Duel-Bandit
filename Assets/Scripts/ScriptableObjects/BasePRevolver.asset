@@ -17,7 +17,8 @@ MonoBehaviour:
   bulletDamage: 11.48
   standardFireRate: 1.5
   revolverName: Base
-  revolverColor: {r: 0.29803923, g: 0.36078432, b: 0.50980395, a: 0}
+  revolverColor: {r: 0.30980393, g: 0.4, b: 0.62352943, a: 1}
   maxTotalAmmo: 2147483647
   startingTotalAmmo: 2147483647
   maxMagCount: 2147483647
+  reloadDuration: 0

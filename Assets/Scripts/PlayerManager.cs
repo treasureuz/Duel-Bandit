@@ -23,11 +23,10 @@ public class PlayerManager : MonoBehaviour {
     public EventHandler OnPlayerDead;
     public EventHandler OnPlayerOOL;
     public EventHandler<EventArgs> OnPlayerHealthChange;
-    public EventHandler<RevolverDisplayInfoEventArgs> OnPlayerRevolverEquipped;
+    public EventHandler<RevolverEquippedEventArgs> OnPlayerRevolverEquipped;
     public EventHandler<AmmoEventArgs> OnPlayerRevolverShot;
-    public EventHandler<AmmoEventArgs> OnPlayerRevolverAmmoChanged;
-    public EventHandler OnPlayerReloading;
-    public EventHandler OnPlayerCantReload;
+    public EventHandler<RevolverReloadingEventArgs> OnPlayerReloading;
+    public EventHandler OnPlayerUnableToReload;
 
     void Awake() {
         if (!instance) instance = this;
@@ -66,7 +65,5 @@ public class PlayerManager : MonoBehaviour {
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
         --this._currentPlayerLives; // Decrease lives when Player Respawns
         SpawnPlayer(); // Spawns a new Player at its spawnPoint
-        // PRevolverManager newRevolver = this._revolvers[Random.Range(0, this._revolvers.Count)];
-        // this.Player.EquipGun(newRevolver);
     }
 }

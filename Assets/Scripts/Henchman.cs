@@ -12,8 +12,6 @@ public class Henchman : Character<HRevolverManager> {
     private HealthBarFollow _healthBarCanvas;
     private Image _healthBarFill;
 
-    private MeshFilter _meshFilter;
-
     [Header("Transforms")]
     [SerializeField] protected Transform healthBarTransform;
     [SerializeField] protected Transform collectiblesSpawnPos;
@@ -45,6 +43,7 @@ public class Henchman : Character<HRevolverManager> {
 
     protected bool hasSetCurrDesiredPoint;
     protected bool isMovingToDesiredPoint;
+    protected static bool isSoraEffectEnabled;
 
     private bool _hasSetCurrTargetPoint;
     private bool _hasReachedSearchPoint;
@@ -56,7 +55,7 @@ public class Henchman : Character<HRevolverManager> {
 
     [Header("Desired HenchmanState (based on Henchman)")]
     [SerializeField] protected HenchmanState desiredState = HenchmanState.None;
-    protected HenchmanState CurrentState { get; private set; } = HenchmanState.None;
+    protected HenchmanState CurrentState { get; private set; }
 
     protected override void Awake() {
         base.Awake();
@@ -68,6 +67,7 @@ public class Henchman : Character<HRevolverManager> {
         this._healthBarFill = healthBarFillObj.GetComponent<Image>();
 
         SetCurrentViewDistance(this.baseViewDistance);
+        this.CurrentState = this.desiredState;
     }
 
     protected virtual void FixedUpdate() {
@@ -80,15 +80,15 @@ public class Henchman : Character<HRevolverManager> {
 
         var isPlayerInLOS = IsPlayerInLOS();
         if (isPlayerInLOS || this._isShot) {
-            // Resets prev state so if it becomes the CurrentState
-            // again, its functionality starts with fresh values
+            // **Resets prev state so if it becomes the CurrentState
+            // again, its functionality starts with fresh values**
             if (this.CurrentState == this.desiredState) { // Previous state check
                 ResetDesiredState(); // Reset main state settings
             } else switch (this.CurrentState) { // Previous state check
                 case HenchmanState.WaitingToSearch:
                     // Resets possibly accumulated time
                     this._elapsedTimeUntilSearch = 0f; break;
-                case HenchmanState.Search when isPlayerInLOS: { // If prev state was Search and now Player is in LOS
+                case HenchmanState.Search when isPlayerInLOS: { // If prev state was Search & now Player is in LOS
                     // Doesn't call ResetSearchSettings() because it resets hasReachedSearchPoint
                     // but if Henchman already reached searchPoint, it shouldn't perform a redundant move
                     this._hasSetCurrTargetPoint = false; // Recalculates closestPoint when in Search again
@@ -99,7 +99,7 @@ public class Henchman : Character<HRevolverManager> {
             }
             if (isPlayerInLOS) {
                 this.CurrentState = HenchmanState.Attack;
-                this._isShot = false;
+                if (this._isShot) this._isShot = false;
             } else this.CurrentState = HenchmanState.Search;
         } else {
             // Player not in LOS
@@ -108,9 +108,7 @@ public class Henchman : Character<HRevolverManager> {
             }
             /* NOTE: ALL STATES EXCEPT ATTACK ARE SELF MANAGING --
              they reset their settings and switch to their
-             corresponding states within their functions */
-            // CurrentState is switched to DesiredState automatically
-            // within SearchState() after searching is done
+             corresponding states within their methods */
         }
         HandleStateSwitch(); // Applies the CurrentState
     }
@@ -126,9 +124,10 @@ public class Henchman : Character<HRevolverManager> {
     //     Vector3 dirToPlayer = GetDirToPlayer();
     //     var angle = isPlayerInLOS ? Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg : 0f;
     //     angle -= this.FOV / 2f;
-    //     var angleIncrease = this.FOV / this._rayCount; // angle to increase and beam a ray at from the origin to end
-
-    //     Vector3[] vertices = new Vector3[this._rayCount + 1 + 1]; // + 1 for origin, + 1 for ray at startingAngle?
+    //       // angle to increase and beam a ray at from the origin to end
+    //     var angleIncrease = this.FOV / this._rayCount;
+    //       // + 1 for origin, + 1 for ray at startingAngle?
+    //     Vector3[] vertices = new Vector3[this._rayCount + 1 + 1];
     //     Vector2[] uv = new Vector2[vertices.Length];
     //     int[] triangles = new int[this._rayCount * 3]; // 3 rayCounts/(vertices?) for 1 triangle (3 sides)
 
@@ -251,10 +250,11 @@ public class Henchman : Character<HRevolverManager> {
         var angleToPlayer = Vector2.Angle(facingDir, dirToPlayer);
 
         // If the rotation towards the player calculated is within FOV
-        var isPlayerWithinFOV = angleToPlayer <= (this.FOV / 2f);
+        var isPlayerWithinFOV = angleToPlayer < (this.FOV / 2f);
         if (!isPlayerWithinFOV) return false;
 
-        Vector2 originPos = this.rb2d.position;
+        // TODO: Add some type of offset to this obj's position (below example works)
+        Vector2 originPos = this.rb2d.position + new Vector2(0.3f, 0);
         RaycastHit2D hit = Physics2D.Raycast(originPos, dirToPlayer,
             this.CurrentViewDistance, this.raycastLayerMask);
         return hit && hit.collider.gameObject.CompareTag("Player");
@@ -273,6 +273,12 @@ public class Henchman : Character<HRevolverManager> {
         var distXToTargetPoint = Mathf.Abs(
             this.rb2d.position.x - this.currTargetPoint.position.x);
         return distXToTargetPoint < 0.08f;
+    }
+
+    protected void DisableSoraSlowEffect() {
+        SetCurrentMoveSpeed(this.standardMoveSpeed);
+        SetRevolverCurrentTBS(this.RevolverManager.GetStandardTimeBetweenShots());
+        isSoraEffectEnabled = false;
     }
 
     #region On Shot Mechanics - Calls TakeDamage() & Handles View Distance
@@ -298,6 +304,7 @@ public class Henchman : Character<HRevolverManager> {
         yield return new WaitForSeconds(this.shotDuration);
         SetCurrentViewDistance(this.baseViewDistance);
         this._shotCounter = 0;
+        this._isShot = false;
     }
 
     private void UpdateViewDistanceOnShot() {
@@ -346,10 +353,11 @@ public class Henchman : Character<HRevolverManager> {
         var newMoveSpeed = Mathf.Clamp(speed, this.minMoveSpeed, this.standardMoveSpeed);
         base.SetCurrentMoveSpeed(newMoveSpeed);
     }
-    public void SetCurrRevolverFireRate(float fireRate) {
-        this.RevolverManager.SetCurrentFireRate(fireRate);
+    public void SetRevolverCurrentTBS(float tbs) {
+        this.RevolverManager.SetCurrentTimeBetweenShots(tbs);
     }
-    public float GetCurrRevolverFireRate() => this.RevolverManager.CurrentFireRate;
+    public float GetRevolverCurrentTBS() => this.RevolverManager.CurrentTimeBetweenShots;
+    public void EnableSoraSlowEffect() => isSoraEffectEnabled = true;
 
     public HenchmanState GetCurrentState() => this.CurrentState;
 }

@@ -8,8 +8,7 @@ public abstract class TRevolverManager<TRevolverData> : RevolverManager
     protected List<TRevolverData> revolvers = new();
     protected TRevolverData currentRevolverData;
 
-    protected override void Awake() {
-        base.Awake();
+    protected void Start() {
         SetCurrentRevolver(this.startingRevolver);
     }
 
@@ -23,7 +22,7 @@ public abstract class TRevolverManager<TRevolverData> : RevolverManager
 
     protected virtual void ApplyRevolverData() {
         this.spriteRenderer.sprite = this.currentRevolverData.sprite;
-        SetCurrentFireRate(this.currentRevolverData.standardFireRate);
+        SetCurrentTimeBetweenShots(this.currentRevolverData.standardTimeBetweenShots);
     }
 
     protected virtual void HandleShoot() {
@@ -34,6 +33,10 @@ public abstract class TRevolverManager<TRevolverData> : RevolverManager
         BulletBehavior bullet = Instantiate(this.currentRevolverData.bulletPrefab, this.
             bulletSpawnPoint.position, spawnRotation);
         bullet.Init(this.currentRevolverData.bulletDamage);
-        this.elapsedShootTime = Time.time + this.CurrentFireRate;
+        this.elapsedShootTime = Time.time + this.CurrentTimeBetweenShots;
+    }
+
+    public float GetStandardTimeBetweenShots() {
+        return this.currentRevolverData.standardTimeBetweenShots;
     }
 }

@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 
 public class HRevolverManager : TRevolverManager<HRevolverData> {
-    // [Header("HRevolver Settings")]
-    // [SerializeField] private float _minFireRate;
-
     private Henchman _henchman;
 
     protected override void Awake() {
@@ -32,10 +29,10 @@ public class HRevolverManager : TRevolverManager<HRevolverData> {
         return player.transform.position;
     }
 
-    public override void SetCurrentFireRate(float fireRate) {
-        var newFireRate = Mathf.Clamp(fireRate,
-        this.currentRevolverData.minFireRate,
-        this.currentRevolverData.standardFireRate);
-        base.SetCurrentFireRate(newFireRate);
+    public override void SetCurrentTimeBetweenShots(float tbs) {
+        var newTimeBetweenShots = Mathf.Clamp(tbs,
+            this.currentRevolverData.maxTimeBetweenShots,
+            this.currentRevolverData.standardTimeBetweenShots);
+            base.SetCurrentTimeBetweenShots(newTimeBetweenShots);
     }
 }

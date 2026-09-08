@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RevolverData : ScriptableObject {
     [Header("References")]
@@ -7,5 +8,6 @@ public class RevolverData : ScriptableObject {
 
     [Header("Settings")]
     public float bulletDamage;
-    public float standardFireRate;
+    [FormerlySerializedAs("standardFireRate")]
+    public float standardTimeBetweenShots;
 }

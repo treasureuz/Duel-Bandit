@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IdleHenchman : Henchman {
     [Header("IdleHenchman")]
@@ -15,6 +15,7 @@ public class IdleHenchman : Henchman {
 
     private void IdleState() {
         if (this._hasReachedIdlePoint) return;
+        if (isSoraEffectEnabled) DisableSoraSlowEffect();
 
         if (!this.hasSetCurrDesiredPoint) { // Removes the redundancy of setting it every frame
             // Sets to Idle movePoint: MidMovePoint

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BulletBehavior : MonoBehaviour {
     private Rigidbody2D _rb2d;
@@ -23,6 +23,7 @@ public class BulletBehavior : MonoBehaviour {
     }
 
     public virtual void OnCollisionEnter2D(Collision2D col) {
+        Debug.Log(col.gameObject.name + " " + col.gameObject.layer);
         Destroy(this.gameObject);
     }
 }

@@ -22,8 +22,28 @@ namespace RevolverEventArgs {
         public Color RevolverColor {get; }
 
         public RevolverDisplayInfoEventArgs(string name, Color color) {
-            RevolverName = name;
-            RevolverColor = color;
+            this.RevolverName = name;
+            this.RevolverColor = color;
+        }
+    }
+
+    public class RevolverEquippedEventArgs : EventArgs {
+        public RevolverDisplayInfoEventArgs revolverDisplayInfoArgs {get; }
+        public AmmoEventArgs ammoEventArgs {get; }
+
+        public RevolverEquippedEventArgs (RevolverDisplayInfoEventArgs
+            revDisplayInfoArgs, AmmoEventArgs ammoArgs) {
+            this.revolverDisplayInfoArgs = revDisplayInfoArgs;
+            this.ammoEventArgs = ammoArgs;
+        }
+    }
+
+    public class RevolverReloadingEventArgs : EventArgs {
+        // {get; } - can only be set once (in the constructor)
+        public float ReloadDuration {get; }
+
+        public RevolverReloadingEventArgs(float reloadDur) {
+            this.ReloadDuration = reloadDur;
         }
     }
 
@@ -31,7 +51,7 @@ namespace RevolverEventArgs {
         public float Damage {get; } // {get;} - can only be set once (in the constructor)
 
         public DamageTakenEventArgs(float damage) {
-            Damage = damage;
+            this.Damage = damage;
         }
     }
 }

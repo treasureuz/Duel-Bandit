@@ -256,6 +256,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11513694}
   m_CullTransparentMesh: 1
+--- !u!1001 &84163852
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502591897586375263, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_Name
+      value: RevolverCollectible (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414005864683082233, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: revolver
+      value: 
+      objectReference: {fileID: 11400000, guid: a842dc3fa307d934ca794915639b0042, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
 --- !u!1 &84229403
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +612,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -445}
-  m_SizeDelta: {x: 358, y: 58}
+  m_SizeDelta: {x: 360, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &194020433
 MonoBehaviour:
@@ -566,15 +627,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.4039216, g: 0.427451, b: 0.4431373, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -714,7 +775,7 @@ GameObject:
   - component: {fileID: 290285279}
   - component: {fileID: 290285278}
   m_Layer: 5
-  m_Name: ReloadText
+  m_Name: ReloadStatusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -740,7 +801,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '*Can''t reload.*'
+  m_text: '*Unable to reload.*'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -837,8 +898,69 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 50}
+  m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &344234738
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635009889808860788, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502591897586375263, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: m_Name
+      value: RevolverCollectible (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414005864683082233, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
+      propertyPath: revolver
+      value: 
+      objectReference: {fileID: 11400000, guid: a947648c82650bd4881aaf15f92ca91a, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4349f13b00520924ab86cedeb29335cb, type: 3}
 --- !u!1 &397915008
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,7 +1075,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 50}
+  m_SizeDelta: {x: 348, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &450714342
 CanvasRenderer:
@@ -1587,7 +1709,7 @@ MonoBehaviour:
   _canvas: {fileID: 1981649370}
   _respawnScreen: {fileID: 2113228418}
   _playerHealthBar: {fileID: 4794682845164083255}
-  _reloadUI: {fileID: 1625074924}
+  _reloadUIObj: {fileID: 1625074924}
   _reloadDurationBar: {fileID: 450714343}
   _heartIcons:
   - {fileID: 1528486393}
@@ -1596,7 +1718,7 @@ MonoBehaviour:
   _playerHealthText: {fileID: 476022346}
   _ammoText: {fileID: 955920699}
   _reloadDurationText: {fileID: 1151868860}
-  _reloadText: {fileID: 290285278}
+  _reloadStatusText: {fileID: 290285278}
   _revolverNameText: {fileID: 1727984110}
   _damageTextPrefab: {fileID: 5153118922742269452, guid: a59a8f517ef8b5d4d8b6b99e01bd9ffa, type: 3}
   _damageTextOffset: {x: 0.5, y: 0.5}
@@ -2460,7 +2582,7 @@ MonoBehaviour:
   m_text: 2.35s
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2716,8 +2838,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 194020432}
   - {fileID: 290285280}
+  - {fileID: 194020432}
   m_Father: {fileID: 983939244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2791,8 +2913,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4288636495
+  m_fontColor: {r: 0.30838376, g: 0.4014972, b: 0.6226415, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3626,3 +3748,5 @@ SceneRoots:
   - {fileID: 1981649371}
   - {fileID: 586735348}
   - {fileID: 782022990}
+  - {fileID: 344234738}
+  - {fileID: 84163852}

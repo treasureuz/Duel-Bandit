@@ -3,9 +3,6 @@ using UnityEngine.Serialization;
 
 public abstract class Character<TRevolverManager> : MonoBehaviour
     where TRevolverManager : RevolverManager {
-    [Header("References")]
-    //[SerializeField] protected TRevolverManager baseRevolver;
-
     [Header("Settings")]
     [SerializeField] protected float maxHealth = 200f;
     [FormerlySerializedAs("moveSpeed")]
@@ -25,7 +22,6 @@ public abstract class Character<TRevolverManager> : MonoBehaviour
 
         SetCurrentHealth(this.maxHealth);
         SetCurrentMoveSpeed(this.standardMoveSpeed);
-        //EquipGun(this.baseRevolver); // If Get<TGunManager> returned null, it equips baseGun
     }
 
     protected void HandleLocalScale(Vector2 dirToTarget) {
@@ -33,11 +29,6 @@ public abstract class Character<TRevolverManager> : MonoBehaviour
         localScale.x = dirToTarget.x > 0f ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
         this.transform.localScale = localScale;
     }
-
-    // public void EquipGun(TRevolverManager gunPrefab) {
-    //     if (this.RevolverManager) Destroy(this.RevolverManager.gameObject);
-    //     this.RevolverManager = Instantiate(gunPrefab, this.transform);
-    // }
 
     protected virtual void TakeDamage(float amount) {
         SetCurrentHealth(this.CurrentHealth - amount);

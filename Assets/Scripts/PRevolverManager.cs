@@ -2,15 +2,9 @@
 using UnityEngine.InputSystem;
 using RevolverEventArgs;
 using System.Collections;
+using System;
 
 public class PRevolverManager : TRevolverManager<PRevolverData> {
-    // [Header("PRevolver Settings")]
-    // [SerializeField] private string _name;
-    // [SerializeField] private int _maxTotalAmmo;
-    // // the extra ammo/bullets that move into the current mag when reloading
-    // [SerializeField] private int _startingTotalAmmo;
-    // [SerializeField] private int _maxMagCount;
-
     private Camera _cam;
 
     public int CurrentMagCount { get; private set; }
@@ -34,13 +28,12 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
     protected override void ApplyRevolverData() {
         base.ApplyRevolverData();
         SetAmmoCounts(this.currentRevolverData.startingTotalAmmo);
-
         RevolverDisplayInfoEventArgs revDisplayInfoArgs = new (
             this.currentRevolverData.revolverName, this.currentRevolverData.revolverColor);
-        PlayerManager.instance.OnPlayerRevolverEquipped?.Invoke(this, revDisplayInfoArgs);
         AmmoEventArgs ammoEventArgs = new (this.CurrentMagCount,
             this.CurrentReserveAmmo, this.CurrentTotalAmmo);
-        PlayerManager.instance.OnPlayerRevolverAmmoChanged?.Invoke(this, ammoEventArgs);
+        PlayerManager.instance.OnPlayerRevolverEquipped?.Invoke(this,
+            new (revDisplayInfoArgs, ammoEventArgs));
     }
 
     public void SwitchToNextRevolver() {
@@ -77,23 +70,23 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
 
     public bool Reload() {
         if (!CanReload) {
-            Debug.Log("Can't reload");
+            PlayerManager.instance.OnPlayerUnableToReload?.Invoke(this, EventArgs.Empty);
             return false;
         }
         StartCoroutine(HandleReload());
-        Debug.Log("Reloading...");
         return true;
     }
 
     private IEnumerator HandleReload() {
+        if (this._isReloading) yield break;
+
         this._isReloading = true;
+        PlayerManager.instance.OnPlayerReloading?.Invoke
+            (this, new (this.currentRevolverData.reloadDuration));
         yield return new WaitForSeconds(this.currentRevolverData.reloadDuration);
         SetAmmoCounts(this.CurrentReserveAmmo);
-        // AmmoEventArgs ammoEventArgs = new (this.CurrentMagCount,
-        //     this.CurrentReserveAmmo, this.CurrentTotalAmmo);
-        // PlayerManager.instance.OnPlayerRevolverAmmoChanged?.Invoke(this, ammoEventArgs);
+
         this._isReloading = false;
-        Debug.Log("Reloaded");
     }
 
     private bool HasBulletsInCurrentMag => this.CurrentMagCount > 0;

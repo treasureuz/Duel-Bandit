@@ -15,6 +15,7 @@ public class PatrolHenchman : Henchman {
     }
 
     private void PatrolState() {
+        if (isSoraEffectEnabled) DisableSoraSlowEffect();
         if (!this.hasSetCurrDesiredPoint) {
             // Decide next movePoint
             if (!this.currTargetPoint) {

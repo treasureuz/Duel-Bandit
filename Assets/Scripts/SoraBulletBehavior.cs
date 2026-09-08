@@ -6,13 +6,14 @@ public class SoraBulletBehavior : BulletBehavior {
 
     private void HandleHenchmanSlowEffect(Henchman henchman) {
 		var hMoveSpeed = henchman.CurrentMoveSpeed;
-		var hFireRate = henchman.GetCurrRevolverFireRate();
+		var hTimeBetweenShots = henchman.GetRevolverCurrentTBS();
 
 		var newHMoveSpeed = hMoveSpeed / this._slowMultiplier;
-		var newHFireRate = hFireRate / this._slowMultiplier;
+		var newHTimeBetweenShots = hTimeBetweenShots * this._slowMultiplier;
 
 		henchman.SetCurrentMoveSpeed(newHMoveSpeed);
-		henchman.SetCurrRevolverFireRate(newHFireRate);
+		henchman.SetRevolverCurrentTBS(newHTimeBetweenShots);
+        henchman.EnableSoraSlowEffect();
 	}
 
 	public override void OnCollisionEnter2D(Collision2D collision) {

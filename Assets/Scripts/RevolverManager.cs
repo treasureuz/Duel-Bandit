@@ -3,14 +3,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public abstract class RevolverManager : MonoBehaviour {
-    // [Header("References")]
-    // protected BulletBehavior bulletPrefab;
-
-    // [Header("Settings")]
-    // [SerializeField] protected float bulletDamage;
-    // [FormerlySerializedAs("baseFireRate")]
-    // [SerializeField] protected float standardFireRate = 1.46f;
-
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;
     protected Transform bulletSpawnPoint;
@@ -19,15 +11,13 @@ public abstract class RevolverManager : MonoBehaviour {
     protected float rotationAngle;
     protected const float rotationSpeed = 380f;
 
-    public float CurrentFireRate {get; private set;}
+    public float CurrentTimeBetweenShots {get; private set;}
 
     protected virtual void Awake() {
         // Getting components
         this.rb2d = this.GetComponent<Rigidbody2D>();
         this.spriteRenderer = this.GetComponent<SpriteRenderer>();
         this.bulletSpawnPoint = this.transform.GetChild(0);
-
-        //SetCurrentFireRate(this.baseFireRate);
     }
 
     protected abstract void FixedUpdate();
@@ -58,7 +48,7 @@ public abstract class RevolverManager : MonoBehaviour {
 
     protected abstract Vector2 GetTargetPos();
 
-    public virtual void SetCurrentFireRate(float fireRate) {
-        this.CurrentFireRate = fireRate;
+    public virtual void SetCurrentTimeBetweenShots(float tbs) {
+        this.CurrentTimeBetweenShots = tbs;
     }
 }

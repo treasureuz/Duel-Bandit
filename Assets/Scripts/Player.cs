@@ -71,11 +71,6 @@ public class Player : Character<PRevolverManager> {
 
     public void OnReload() {
         this.RevolverManager.Reload();
-        // if (this.RevolverManager.Reload()) {
-        //      PlayerManager.instance.OnPlayerReloading?.Invoke(this, EventArgs.Empty);
-        // } else {
-        //     PlayerManager.instance.OnPlayerCantReload?.Invoke(this, EventArgs.Empty);
-        // }
     }
 
     public void AddHealth(float amount) {
@@ -108,6 +103,4 @@ public class Player : Character<PRevolverManager> {
             TakeDamage(bullet.Damage);
         }
     }
-
-    public float GetRevolverReloadDuration() => this.RevolverManager.GetReloadDuration();
 }
