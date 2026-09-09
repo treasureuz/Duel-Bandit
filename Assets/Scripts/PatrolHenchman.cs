@@ -15,7 +15,10 @@ public class PatrolHenchman : Henchman {
     }
 
     private void PatrolState() {
-        if (isSoraEffectEnabled) DisableSoraSlowEffect();
+        if (isSoraEffectEnabled) {
+            Debug.Log("disabling sora");
+            DisableSoraSlowEffect();
+        }
         if (!this.hasSetCurrDesiredPoint) {
             // Decide next movePoint
             if (!this.currTargetPoint) {

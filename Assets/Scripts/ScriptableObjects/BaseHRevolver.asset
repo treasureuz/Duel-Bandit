@@ -15,5 +15,5 @@ MonoBehaviour:
   sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
   bulletPrefab: {fileID: -7283726574832556982, guid: 6160b8930fe96cd4d916de3aff7382af, type: 3}
   bulletDamage: 10.76
-  standardTimeBetweenShots: 1.45
+  standardTimeBetweenShots: 1.42
   maxTimeBetweenShots: 3.25

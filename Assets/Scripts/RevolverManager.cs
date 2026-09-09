@@ -5,10 +5,10 @@ using UnityEngine.Serialization;
 public abstract class RevolverManager : MonoBehaviour {
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;
-    protected Transform bulletSpawnPoint;
+    public Transform bulletSpawnPoint {get; private set;}
 
     protected float elapsedShootTime;
-    protected float rotationAngle;
+    protected float localScaleAngle;
     protected const float rotationSpeed = 380f;
 
     public float CurrentTimeBetweenShots {get; private set;}
@@ -34,9 +34,9 @@ public abstract class RevolverManager : MonoBehaviour {
 
         // Takes this gun's scale sign into account: + or - (even its parent)
         // Rotates the gun by 180 if facing left (-), otherwise no additional rotation (+)
-        this.rotationAngle = angle;
-        if (this.transform.lossyScale.x < 0f) rotationAngle += 180f;
-        Quaternion targetRot = Quaternion.Euler(0f, 0f, rotationAngle); // Needs angle in Degrees
+        this.localScaleAngle = angle;
+        if (this.transform.lossyScale.x < 0f) localScaleAngle += 180f;
+        Quaternion targetRot = Quaternion.Euler(0f, 0f, localScaleAngle);
         SmoothlyRotateTowards(targetRot);
     }
 

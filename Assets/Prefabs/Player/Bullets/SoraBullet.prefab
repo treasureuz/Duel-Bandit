@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6347896025869358693, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_Mass
-      value: 0.10752101
+      value: 0.025446903
       objectReference: {fileID: 0}
     - target: {fileID: 7312025525634554652, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_Name
@@ -163,4 +163,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.37
+  m_Radius: 0.18

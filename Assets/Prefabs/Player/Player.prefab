@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   maxHealth: 150
-  standardMoveSpeed: 2.67
+  standardMoveSpeed: 3
   _maxNumOfJumpsInAir: 2
   _jumpForce: 15.23
 --- !u!50 &8830187443331689638

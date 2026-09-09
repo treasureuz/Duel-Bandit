@@ -8,17 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3523985513945735126, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4452091449481180078, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
       propertyPath: m_Name
       value: GroundIdleHenchman
       objectReference: {fileID: 0}
     - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 11.7
       objectReference: {fileID: 0}
     - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.61
       objectReference: {fileID: 0}
     - target: {fileID: 5314709966237979297, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -92,8 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82572ee6f9f1be4ea45aeadc27b8869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
-  maxHealth: 100
-  standardMoveSpeed: 2.67
+  maxHealth: 65
+  standardMoveSpeed: 2.73
   _healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
   raycastLayerMask:
     serializedVersion: 2
@@ -107,11 +111,12 @@ MonoBehaviour:
   itemsToDropOnDead:
   - {fileID: 8375325147498029845, guid: a90399f3a9c4f7e4d88378d4e5dde67b, type: 3}
   timeUntilSearch: 1
-  timeUntilSearchEnd: 3
+  timeUntilSearchEnd: 2.67
   shotDuration: 3
   baseViewDistance: 8.35
-  maxViewDistance: 11.2
-  viewDistIncrements: 0.107
+  maxViewDistance: 11.26
+  viewDistIncrements: 0.108
+  revolverBarrelRadius: 0.1
   desiredState: 0
   _midMovePoint: {fileID: 3333395528526465175}
 --- !u!4 &7429608613023790376 stripped

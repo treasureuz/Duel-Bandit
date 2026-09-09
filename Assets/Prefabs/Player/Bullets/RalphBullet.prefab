@@ -9,10 +9,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2857506960188734118, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
-      propertyPath: m_UseDelaunayMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857506960188734118, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 0.94
       objectReference: {fileID: 0}
@@ -75,14 +71,6 @@ PrefabInstance:
     - target: {fileID: 2857506960188734118, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[8].y
       value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 4733701406374672920, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4733701406374672920, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4733701406374672920, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
       propertyPath: m_LocalPosition.x

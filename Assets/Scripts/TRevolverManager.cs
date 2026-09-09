@@ -26,12 +26,8 @@ public abstract class TRevolverManager<TRevolverData> : RevolverManager
     }
 
     protected virtual void HandleShoot() {
-        // Takes the bulletPrefab's original rotation (0: Player, 180: Henchman)
-        // and adjusts it by the angle towards the targetPos.
-        Quaternion spawnRotation = this.bulletSpawnPoint.rotation * this.
-            currentRevolverData.bulletPrefab.transform.rotation; // ((0,0,180) * (0,0,40) = (0, 0, 220)
         BulletBehavior bullet = Instantiate(this.currentRevolverData.bulletPrefab, this.
-            bulletSpawnPoint.position, spawnRotation);
+            bulletSpawnPoint.position, this.bulletSpawnPoint.rotation);
         bullet.Init(this.currentRevolverData.bulletDamage);
         this.elapsedShootTime = Time.time + this.CurrentTimeBetweenShots;
     }

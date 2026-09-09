@@ -16,7 +16,7 @@ public class SoraBulletBehavior : BulletBehavior {
         henchman.EnableSoraSlowEffect();
 	}
 
-	public override void OnCollisionEnter2D(Collision2D collision) {
+	protected override void OnCollisionEnter2D(Collision2D collision) {
 		GameObject colObj = collision.gameObject;
 		if (colObj.CompareTag("Henchman")) {
 			Henchman henchman = colObj.GetComponent<Henchman>();

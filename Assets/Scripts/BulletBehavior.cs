@@ -22,8 +22,7 @@ public class BulletBehavior : MonoBehaviour {
         Destroy(this.gameObject, _timeBeforeDestroyed);
     }
 
-    public virtual void OnCollisionEnter2D(Collision2D col) {
-        Debug.Log(col.gameObject.name + " " + col.gameObject.layer);
+    protected virtual void OnCollisionEnter2D(Collision2D col) {
         Destroy(this.gameObject);
     }
 }

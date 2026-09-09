@@ -50,28 +50,19 @@ public class Player : Character<PRevolverManager> {
     }
 
     public void OnJump() {
-        if (!this.isOnGround) // If Player is not on ground,
-            if (!CanDoubleJump) return; // the in-air condition (double jump) takes over
+        if (this._currNumOfJumpsInAir == this._maxNumOfJumpsInAir) return;
         this.rb2d.AddForce(Vector2.up * this._jumpForce, ForceMode2D.Impulse);
         ++this._currNumOfJumpsInAir;
-        this.isOnGround = false;
     }
 
     public void EquipRevolver(PRevolverData revolverData){
         this.RevolverManager.SetCurrentRevolver(revolverData);
     }
 
-    public void OnSwapToNextRevolver(){
-        this.RevolverManager.SwitchToNextRevolver();
-    }
+    public void OnSwapToNextRevolver() => this.RevolverManager.SwitchToNextRevolver();
+    public void OnSwapToPreviousRevolver() => this.RevolverManager.SwitchToPreviousRevolver();
 
-    public void OnSwapToPreviousRevolver(){
-        this.RevolverManager.SwitchToPreviousRevolver();
-    }
-
-    public void OnReload() {
-        this.RevolverManager.Reload();
-    }
+    public void OnReload() => this.RevolverManager.Reload();
 
     public void AddHealth(float amount) {
         SetCurrentHealth(this.CurrentHealth + amount);
@@ -91,16 +82,30 @@ public class Player : Character<PRevolverManager> {
         Destroy(this.gameObject);
     }
 
-    private bool CanDoubleJump => this._currNumOfJumpsInAir < this._maxNumOfJumpsInAir;
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnCollisionStay2D(Collision2D collision) {
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Platform")) return;
+        // "contact.normal" gets the direction the surface is facing at the contact point
+        // Checks if the normal vector is pointing in the same dir as Vector.up (0, 1)
+        foreach (ContactPoint2D contact in collision.contacts){
+            // Within 0 to 60 degrees counts as straight up: cos(60) = 0.5)
+            if (Vector2.Dot(contact.normal, Vector2.up) > 0.5f) {
+                // Reset if was in air and now transitioning to on ground
+                if (!this.isOnGround) this._currNumOfJumpsInAir = 0;
+                this.isOnGround = true;
+                return;
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision){
         GameObject colObj = collision.gameObject;
-        if (colObj.layer == LayerMask.NameToLayer("Platform")) {
-            this.isOnGround = true;
-            this._currNumOfJumpsInAir = 0;
-        } else if (colObj.CompareTag("HenchmanBullet")) {
+        if (colObj.CompareTag("HenchmanBullet")) {
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
             TakeDamage(bullet.Damage);
         }
+    }
+    private void OnCollisionExit2D(Collision2D collision){
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Platform")) return;
+        this.isOnGround = false;
     }
 }
