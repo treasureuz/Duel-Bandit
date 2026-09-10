@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Revolver Shoot
+  m_Name: OmenRevolverShoot
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -31,7 +31,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.2
+        time: 0.32
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -40,7 +40,16 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.4
+        time: 0.64
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.96
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -60,17 +69,19 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -571480056516012479, guid: 8341496aaaec2cd4bb525d6cd363d769, type: 3}
-    - time: 0.2
-      value: {fileID: -2620464904016271346, guid: 8341496aaaec2cd4bb525d6cd363d769, type: 3}
-    - time: 0.4
-      value: {fileID: -8898773364480446827, guid: 8341496aaaec2cd4bb525d6cd363d769, type: 3}
+      value: {fileID: -2050087943746758692, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
+    - time: 0.32
+      value: {fileID: -6474453229656868090, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
+    - time: 0.64
+      value: {fileID: 4366525748420466471, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
+    - time: 0.96
+      value: {fileID: 4366525748420466471, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
     attribute: m_Sprite
     path: 
     classID: 114
     script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
     flags: 2
-  m_SampleRate: 15
+  m_SampleRate: 25
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -96,15 +107,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -571480056516012479, guid: 8341496aaaec2cd4bb525d6cd363d769, type: 3}
-    - {fileID: -2620464904016271346, guid: 8341496aaaec2cd4bb525d6cd363d769, type: 3}
-    - {fileID: -8898773364480446827, guid: 8341496aaaec2cd4bb525d6cd363d769, type: 3}
+    - {fileID: -2050087943746758692, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
+    - {fileID: -6474453229656868090, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
+    - {fileID: 4366525748420466471, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
+    - {fileID: 4366525748420466471, guid: e71c0e49e66a238479f5b05742664b8a, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.46666667
+    m_StopTime: 1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -134,7 +146,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.2
+        time: 0.32
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -143,7 +155,16 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.4
+        time: 0.64
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.96
         value: 1
         inSlope: Infinity
         outSlope: Infinity

@@ -13,10 +13,10 @@ public class GameUIManager : MonoBehaviour {
 
     [Header("Player UI")]
     [SerializeField] private GameObject _respawnScreen;
-    [SerializeField] private Image _playerHealthBar;
     [SerializeField] private GameObject _reloadUIObj;
-    [SerializeField] private Image _reloadDurationBar;
     [SerializeField] private List<Image> _heartIcons;
+    [SerializeField] private Image _playerHealthBar;
+    [SerializeField] private Image _reloadDurationBar;
     [SerializeField] private TextMeshProUGUI _playerHealthText;
     [SerializeField] private TextMeshProUGUI _ammoText;
     [SerializeField] private TextMeshProUGUI _reloadDurationText;
@@ -86,7 +86,7 @@ public class GameUIManager : MonoBehaviour {
     }
 
     private void UpdatePlayerRevolverEquippedUI(object sender, RevolverEquippedEventArgs e) {
-        UpdatePlayerRevolverDisplayInfo(sender, e.revolverDisplayInfoArgs);
+        UpdatePlayerRevolverDisplayInfo(sender, e.revolverDisplayInfoEArgs);
         UpdatePlayerAmmoText(sender, e.ammoEventArgs);
     }
     private void UpdatePlayerRevolverDisplayInfo(object sender, RevolverDisplayInfoEventArgs e) {

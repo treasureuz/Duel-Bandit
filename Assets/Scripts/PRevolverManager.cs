@@ -66,7 +66,7 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
 
         this._isReloading = false;
     }
-    
+
       public void SwitchToNextRevolver() {
         var currentIndex = this.revolvers.IndexOf(this.currentRevolverData);
         var maxIndex = this.revolvers.Count - 1;

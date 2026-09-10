@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 8341496aaaec2cd4bb525d6cd363d769
+guid: d3aefbd08ba8fdb46aed1dde139c6a21
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5218329665251201988
-    second: RevolverShoot-Sheet_0
+      213: 969176590458782612
+    second: RalphRevolverShoot (Sheet)_0
   - first:
-      213: -571480056516012479
-    second: RevolverShoot-Sheet_1
+      213: -2997256236395974409
+    second: RalphRevolverShoot (Sheet)_1
   - first:
-      213: -2620464904016271346
-    second: RevolverShoot-Sheet_2
+      213: -2917494389515175760
+    second: RalphRevolverShoot (Sheet)_2
   - first:
-      213: -8898773364480446827
-    second: RevolverShoot-Sheet_3
+      213: 5020886023054233378
+    second: RalphRevolverShoot (Sheet)_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RevolverShoot-Sheet_0
+      name: RalphRevolverShoot (Sheet)_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 55
-        width: 138
-        height: 98
-      alignment: 9
-      pivot: {x: 0.235, y: 0.4}
+        x: 0
+        y: 0
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4c35e22ce2b3b6840800000000000000
-      internalID: 5218329665251201988
+      spriteID: 4938bee59f4337d00800000000000000
+      internalID: 969176590458782612
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RevolverShoot-Sheet_1
+      name: RalphRevolverShoot (Sheet)_1
       rect:
         serializedVersion: 2
-        x: 239
-        y: 55
-        width: 142
-        height: 98
-      alignment: 9
-      pivot: {x: 0.258, y: 0.4}
+        x: 52
+        y: 0
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 146942b9ae1b118f0800000000000000
-      internalID: -571480056516012479
+      spriteID: 7f03bc8455b9766d0800000000000000
+      internalID: -2997256236395974409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RevolverShoot-Sheet_2
+      name: RalphRevolverShoot (Sheet)_2
       rect:
         serializedVersion: 2
-        x: 451
-        y: 51
-        width: 134
-        height: 110
-      alignment: 9
-      pivot: {x: 0.242, y: 0.39}
+        x: 104
+        y: 0
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e086bb9bd0d32abd0800000000000000
-      internalID: -2620464904016271346
+      spriteID: 0b8b0ce6f4af287d0800000000000000
+      internalID: -2917494389515175760
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RevolverShoot-Sheet_3
+      name: RalphRevolverShoot (Sheet)_3
       rect:
         serializedVersion: 2
-        x: 659
-        y: 55
-        width: 138
-        height: 98
-      alignment: 9
-      pivot: {x: 0.235, y: 0.4}
+        x: 156
+        y: 0
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 59e6f61d5c4318480800000000000000
-      internalID: -8898773364480446827
+      spriteID: 22f0fd57c35cda540800000000000000
+      internalID: 5020886023054233378
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ea991f00b5484f64085892142abded0f
+    spriteID: 5927e326928621b4b9c12f4cad21df30
     internalID: 0
     vertices: []
     indices: 
@@ -223,12 +223,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":52.0,"y":52.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      RevolverShoot-Sheet_0: 5218329665251201988
-      RevolverShoot-Sheet_1: -571480056516012479
-      RevolverShoot-Sheet_2: -2620464904016271346
-      RevolverShoot-Sheet_3: -8898773364480446827
+      RalphRevolverShoot (Sheet)_0: 969176590458782612
+      RalphRevolverShoot (Sheet)_1: -2997256236395974409
+      RalphRevolverShoot (Sheet)_2: -2917494389515175760
+      RalphRevolverShoot (Sheet)_3: 5020886023054233378
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

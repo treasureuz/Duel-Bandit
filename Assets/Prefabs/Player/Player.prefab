@@ -277,7 +277,7 @@ MonoBehaviour:
   maxHealth: 150
   standardMoveSpeed: 3
   _maxNumOfJumpsInAir: 2
-  _jumpForce: 15.23
+  _jumpForce: 18.23
 --- !u!50 &8830187443331689638
 Rigidbody2D:
   serializedVersion: 5

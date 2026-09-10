@@ -257,26 +257,6 @@ public class Henchman : Character<HRevolverManager> {
         if (!isPlayerWithinFOV) return false;
 
         Vector2 originPos = this.rb2d.position;
-        // // This is Henchman's revolver's bulletSpawnPoint with respect to its position
-        // // Same value as its "offsetness" from Henchman
-        // // (ex: Henchman: (1,0), child BSP: (-2, 0) => (-2, 0) in local space)
-        // Vector2 bspLocalOffset = this.transform.InverseTransformPoint
-        //     (this.RevolverManager.bulletSpawnPoint.position);
-        // // Ensure forward distance is positive (because angle calculation assumes facing right)
-        // bspLocalOffset.x = Mathf.Abs(bspLocalOffset.x);
-
-        // // Calculates rotationAngle (z-axis) from Henchman center towards the Player
-        // // *You can think of this as a child of Henchman at (0, 0) rotated towards Player*
-        // var angle = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
-
-        // // Predict where the barrel tip WILL be once rotated towards the player
-        // // This is the barrel pos in local space (still with respect to Henchman pos),
-        // // however, Raycasts work with positions in world space...
-        // Vector2 predictedBSPLocalOffset = Quaternion.Euler(0f, 0f, angle) * bspLocalOffset;
-        // // ..Therefore, this converts the barrel local pos to world pos
-        // // (ex: Henchman: (1, 0), child BSP: (-2, 0) => (-1, 0) in world space)
-        // Vector2 predictedBarrelPos = this.rb2d.position + predictedBSPLocalOffset;
-
         RaycastHit2D hit = Physics2D.CircleCast(originPos, revolverBarrelRadius, dirToPlayer,
             this.CurrentViewDistance, this.raycastLayerMask);
         return hit && hit.collider.gameObject.CompareTag("Player");
@@ -376,7 +356,6 @@ public class Henchman : Character<HRevolverManager> {
         }
     }
 
-    public bool IsAttacking => this.CurrentState is HenchmanState.Attack;
     public bool IsInDesiredState => this.CurrentState == this.desiredState;
 
     public override void SetCurrentMoveSpeed(float speed) {

@@ -10,28 +10,23 @@ public class HRevolverManager : TRevolverManager<HRevolverData> {
 
     protected override void FixedUpdate() {
         if (!PlayerManager.instance.Player) return;
-        if (this._henchman.IsInDesiredState) {
+        if (this._henchman.IsInDesiredState || this._henchman.GetCurrentState() is HenchmanState.Search) {
             SmoothlyRotateTowards(Quaternion.identity);
             return;
         }
-        RotateTowardsTargetPos(); // Handles gun rotation to Player
-        if (Time.time < this.elapsedShootTime || !IsAimAlignedToPlayer()) return;
-        HandleShoot(); // Shoots gun
+        // Henchman keeps its revolver rotated towards the Player in "Attack" and "WaitingToSearch"
+        // In WaitingToSearch, it suggests to the player that the Henchman is "on alert"
+        // However, it keeps its rotation at its identity in when moving towards a point (Search and desired)
+        // bc Henchman looks weird if rotated towards the last pos it seen Player at (could be rotated up/down)
+        RotateTowardsTargetPos(); // Handles revolver rotation to Player
+        if (this._henchman.GetCurrentState() is not HenchmanState.Attack
+            || Time.time < this.elapsedShootTime || !IsAimAlignedToPlayer()) return;
+        HandleShoot(); // Shoots revolver only if above conditions are false
     }
-
-    // protected void HandleShoot() {
-    //     // *Note: This is world space rotation (not localRotation)*
-    //     // Takes the bulletPrefab's original rotation (180)
-    //     // and adds it by the rotationAngle towards the targetPos.
-    //     // ((0,0,180) * (0,0,40) = (0, 0, 220)
-    //     Quaternion spawnRot = this.bulletSpawnPoint.rotation * this.
-    //         currentRevolverData.bulletPrefab.transform.rotation;
-    //     base.HandleShoot(spawnRot);
-    // }
 
     private bool IsAimAlignedToPlayer() {
         var angleDiff = Mathf.Abs(Mathf.DeltaAngle(this.transform.
-            eulerAngles.z, this.localScaleAngle));
+            eulerAngles.z, this.rotationAngle));
         return angleDiff < 0.5f;
     }
     protected override Vector2 GetTargetPos() {

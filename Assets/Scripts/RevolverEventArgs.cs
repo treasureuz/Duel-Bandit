@@ -28,12 +28,12 @@ namespace RevolverEventArgs {
     }
 
     public class RevolverEquippedEventArgs : EventArgs {
-        public RevolverDisplayInfoEventArgs revolverDisplayInfoArgs {get; }
+        public RevolverDisplayInfoEventArgs revolverDisplayInfoEArgs {get; }
         public AmmoEventArgs ammoEventArgs {get; }
 
         public RevolverEquippedEventArgs (RevolverDisplayInfoEventArgs
             revDisplayInfoArgs, AmmoEventArgs ammoArgs) {
-            this.revolverDisplayInfoArgs = revDisplayInfoArgs;
+            this.revolverDisplayInfoEArgs = revDisplayInfoArgs;
             this.ammoEventArgs = ammoArgs;
         }
     }
