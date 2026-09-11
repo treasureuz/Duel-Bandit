@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807355650d0101546a4871beb68d8714, type: 3}
   m_Name: SorasPRevolver
   m_EditorClassIdentifier: Assembly-CSharp::PRevolverData
-  sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
+  sprite: {fileID: -8680063271729748978, guid: b762463ab78d27148a19d024a46e6f50, type: 3}
   bulletPrefab: {fileID: -4814097344370046407, guid: 40b7720dbed0e5d479f7b6af48da3837, type: 3}
   bulletDamage: 15
   standardTimeBetweenShots: 1.59
@@ -21,4 +21,4 @@ MonoBehaviour:
   maxTotalAmmo: 235
   startingTotalAmmo: 150
   maxMagCount: 40
-  reloadDuration: 3.21
+  reloadDuration: 3.07

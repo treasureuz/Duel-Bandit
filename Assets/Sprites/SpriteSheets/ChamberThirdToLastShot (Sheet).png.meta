@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: d9afffc560809cd4c896a2afdcbbeb10
+guid: 322d3ebdd7b66154099b9378bcb80a33
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4011165979584494121
-    second: Revolver_0
+      213: -7073245524323000968
+    second: ChamberThirdToLastShot (Sheet)_0
+  - first:
+      213: -1384169778775840032
+    second: ChamberThirdToLastShot (Sheet)_1
+  - first:
+      213: -934987662492108615
+    second: ChamberThirdToLastShot (Sheet)_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Revolver_0
+      name: ChamberThirdToLastShot (Sheet)_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 55
-        width: 138
-        height: 98
-      alignment: 9
-      pivot: {x: 0.235, y: 0.4}
+        x: 0
+        y: 0
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 92af344d4368aa730800000000000000
-      internalID: 4011165979584494121
+      spriteID: 87d1b99dba8c6dd90800000000000000
+      internalID: -7073245524323000968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChamberThirdToLastShot (Sheet)_1
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 0
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ea2c3b7be07acce0800000000000000
+      internalID: -1384169778775840032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChamberThirdToLastShot (Sheet)_2
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 208
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b8f8cbbca14603f0800000000000000
+      internalID: -934987662492108615
       vertices: []
       indices: 
       edges: []
@@ -138,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: edc8f0eee1e4a3243b8a641a86d5e8b4
     internalID: 0
     vertices: []
     indices: 
@@ -146,9 +196,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":1.0},"gridSpriteSize":{"x":208.0,"y":208.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Revolver_0: 4011165979584494121
+      ChamberThirdToLastShot (Sheet)_0: -7073245524323000968
+      ChamberThirdToLastShot (Sheet)_1: -1384169778775840032
+      ChamberThirdToLastShot (Sheet)_2: -934987662492108615
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

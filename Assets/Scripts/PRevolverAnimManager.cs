@@ -1,10 +1,10 @@
 ﻿using System;
 using RevolverEventArgs;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class PlayerRevolverAnim : MonoBehaviour {
-    [SerializeField] private Animator _animator;
-
+public class PRevolverAnimManager : MonoBehaviour {
+    [Header("Revolvers' Idle/Shoot Clips")]
     [SerializeField] private AnimationClip _baseIdleClip;
     [SerializeField] private AnimationClip _baseShootClip;
 
@@ -17,14 +17,16 @@ public class PlayerRevolverAnim : MonoBehaviour {
     [SerializeField] private AnimationClip _soraIdleClip;
     [SerializeField] private AnimationClip _soraShootClip;
 
+    [Header("References")]
+    [SerializeField] private Animator _animator;
     // *Used to control/override animation clips at runtime (Industry pattern)*
     // Can't be done with the serialized "_animator.runtimeAnimatorController" (because it's readonly)
     // This overrideController setup removes the multiple Animator states that'd be needed for each revolver type
     // Only two animator states: Idle and Shoot, in which their animation clips are handled by overrideController
     private AnimatorOverrideController _overrideController;
 
-    private static readonly int IdleHash = Animator.StringToHash("Revolver Idle");
-    private static readonly int ShootHash = Animator.StringToHash("Shoot");
+    private static readonly int RevolverIdleStateHash = Animator.StringToHash("RevolverIdle");
+    private static readonly int ShootTriggerHash = Animator.StringToHash("Shoot");
 
     void Awake() {
         // Sets overrideController to the original animator controller so it keeps the
@@ -46,26 +48,27 @@ public class PlayerRevolverAnim : MonoBehaviour {
     private void HandleRevolverAnimationClips(object sender, RevolverEquippedEventArgs e) {
         RevolverDisplayInfoEventArgs revDisplayInfo = e.revolverDisplayInfoEArgs;
         switch (revDisplayInfo.RevolverName) {
-            case "Base": SetAnimationClips(this._baseIdleClip, this._baseShootClip); break;
-            case "Ralph": SetAnimationClips(this._ralphIdleClip, this._ralphShootClip); break;
-            case "Omen": SetAnimationClips(this._omenIdleClip, this._omenShootClip); break;
-            case "Sora": SetAnimationClips(this._soraIdleClip, this._soraShootClip); break;
+            case "Base": SetRevolverAnimClips(this._baseIdleClip, this._baseShootClip); break;
+            case "Ralph": SetRevolverAnimClips(this._ralphIdleClip, this._ralphShootClip); break;
+            case "Omen": SetRevolverAnimClips(this._omenIdleClip, this._omenShootClip); break;
+            case "Sora": SetRevolverAnimClips(this._soraIdleClip, this._soraShootClip); break;
         }
-        // Instantly changes state to "Idle" once revolver is equipped and its respective animation clips are assigned
-        // Starts at 0f seconds (frame 0), "0" is the Animator layer index in which "Idle" is on (Base Layer: 0)
-        this._animator.Play(IdleHash, 0, 0f);
+        // Instantly plays the newly assigned anim clip attached to "RevolverIdle" state.
+        // Starts at 0f seconds (frame 0), second param is the Animator layer index
+        // that "RevolverIdle" is on (Base Layer: 0)
+        this._animator.Play(RevolverIdleStateHash, 0, 0f);
     }
 
     private void HandleRevolverShootAnim(object sender, EventArgs e) {
         // Sets trigger to "_Shoot" and checks if the current animation state has the "_Shoot"
         // trigger attached. If so, the animator switches its state to the trigger's linked state
-        this._animator.SetTrigger(ShootHash);
+        this._animator.SetTrigger(ShootTriggerHash);
     }
 
-    private void SetAnimationClips (AnimationClip idleClip, AnimationClip shootClip) {
+    private void SetRevolverAnimClips(AnimationClip idleClip, AnimationClip shootClip) {
         // Sets the shared "RevolverIdle" and "RevolverShoot" variables to idleClip and shootClip, respectively,
         // meaning if the state changes to "Shoot," the AnimationClip variable currently references, plays.
-        // These "variables" are just the names of the animation clips (below is same syntax as like getting an input action)
+        // These "variables" are just the names of the anim clips (below is same syntax as getting an input action)
         // "controller[*animClipName*] = *ActualAnimationClip reference*"
         this._overrideController["MainRevolverIdle"] = idleClip;
         this._overrideController["MainRevolverShoot"] = shootClip;

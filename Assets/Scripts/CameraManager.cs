@@ -1,9 +1,8 @@
-using System;
+﻿using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour {
-    [SerializeField] private CinemachineCamera _spawnPosCam;
     [SerializeField] private CinemachineCamera _followCam;
 
     public static CameraManager instance;
@@ -12,16 +11,17 @@ public class CameraManager : MonoBehaviour {
         if (!instance) instance = this;
     }
 
-    public void SwitchToSpawnPosCam(Transform spawnPos) {
-        this._spawnPosCam.transform.position =
-            new Vector3(spawnPos.position.x, spawnPos.position.y, -10);
-        this._spawnPosCam.enabled = true;
-        this._followCam.enabled = false;
+    void Start() {
+        PlayerManager.instance.OnPlayerSpawned += SwitchToFollowCam;
+    }
+    
+    void OnDisable() {
+        PlayerManager.instance.OnPlayerSpawned -= SwitchToFollowCam;
     }
 
-    public void SwitchToFollowCam(Transform followPos) {
+    public void SwitchToFollowCam(object sender, EventArgs e) {
+        Transform followPos = PlayerManager.instance.Player.transform;
         this._followCam.Follow = followPos;
         this._followCam.enabled = true;
-        this._spawnPosCam.enabled = false;
     }
 }

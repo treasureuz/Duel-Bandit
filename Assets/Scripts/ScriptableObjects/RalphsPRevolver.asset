@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807355650d0101546a4871beb68d8714, type: 3}
   m_Name: RalphsPRevolver
   m_EditorClassIdentifier: Assembly-CSharp::PRevolverData
-  sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
+  sprite: {fileID: -8946429532006270939, guid: 329c38128fd31ba49b7d2cacf3bab76c, type: 3}
   bulletPrefab: {fileID: -7283726574832556982, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
   bulletDamage: 7.53
   standardTimeBetweenShots: 0.736
@@ -21,4 +21,4 @@ MonoBehaviour:
   maxTotalAmmo: 250
   startingTotalAmmo: 147
   maxMagCount: 38
-  reloadDuration: 2.38
+  reloadDuration: 2.18

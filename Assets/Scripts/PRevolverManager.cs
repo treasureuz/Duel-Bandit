@@ -24,16 +24,6 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
             || Time.time < this.elapsedShootTime) return;
         HandleShoot(); // Shoots gun
     }
-    
-    protected override void HandleShoot() {
-        base.HandleShoot();
-        // Decrement current mag count on every gun shot
-        if (!HasInfiniteAmmo) SetCurrentMagCount(--this.CurrentMagCount);
-        // Applies ammo change to UI
-        AmmoEventArgs ammoEventArgs = new (this.CurrentMagCount,
-            this.CurrentReserveAmmo, this.CurrentTotalAmmo);
-        PlayerManager.instance.OnPlayerRevolverShot?.Invoke(this, ammoEventArgs);
-    }
 
     protected override void ApplyRevolverData() {
         base.ApplyRevolverData();
@@ -46,9 +36,23 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
             new (revDisplayInfoArgs, ammoEventArgs));
     }
 
+    // private void SaveRevolverData(int currentIndex) {
+    //     this.revolvers[currentIndex] = this.currentRevolverData;
+    // }
+
+    protected override void HandleShoot() {
+        base.HandleShoot();
+        // Decrement current mag count on every gun shot
+        if (!HasInfiniteAmmo) SetCurrentMagCount(--this.CurrentMagCount);
+        // Applies ammo change to UI
+        AmmoEventArgs ammoEventArgs = new (this.CurrentMagCount,
+            this.CurrentReserveAmmo, this.CurrentTotalAmmo);
+        PlayerManager.instance.OnPlayerRevolverShot?.Invoke(this, ammoEventArgs);
+    }
+
     public bool Reload() {
         if (!CanReload) {
-            PlayerManager.instance.OnPlayerUnableToReload?.Invoke(this, EventArgs.Empty);
+            PlayerManager.instance.OnPlayerRevolverUnableToReload?.Invoke(this, EventArgs.Empty);
             return false;
         }
         StartCoroutine(HandleReload());
@@ -59,7 +63,7 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
         if (this._isReloading) yield break;
 
         this._isReloading = true;
-        PlayerManager.instance.OnPlayerReloading?.Invoke
+        PlayerManager.instance.OnPlayerRevolverReloading?.Invoke
             (this, new (this.currentRevolverData.reloadDuration));
         yield return new WaitForSeconds(this.currentRevolverData.reloadDuration);
         SetAmmoCounts(this.CurrentReserveAmmo);
@@ -68,6 +72,8 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
     }
 
       public void SwitchToNextRevolver() {
+        if (this.revolvers.Count == 1) return;
+
         var currentIndex = this.revolvers.IndexOf(this.currentRevolverData);
         var maxIndex = this.revolvers.Count - 1;
         int nextIndex;
@@ -75,10 +81,13 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
         if (currentIndex == maxIndex) nextIndex = 0;
         else nextIndex = currentIndex + 1;
 
+        //SaveRevolverData(currentIndex);
         SetCurrentRevolver(this.revolvers[nextIndex]);
     }
 
     public void SwitchToPreviousRevolver() {
+        if (this.revolvers.Count == 1) return;
+
         var currentIndex = this.revolvers.IndexOf(this.currentRevolverData);
         var minIndex = 0;
         int prevIndex;
@@ -86,6 +95,7 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
         if (currentIndex == minIndex) prevIndex = this.revolvers.Count - 1;
         else prevIndex = currentIndex - 1;
 
+        //SaveRevolverData(currentIndex);
         SetCurrentRevolver(this.revolvers[prevIndex]);
     }
 

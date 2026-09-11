@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2355fede737cb064e8e442eb0c6cb6d1, type: 3}
   m_Name: BaseHRevolver
   m_EditorClassIdentifier: Assembly-CSharp::HRevolverData
-  sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
+  sprite: {fileID: -5256466895420454965, guid: 8357875003bc66d4cb76e51dedeee136, type: 3}
   bulletPrefab: {fileID: -7283726574832556982, guid: 6160b8930fe96cd4d916de3aff7382af, type: 3}
   bulletDamage: 10.76
   standardTimeBetweenShots: 1.42

@@ -6,12 +6,10 @@ using RevolverEventArgs;
 public class PlayerManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] private Player _playerPrefab;
-    [SerializeField] private Transform _playerSpawnPoint;
 
     [Header("Player Settings")]
     [SerializeField] private int _maxPlayerLives = 3;
     [SerializeField] private float _timeBeforePlayerRespawn = 2f;
-    //[SerializeField] private List<PRevolverManager> _revolvers;
 
     public static PlayerManager instance;
 
@@ -25,18 +23,16 @@ public class PlayerManager : MonoBehaviour {
     public EventHandler<EventArgs> OnPlayerHealthChange;
     public EventHandler<RevolverEquippedEventArgs> OnPlayerRevolverEquipped;
     public EventHandler<AmmoEventArgs> OnPlayerRevolverShot;
-    public EventHandler<RevolverReloadingEventArgs> OnPlayerReloading;
-    public EventHandler OnPlayerUnableToReload;
+    public EventHandler<RevolverReloadingEventArgs> OnPlayerRevolverReloading;
+    public EventHandler<AmmoEventArgs> OnPlayerRevolverReloaded;
+    public EventHandler OnPlayerRevolverUnableToReload;
 
     void Awake() {
         if (!instance) instance = this;
         this._currentPlayerLives = this._maxPlayerLives;
     }
 
-    void Start() {
-        CameraManager.instance.SwitchToSpawnPosCam(this._playerSpawnPoint);
-        SpawnPlayer(); // Spawns start Player
-    }
+    void Start() => SpawnPlayer(); // Spawns start Player
 
     void OnEnable() {
         OnPlayerDead += RespawnPlayer;
@@ -49,10 +45,10 @@ public class PlayerManager : MonoBehaviour {
     private void SpawnPlayer() {
         if (this.Player) return; // If Player isnt null
         this.Player = Instantiate(this._playerPrefab,
-            this._playerSpawnPoint.position, Quaternion.identity, this.transform);
+            this.transform.position, Quaternion.identity, this.transform);
         this.Player.Init(this._currentPlayerLives, this._maxPlayerLives);
-        CameraManager.instance.SwitchToFollowCam(this.Player.transform);
     }
+
     // Respawns Player after time
     private void RespawnPlayer(object sender, EventArgs e) {
         StartCoroutine(HandleRespawnPlayer());
