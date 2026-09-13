@@ -17,14 +17,14 @@ public class PlayerManager : MonoBehaviour {
 
     private int _currentPlayerLives;
 
-    public EventHandler<AmmoEventArgs> OnPlayerSpawned;
+    public EventHandler OnPlayerSpawned;
     public EventHandler OnPlayerDead;
     public EventHandler OnPlayerOOL;
     public EventHandler<EventArgs> OnPlayerHealthChange;
     public EventHandler<RevolverEquippedEventArgs> OnPlayerRevolverEquipped;
-    public EventHandler<AmmoEventArgs> OnPlayerRevolverShot;
+    public EventHandler<PlayerAmmoEventArgs> OnPlayerRevolverShot;
     public EventHandler<RevolverReloadingEventArgs> OnPlayerRevolverReloading;
-    public EventHandler<AmmoEventArgs> OnPlayerRevolverReloaded;
+    public EventHandler<PlayerAmmoEventArgs> OnPlayerRevolverReloaded;
     public EventHandler OnPlayerRevolverUnableToReload;
 
     void Awake() {

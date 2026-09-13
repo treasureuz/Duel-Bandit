@@ -33,9 +33,9 @@ public class ChamberAnimManager : MonoBehaviour {
     // Only two animator states: Idle and Shoot, in which their animation clips are handled by overrideController
     private AnimatorOverrideController _overrideController;
 
-    private static readonly int ChamberFullIdleStateHash = Animator.StringToHash("ChamberFullIdle");
-    private static readonly int ChamberIdleStateHash = Animator.StringToHash("ChamberIdle");
+    //private static readonly int ChamberFullIdleStateHash = Animator.StringToHash("ChamberFullIdle");
     private static readonly int ChamberReloadStateHash = Animator.StringToHash("ChamberReload");
+    private static readonly int ChamberIdleStateHash = Animator.StringToHash("ChamberIdle");
     private static readonly int RevolverShotTriggerHash = Animator.StringToHash("RevolverShot");
 
     void Awake() {
@@ -59,14 +59,14 @@ public class ChamberAnimManager : MonoBehaviour {
     }
 
     private void HandleChamberOnRevolverEquippedAnim(object sender, RevolverEquippedEventArgs e) {
-        var currentMag = e.ammoEventArgs.CurrentMagCount;
+        var currentMag = e.ammoEventArgs.RevolverData.CurrentMagCount;
         HandleChamberAnimationClips(currentMag);
+        this._animator.Play(ChamberIdleStateHash, 0, 0f);
     }
 
-    private void HandleChamberOnRevolverShotAnim(object sender, AmmoEventArgs e) {
-        var bulletShot = e.CurrentMagCount + 1;
-        if (bulletShot > 6) return;
-        HandleChamberAnimationClips(bulletShot);
+    private void HandleChamberOnRevolverShotAnim(object sender, PlayerAmmoEventArgs e) {
+        if (e.RevolverData.CurrentMagCount > 5) return;
+        HandleChamberAnimationClips(e.RevolverData.CurrentMagCount);
         // Sets trigger to "ChamberShot" and checks if the current animation state has the "ChamberShot"
         // trigger attached. If so, the animator switches its state to the trigger's linked state
         this._animator.SetTrigger(RevolverShotTriggerHash);
@@ -79,27 +79,27 @@ public class ChamberAnimManager : MonoBehaviour {
         this._animator.Play(ChamberReloadStateHash, 0, 0f);
     }
 
-    private void HandleChamberAnimationClips(float bulletsCount) {
-        switch (bulletsCount) {
-            case 6:
+    private void HandleChamberAnimationClips(float currentMag) {
+        switch (currentMag) {
+            case 5:
                 SetChamberAnimClips(this._chamberSixthToLastIdleClip, this._chamberSixthToLastShotClip);
                 break;
-            case 5:
+            case 4:
                 SetChamberAnimClips(this._chamberFifthToLastIdleClip, this._chamberFifthToLastShotClip);
                 break;
-            case 4:
+            case 3:
                 SetChamberAnimClips(this._chamberFourthToLastIdleClip, this._chamberFourthToLastShotClip);
                 break;
-            case 3:
+            case 2:
                 SetChamberAnimClips(this._chamberThirdToLastIdleClip, this._chamberThirdToLastShotClip);
                 break;
-            case 2:
+            case 1:
                 SetChamberAnimClips(this._chamberSecondToLastIdleClip, this._chamberSecondToLastShotClip);
                 break;
-            case 1:
+            case 0:
                 SetChamberAnimClips(this._chamberLastIdleClip, this._chamberLastShotClip);
                 break;
-            default: this._animator.Play(ChamberFullIdleStateHash, 0, 0f); break;
+            default: this._overrideController["MainChamberIdle"] = this._chamberFullIdleClip; break;
         }
     }
 

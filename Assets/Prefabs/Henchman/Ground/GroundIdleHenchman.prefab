@@ -74,6 +74,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5536871941486111301, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
   m_PrefabInstance: {fileID: 7536004243885368537}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2707168406999195927 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5549710981875582414, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+  m_PrefabInstance: {fileID: 7536004243885368537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f280b437275bbb0419945483beb86fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisionCone
 --- !u!4 &3333395528526465175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5104788932435749966, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
@@ -97,8 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
   maxHealth: 65
-  standardMoveSpeed: 2.73
-  _healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
+  visionCone: {fileID: 2707168406999195927}
+  healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
@@ -107,14 +118,15 @@ MonoBehaviour:
   leftMovePoint: {fileID: 7429608613023790376}
   rightMovePoint: {fileID: 7827945694811985665}
   FOV: 185
+  baseMoveSpeed: 3
   minMoveSpeed: 1.05
   itemsToDropOnDead:
   - {fileID: 8375325147498029845, guid: a90399f3a9c4f7e4d88378d4e5dde67b, type: 3}
   timeUntilSearch: 1
   timeUntilSearchEnd: 2.67
   shotDuration: 3
-  baseViewDistance: 8.35
-  maxViewDistance: 11.26
+  baseViewDistance: 7.35
+  maxViewDistance: 10.26
   viewDistIncrements: 0.108
   revolverBarrelRadius: 0.1
   desiredState: 0

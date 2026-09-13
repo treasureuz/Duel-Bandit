@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
 public class RevolverCollectible : Collectible {
-    [SerializeField] private PRevolverData revolver;
+    [SerializeField] private PRevolverConfig revolver;
 
     protected override void OnCollected() {
         Player player = (Player) PlayerManager.instance.Player;
-        player.EquipRevolver(revolver);
+        player.PickupRevolver(revolver);
         base.OnCollected();
     }
 }

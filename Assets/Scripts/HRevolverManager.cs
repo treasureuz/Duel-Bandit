@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-public class HRevolverManager : TRevolverManager<HRevolverData> {
+public class HRevolverManager : TRevolverManager<HRevolverConfig> {
     private Henchman _henchman;
+
+    public float CurrentTimeBetweenShots {get; private set;}
 
     protected override void Awake() {
         base.Awake();
@@ -10,18 +12,24 @@ public class HRevolverManager : TRevolverManager<HRevolverData> {
 
     protected override void FixedUpdate() {
         if (!PlayerManager.instance.Player) return;
-        if (this._henchman.IsInDesiredState || this._henchman.GetCurrentState() is HenchmanState.Search) {
+        if (this._henchman.IsInDesiredState) {
             SmoothlyRotateTowards(Quaternion.identity);
             return;
         }
-        // Henchman keeps its revolver rotated towards the Player in "Attack" and "WaitingToSearch"
-        // In WaitingToSearch, it suggests to the player that the Henchman is "on alert"
-        // However, it keeps its rotation at its identity in when moving towards a point (Search and desired)
-        // bc Henchman looks weird if rotated towards the last pos it seen Player at (could be rotated up/down)
+        if (this._henchman.GetCurrentState() is not HenchmanState.Attack) return;
         RotateTowardsTargetPos(); // Handles revolver rotation to Player
-        if (this._henchman.GetCurrentState() is not HenchmanState.Attack
-            || Time.time < this.elapsedShootTime || !IsAimAlignedToPlayer()) return;
+        if (Time.time < this.elapsedShootTime || !IsAimAlignedToPlayer()) return;
         HandleShoot(); // Shoots revolver only if above conditions are false
+    }
+
+    protected override void ApplyRevolverConfig() {
+        base.ApplyRevolverConfig();
+        SetCurrentTimeBetweenShots(this.currRevolverConfig.baseTimeBetweenShots);
+    }
+
+    protected override void HandleShoot() {
+        base.HandleShoot();
+        this.elapsedShootTime = Time.time + this.CurrentTimeBetweenShots;
     }
 
     private bool IsAimAlignedToPlayer() {
@@ -34,10 +42,13 @@ public class HRevolverManager : TRevolverManager<HRevolverData> {
         return player.transform.position;
     }
 
-    public override void SetCurrentTimeBetweenShots(float tbs) {
-        var newTimeBetweenShots = Mathf.Clamp(tbs,
-            this.currentRevolverData.standardTimeBetweenShots,
-            this.currentRevolverData.maxTimeBetweenShots);
-            base.SetCurrentTimeBetweenShots(newTimeBetweenShots);
+    public void SetCurrentTimeBetweenShots(float tbs) {
+        this.CurrentTimeBetweenShots = Mathf.Clamp(tbs,
+            this.currRevolverConfig.baseTimeBetweenShots,
+            this.currRevolverConfig.maxTimeBetweenShots);
+    }
+
+    public float GetBaseTimeBetweenShots() {
+        return this.currRevolverConfig.baseTimeBetweenShots;
     }
 }

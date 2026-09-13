@@ -3,13 +3,13 @@ using UnityEngine.InputSystem;
 using RevolverEventArgs;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
-public class PRevolverManager : TRevolverManager<PRevolverData> {
+public class PRevolverManager : TRevolverManager<PRevolverConfig> {
     private Camera _cam;
 
-    public int CurrentMagCount { get; private set; }
-    public int CurrentReserveAmmo { get; private set; }
-    public int CurrentTotalAmmo => this.CurrentMagCount + this.CurrentReserveAmmo;
+    private List<PRevolverData> _revolvers = new();
+    private PRevolverData _currRevolverData;
 
     private bool _isReloading;
 
@@ -25,28 +25,37 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
         HandleShoot(); // Shoots gun
     }
 
-    protected override void ApplyRevolverData() {
-        base.ApplyRevolverData();
-        SetAmmoCounts(this.currentRevolverData.startingTotalAmmo);
+    public override void SetCurrentRevolverConfig(PRevolverConfig rConfig) {
+        SetCurrentRevolverData(rConfig);
+        base.SetCurrentRevolverConfig(rConfig);
+    }
+
+    private void SetCurrentRevolverData(PRevolverConfig rConfig) {
+        PRevolverData newRData = this._revolvers.Find(r => r.RevolverConfig == rConfig);
+        if (newRData == null){
+            newRData = new (rConfig, rConfig.startingTotalAmmo);
+            this._revolvers.Add(newRData);
+        }
+        this._currRevolverData = newRData;
+    }
+
+    protected override void ApplyRevolverConfig() {
+        base.ApplyRevolverConfig();
         RevolverDisplayInfoEventArgs revDisplayInfoArgs = new (
-            this.currentRevolverData.revolverName, this.currentRevolverData.revolverColor);
-        AmmoEventArgs ammoEventArgs = new (this.CurrentMagCount,
-            this.CurrentReserveAmmo, this.CurrentTotalAmmo);
+            this.currRevolverConfig.revolverName, this.currRevolverConfig.revolverColor);
+        PlayerAmmoEventArgs ammoEventArgs = new (this._currRevolverData);
         PlayerManager.instance.OnPlayerRevolverEquipped?.Invoke(this,
             new (revDisplayInfoArgs, ammoEventArgs));
     }
 
-    // private void SaveRevolverData(int currentIndex) {
-    //     this.revolvers[currentIndex] = this.currentRevolverData;
-    // }
-
     protected override void HandleShoot() {
         base.HandleShoot();
+        this.elapsedShootTime = Time.time + this.currRevolverConfig.timeBetweenShots;
         // Decrement current mag count on every gun shot
-        if (!HasInfiniteAmmo) SetCurrentMagCount(--this.CurrentMagCount);
+        var currentMagCount = this._currRevolverData.CurrentMagCount;
+        if (!HasInfiniteAmmo) this._currRevolverData.SetCurrentMagCount(--currentMagCount);
         // Applies ammo change to UI
-        AmmoEventArgs ammoEventArgs = new (this.CurrentMagCount,
-            this.CurrentReserveAmmo, this.CurrentTotalAmmo);
+        PlayerAmmoEventArgs ammoEventArgs = new (this._currRevolverData);
         PlayerManager.instance.OnPlayerRevolverShot?.Invoke(this, ammoEventArgs);
     }
 
@@ -61,73 +70,62 @@ public class PRevolverManager : TRevolverManager<PRevolverData> {
 
     private IEnumerator HandleReload() {
         if (this._isReloading) yield break;
-
         this._isReloading = true;
+
         PlayerManager.instance.OnPlayerRevolverReloading?.Invoke
-            (this, new (this.currentRevolverData.reloadDuration));
-        yield return new WaitForSeconds(this.currentRevolverData.reloadDuration);
-        SetAmmoCounts(this.CurrentReserveAmmo);
+            (this, new (this.currRevolverConfig.reloadDuration));
+        yield return new WaitForSeconds(this.currRevolverConfig.reloadDuration);
+        var reserveAmmo = this._currRevolverData.CurrentReserveAmmo;
+        this._currRevolverData.SetAmmoCounts(reserveAmmo);
+        PlayerManager.instance.OnPlayerRevolverReloaded?.Invoke(this, new (this._currRevolverData));
 
         this._isReloading = false;
     }
 
       public void SwitchToNextRevolver() {
-        if (this.revolvers.Count == 1) return;
+        if (this._revolvers.Count == 1) return;
 
-        var currentIndex = this.revolvers.IndexOf(this.currentRevolverData);
-        var maxIndex = this.revolvers.Count - 1;
+        var currentIndex = this._revolvers.IndexOf(this._currRevolverData);
+        var maxIndex = this._revolvers.Count - 1;
         int nextIndex;
 
         if (currentIndex == maxIndex) nextIndex = 0;
         else nextIndex = currentIndex + 1;
 
-        //SaveRevolverData(currentIndex);
-        SetCurrentRevolver(this.revolvers[nextIndex]);
+        PRevolverConfig revolver = this._revolvers[nextIndex].RevolverConfig;
+        SetCurrentRevolverConfig(revolver);
     }
 
     public void SwitchToPreviousRevolver() {
-        if (this.revolvers.Count == 1) return;
+        if (this._revolvers.Count == 1) return;
 
-        var currentIndex = this.revolvers.IndexOf(this.currentRevolverData);
+        var currentIndex = this._revolvers.IndexOf(this._currRevolverData);
         var minIndex = 0;
         int prevIndex;
 
-        if (currentIndex == minIndex) prevIndex = this.revolvers.Count - 1;
+        if (currentIndex == minIndex) prevIndex = this._revolvers.Count - 1;
         else prevIndex = currentIndex - 1;
 
-        //SaveRevolverData(currentIndex);
-        SetCurrentRevolver(this.revolvers[prevIndex]);
+        PRevolverConfig revolver = this._revolvers[prevIndex].RevolverConfig;
+        SetCurrentRevolverConfig(revolver);
     }
 
-    private bool HasBulletsInCurrentMag => this.CurrentMagCount > 0;
-    private bool HasInfiniteAmmo => this.currentRevolverData.startingTotalAmmo == int.MaxValue;
+    public void AddToReserveAmmo(int amount) {
+        var newReserve = this._currRevolverData.CurrentReserveAmmo + amount;
+        this._currRevolverData.SetCurrentReserveAmmo(newReserve);
+    }
+
+    private bool HasBulletsInCurrentMag => this._currRevolverData.CurrentMagCount > 0;
+    private bool HasInfiniteAmmo => this.currRevolverConfig.startingTotalAmmo == int.MaxValue;
     // Can only reload is current mag is 0
     private bool CanReload =>
-        !HasInfiniteAmmo && !this._isReloading &&
-        (this.CurrentReserveAmmo > 0 && this.CurrentMagCount == 0);
-
-    private void SetAmmoCounts(int ammoToUse) {
-        SetCurrentMagCount(ammoToUse); // Gets clamped to maxMagCount, if "ammoToUse" is high
-        // remaining ammo from what was put into the current mag
-        var reserveAmmo = ammoToUse - this.CurrentMagCount;
-        SetCurrentReserveAmmo(reserveAmmo);
-    }
-
-    private void SetCurrentMagCount(int count) {
-        this.CurrentMagCount = Mathf.Clamp(count, 0, this.currentRevolverData.maxMagCount);
-    }
-    public void SetCurrentReserveAmmo(int count) {
-        // If maxTotalAmmo = 100 and maxMagCount = 30, maxReserveAmmo can be only between
-        // (70: assuming currentMagCount is filled up to maxMagCount,
-        // 100: assuming no bullets in currentMagCount)
-        var maxReserveAmmo = this.currentRevolverData.maxTotalAmmo - this.CurrentMagCount;
-        this.CurrentReserveAmmo = Mathf.Clamp(count, 0, maxReserveAmmo);
-    }
+        !HasInfiniteAmmo && !this._isReloading && (this._currRevolverData.
+        CurrentReserveAmmo > 0 && this._currRevolverData.CurrentMagCount == 0);
 
     protected override Vector2 GetTargetPos() {
         return this._cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
     }
 
-    public string GetName() => this.currentRevolverData.revolverName;
-    public Color GetColor() => this.currentRevolverData.revolverColor;
+    public string GetName() => this.currRevolverConfig.revolverName;
+    public Color GetColor() => this.currRevolverConfig.revolverColor;
 }

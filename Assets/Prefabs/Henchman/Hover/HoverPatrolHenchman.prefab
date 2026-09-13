@@ -62,16 +62,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolHenchman
   maxHealth: 65
-  standardMoveSpeed: 2.73
-  _healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
+  visionCone: {fileID: 3779782012470671399}
+  healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
   healthBarTransform: {fileID: 4463457277385435596}
   collectiblesSpawnPos: {fileID: 3879229772204845972}
-  leftMovePoint: {fileID: 7495771196123480152}
-  rightMovePoint: {fileID: 7668536150997618113}
+  leftMovePoint: {fileID: 6455226557025831245}
+  rightMovePoint: {fileID: 4860662656186337108}
   FOV: 185
+  baseMoveSpeed: 3
   minMoveSpeed: 1.05
   itemsToDropOnDead:
   - {fileID: 8375325147498029845, guid: a90399f3a9c4f7e4d88378d4e5dde67b, type: 3}
@@ -80,12 +81,23 @@ MonoBehaviour:
   timeUntilSearch: 1
   timeUntilSearchEnd: 2.67
   shotDuration: 3
-  baseViewDistance: 8.35
-  maxViewDistance: 11.26
+  baseViewDistance: 7.35
+  maxViewDistance: 10.26
   viewDistIncrements: 0.108
   revolverBarrelRadius: 0.1
   desiredState: 1
   _timeUntilPatrol: 2.62
+--- !u!114 &3779782012470671399 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3834601420845677720, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_PrefabInstance: {fileID: 90993495716611263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f280b437275bbb0419945483beb86fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisionCone
 --- !u!4 &3879229772204845972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3789371127142084395, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
@@ -96,13 +108,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4373598479180606835, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
   m_PrefabInstance: {fileID: 90993495716611263}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7495771196123480152 stripped
+--- !u!4 &4860662656186337108 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7585489120777258215, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4771507682860401643, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
   m_PrefabInstance: {fileID: 90993495716611263}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7668536150997618113 stripped
+--- !u!4 &6455226557025831245 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7723491828887652734, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6401537292120231410, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
   m_PrefabInstance: {fileID: 90993495716611263}
   m_PrefabAsset: {fileID: 0}

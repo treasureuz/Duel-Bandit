@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 public abstract class RevolverManager : MonoBehaviour {
     protected Rigidbody2D rb2d;
@@ -10,8 +8,6 @@ public abstract class RevolverManager : MonoBehaviour {
     protected float elapsedShootTime;
     protected float rotationAngle;
     protected const float rotationSpeed = 380f;
-
-    public float CurrentTimeBetweenShots {get; private set;}
 
     protected virtual void Awake() {
         // Getting components
@@ -52,8 +48,4 @@ public abstract class RevolverManager : MonoBehaviour {
     }
 
     protected abstract Vector2 GetTargetPos();
-
-    public virtual void SetCurrentTimeBetweenShots(float tbs) {
-        this.CurrentTimeBetweenShots = tbs;
-    }
 }

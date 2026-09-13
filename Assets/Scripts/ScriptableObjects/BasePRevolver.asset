@@ -15,10 +15,10 @@ MonoBehaviour:
   sprite: {fileID: 4011165979584494121, guid: d9afffc560809cd4c896a2afdcbbeb10, type: 3}
   bulletPrefab: {fileID: -7283726574832556982, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
   bulletDamage: 11.48
-  standardTimeBetweenShots: 1.45
   revolverName: Base
   revolverColor: {r: 0.30980393, g: 0.4, b: 0.62352943, a: 1}
   maxTotalAmmo: 2147483647
   startingTotalAmmo: 2147483647
   maxMagCount: 2147483647
+  timeBetweenShots: 1.25
   reloadDuration: 0

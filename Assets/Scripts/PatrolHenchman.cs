@@ -15,18 +15,19 @@ public class PatrolHenchman : Henchman {
     }
 
     private void PatrolState() {
-        if (isSoraEffectEnabled) {
-            Debug.Log("disabling sora");
-            DisableSoraSlowEffect();
-        }
+        if (isSoraEffectEnabled) DisableSoraSlowEffect();
         if (!this.hasSetCurrDesiredPoint) {
-            // Decide next movePoint
             if (!this.currTargetPoint) {
                 List<Transform> movePoints = new() { this.leftMovePoint, this.rightMovePoint };
-                this.currTargetPoint = movePoints[Random.Range(0, movePoints.Count)];
-            } else if (this.currTargetPoint == this.leftMovePoint) {
-                this.currTargetPoint = this.rightMovePoint;
-            } else this.currTargetPoint = this.leftMovePoint;
+                this.currTargetPoint = movePoints[Random.Range(0, movePoints.Count)]; 
+            } else if (HasReachedCurrTargetPoint()) { // If false, it moves to the currTargetPoint
+                // *Fixes the bug that changes the currTargetPoint again when Henchman kills Player, 
+                // meaning Player was in LOS, and its prev state was desired (PlayerInLOS resets prev state)* 
+                // Decide next movePoint
+                if (this.currTargetPoint == this.leftMovePoint) {
+                    this.currTargetPoint = this.rightMovePoint;
+                } else this.currTargetPoint = this.leftMovePoint;
+            }
             this.hasSetCurrDesiredPoint = true;
             this.isMovingToDesiredPoint = true;
         }
@@ -34,8 +35,7 @@ public class PatrolHenchman : Henchman {
         if (this.isMovingToDesiredPoint) {
             MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
             // Stop moving if reached currTargetPoint
-            var hasReachedTargetPoint = HasReachedCurrTargetPoint();
-            if (hasReachedTargetPoint) this.isMovingToDesiredPoint = false;
+            if (HasReachedCurrTargetPoint()) this.isMovingToDesiredPoint = false;
         } else {
             // Wait until it's time to patrol
             if (this._elapsedTimeUntilPatrol < this._timeUntilPatrol) {

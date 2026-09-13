@@ -98,9 +98,10 @@ public class GameUIManager : MonoBehaviour {
         this._revolverNameText.color = e.RevolverColor;
     }
 
-    private void UpdatePlayerAmmoText(object sender, AmmoEventArgs e) {
-        this._ammoText.text = e.TotalAmmo == int.MaxValue ? "INF/INF (INF)" :
-            $"{e.CurrentMagCount}/{e.ReserveAmmo} ({e.TotalAmmo})";
+    private void UpdatePlayerAmmoText(object sender, PlayerAmmoEventArgs args) {
+        PRevolverData e = args.RevolverData;
+        this._ammoText.text = e.CurrentTotalAmmo == int.MaxValue ? "INF/INF (INF)" :
+            $"{e.CurrentMagCount}/{e.CurrentReserveAmmo} ({e.CurrentTotalAmmo})";
     }
 
     private void DisplayPlayerReloadingUI(object sender, RevolverReloadingEventArgs e) {

@@ -15,10 +15,10 @@ MonoBehaviour:
   sprite: {fileID: -8680063271729748978, guid: b762463ab78d27148a19d024a46e6f50, type: 3}
   bulletPrefab: {fileID: -4814097344370046407, guid: 40b7720dbed0e5d479f7b6af48da3837, type: 3}
   bulletDamage: 15
-  standardTimeBetweenShots: 1.59
   revolverName: Sora
   revolverColor: {r: 0.73333335, g: 0.87843144, b: 0.93725497, a: 1}
   maxTotalAmmo: 235
   startingTotalAmmo: 150
   maxMagCount: 40
+  timeBetweenShots: 1.46
   reloadDuration: 3.07

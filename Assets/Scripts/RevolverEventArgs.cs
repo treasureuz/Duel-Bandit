@@ -3,16 +3,12 @@ using UnityEngine;
 
 namespace RevolverEventArgs {
     // Classes strictly for EventArgs (values of properties already exist)
-    public class AmmoEventArgs : EventArgs {
+    public class PlayerAmmoEventArgs : EventArgs {
         // {get;} - can only be set once (in the constructor)
-        public int CurrentMagCount { get; }
-        public int ReserveAmmo { get; }
-        public int TotalAmmo { get; }
+        public PRevolverData RevolverData {get; }
 
-        public AmmoEventArgs(int currMagCount, int reserveAmmo, int totalAmmo) {
-            this.CurrentMagCount = currMagCount;
-            this.ReserveAmmo = reserveAmmo;
-            this.TotalAmmo = totalAmmo;
+        public PlayerAmmoEventArgs(PRevolverData revolverData) {
+            this.RevolverData = revolverData;
         }
     }
 
@@ -29,10 +25,10 @@ namespace RevolverEventArgs {
 
     public class RevolverEquippedEventArgs : EventArgs {
         public RevolverDisplayInfoEventArgs revolverDisplayInfoEArgs {get; }
-        public AmmoEventArgs ammoEventArgs {get; }
+        public PlayerAmmoEventArgs ammoEventArgs {get; }
 
         public RevolverEquippedEventArgs (RevolverDisplayInfoEventArgs
-            revDisplayInfoArgs, AmmoEventArgs ammoArgs) {
+            revDisplayInfoArgs, PlayerAmmoEventArgs ammoArgs) {
             this.revolverDisplayInfoEArgs = revDisplayInfoArgs;
             this.ammoEventArgs = ammoArgs;
         }

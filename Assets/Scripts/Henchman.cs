@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using RevolverEventArgs;
+using UnityEngine.Serialization;
 
 public class Henchman : Character<HRevolverManager> {
     [Header("References")]
-    [SerializeField] protected HealthBarFollow _healthBarCanvasPrefab;
+    [SerializeField] protected VisionCone visionCone;
+    [SerializeField] protected HealthBarFollow healthBarCanvasPrefab;
     [SerializeField] protected LayerMask raycastLayerMask;
      // Health Bar References
     private HealthBarFollow _healthBarCanvas;
@@ -20,6 +22,8 @@ public class Henchman : Character<HRevolverManager> {
 
     [Header("Main Settings")]
     [SerializeField] protected int FOV = 180; // 90 degrees upward/downward this obj
+    [FormerlySerializedAs("standardMoveSpeed")]
+    [SerializeField] protected float baseMoveSpeed = 2.67f; // maxMoveSpeed
     [SerializeField] protected float minMoveSpeed = 1.05f;
     [SerializeField] protected List<Collectible> itemsToDropOnDead;
 
@@ -32,8 +36,8 @@ public class Henchman : Character<HRevolverManager> {
     [SerializeField] protected float baseViewDistance = 8.35f;
     [SerializeField] protected float maxViewDistance = 11.2f;
     [SerializeField] protected float viewDistIncrements = 0.107f;
+    [SerializeField] protected float viewDistExpandSpeed = 4f;
     [SerializeField] protected float revolverBarrelRadius = 0.18f;
-    //[SerializeField] private int _rayCount = 50;
 
     protected Transform currTargetPoint;
 
@@ -52,7 +56,9 @@ public class Henchman : Character<HRevolverManager> {
     private bool _isShot;
     private int _shotCounter;
 
-    public float CurrentViewDistance {get; private set;}
+    private float _currentViewDistance;
+    private float _targetViewDistance;
+    public float CurrentMoveSpeed { get; private set; }
 
     [Header("Desired HenchmanState (based on Henchman)")]
     [SerializeField] protected HenchmanState desiredState = HenchmanState.None;
@@ -61,14 +67,31 @@ public class Henchman : Character<HRevolverManager> {
     protected override void Awake() {
         base.Awake();
         // Spawns health bar UI above Henchman
-        this._healthBarCanvas = Instantiate(this._healthBarCanvasPrefab,
+        this._healthBarCanvas = Instantiate(this.healthBarCanvasPrefab,
             this.healthBarTransform.position, Quaternion.identity);
-        this._healthBarCanvas.Init(this.transform, this.healthBarTransform.localPosition);
+        this._healthBarCanvas.Init(this.healthBarTransform);
         Transform healthBarFillObj = this._healthBarCanvas.transform.Find("HealthBarBG/HealthBarFill");
         this._healthBarFill = healthBarFillObj.GetComponent<Image>();
 
-        SetCurrentViewDistance(this.baseViewDistance);
+        // Initialize important variables
         this.CurrentState = this.desiredState;
+        SetCurrentMoveSpeed(this.baseMoveSpeed);
+        InitializeViewDistances();
+    }
+
+    void Update() {
+        // Update current view distance smoothly to targetViewDistance
+        SmoothlyUpdateCurrViewDistance();
+
+        // Set visionCone's variables
+        this.visionCone.SetOriginPos(this.transform.position);
+        float angle;
+        var facingAngle = this.transform.lossyScale.x < 0 ? 180f : 0f;
+        if (this.CurrentState is HenchmanState.Attack && PlayerManager.instance.Player) {
+            Vector2 dirToPlayer = GetDirToPlayer();
+            angle = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
+        } else angle = facingAngle;
+        this.visionCone.SetStartingAngle(angle);
     }
 
     protected virtual void FixedUpdate() {
@@ -114,63 +137,6 @@ public class Henchman : Character<HRevolverManager> {
         HandleStateSwitch(); // Applies the CurrentState
     }
 
-    // void LateUpdate() {
-    //     if (!PlayerManager.instance.Player) return;
-    //     Mesh mesh = new ();
-    //     this._meshFilter.mesh = mesh;
-
-    //     Vector3 originPos = this.rb2d.position;
-
-    //     var isPlayerInLOS = IsPlayerInLOS();
-    //     Vector3 dirToPlayer = GetDirToPlayer();
-    //     var angle = isPlayerInLOS ? Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg : 0f;
-    //     angle -= this.FOV / 2f;
-    //       // angle to increase and beam a ray at from the origin to end
-    //     var angleIncrease = this.FOV / this._rayCount;
-    //       // + 1 for origin, + 1 for ray at startingAngle?
-    //     Vector3[] vertices = new Vector3[this._rayCount + 1 + 1];
-    //     Vector2[] uv = new Vector2[vertices.Length];
-    //     int[] triangles = new int[this._rayCount * 3]; // 3 rayCounts/(vertices?) for 1 triangle (3 sides)
-
-    //     vertices[0] = originPos;
-
-    //     var vertexIndex = 1; // index 0 already accounted for above
-    //     var triangleIndex = 0;
-    //     for (var i = 0; i <= this._rayCount; ++i) {
-    //         Vector3 vertex;
-    //         RaycastHit2D raycastHit2D;
-
-    //         Vector3 facingDir = this.transform.localScale.x < 0 ? Vector2.left : Vector2.right;
-
-    //         raycastHit2D = isPlayerInLOS ? Physics2D.Raycast(
-    //             originPos, dirToPlayer, this.CurrentViewDistance, LayerMask.NameToLayer("Platform")) :
-    //             Physics2D.Raycast(originPos, facingDir, this.CurrentViewDistance, LayerMask.NameToLayer("Platform"));
-    //         if (raycastHit2D.collider == null) {
-    //             vertex = isPlayerInLOS ? originPos + dirToPlayer * this.CurrentViewDistance
-    //                 : originPos + facingDir * this.CurrentViewDistance;
-    //         } else {
-    //             vertex = raycastHit2D.point;
-    //         }
-    //         vertices[vertexIndex] = vertex;
-
-    //         if (i > 0) {
-    //             // A triangle forms a connection from the origin to prev vertex to current vertex
-    //             triangles[triangleIndex + 0] = 0;
-    //             triangles[triangleIndex + 1] = vertexIndex - 1; // prev
-    //             triangles[triangleIndex + 2] = vertexIndex; // curr
-
-    //             triangleIndex += 3;
-    //         }
-
-    //         vertexIndex++;
-    //         angle -= angleIncrease;
-    //     }
-
-    //     mesh.vertices = vertices;
-    //     mesh.uv = uv;
-    //     mesh.triangles = triangles;
-    // }
-
     #region State Handling
     protected virtual void HandleStateSwitch() {
         switch (this.CurrentState) {
@@ -199,22 +165,15 @@ public class Henchman : Character<HRevolverManager> {
             this.CurrentState = this.desiredState;
         } else {
             if (!this._hasSetCurrTargetPoint) {
-                // Set currTargetPoint to the closest movePoint to the Player
-                Player player = PlayerManager.instance.Player;
                 // Pick closest movePoint to the Player to get a good view for shooting
-                var playerToLeftMP = Vector2.Distance(this.leftMovePoint.position,
-                    player.transform.position);
-                var playerToRightMP = Vector2.Distance(this.rightMovePoint.position,
-                    player.transform.position);
-                this.currTargetPoint = playerToLeftMP < playerToRightMP ?
+                this.currTargetPoint = GetDirToPlayer().x < 0 ?
                     this.leftMovePoint : this.rightMovePoint;
                 // Starts moving to currTargetPoint this frame
                 this._hasSetCurrTargetPoint = true;
             }
             MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
             // Stop moving if reached currTargetPoint
-            var hasReachedTargetPoint = HasReachedCurrTargetPoint();
-            if (!hasReachedTargetPoint) return;
+            if (!HasReachedCurrTargetPoint()) return;
             this._hasReachedSearchPoint = true;
         }
     }
@@ -235,12 +194,12 @@ public class Henchman : Character<HRevolverManager> {
     #endregion
 
     protected void MoveTowardsTargetPoint() {
-        HandleLocalScale(GetDirToCurrTarget()); // Flip towards targetPoint
         // Starts the actual moving
         var posX = Mathf.MoveTowards(this.rb2d.position.x,
             this.currTargetPoint.position.x, this.CurrentMoveSpeed * Time.fixedDeltaTime);
         Vector2 position = new(posX, this.rb2d.position.y);
         this.rb2d.MovePosition(position);
+        HandleLocalScale(GetDirToCurrTarget()); // Flip towards targetPoint
     }
 
     protected bool IsPlayerInLOS() {
@@ -258,42 +217,49 @@ public class Henchman : Character<HRevolverManager> {
 
         Vector2 originPos = this.rb2d.position;
         RaycastHit2D hit = Physics2D.CircleCast(originPos, revolverBarrelRadius, dirToPlayer,
-            this.CurrentViewDistance, this.raycastLayerMask);
+            this._currentViewDistance, this.raycastLayerMask);
         return hit && hit.collider.gameObject.CompareTag("Player");
     }
 
-    private Vector2 GetDirToPlayer() {
+    protected Vector2 GetDirToPlayer() {
         Player player = PlayerManager.instance.Player;
         return ((Vector2) player.transform.position - this.rb2d.position).normalized;
     }
 
     private Vector2 GetDirToCurrTarget() {
-        return (Vector2) this.currTargetPoint.position - this.rb2d.position;
+        return ((Vector2) this.currTargetPoint.position - this.rb2d.position).normalized;
     }
 
     protected bool HasReachedCurrTargetPoint() {
         var distXToTargetPoint = Mathf.Abs(
             this.rb2d.position.x - this.currTargetPoint.position.x);
-        return distXToTargetPoint < 0.1f;
+        // Approximately makes GetDirToCurrTarget = 0, making Henchman flip its localScale.x to -1
+        return Mathf.Approximately(this.transform.position.x, this.currTargetPoint.position.x);
+        //return distXToTargetPoint < 0.1f;
     }
 
+    public void EnableSoraSlowEffect() => this.isSoraEffectEnabled = true;
     protected void DisableSoraSlowEffect() {
-        SetCurrentMoveSpeed(this.standardMoveSpeed);
-        SetRevolverCurrentTBS(this.RevolverManager.GetStandardTimeBetweenShots());
-        isSoraEffectEnabled = false;
+        SetCurrentMoveSpeed(this.baseMoveSpeed);
+        SetRevolverCurrentTBS(this.RevolverManager.GetBaseTimeBetweenShots());
+        this.isSoraEffectEnabled = false;
     }
 
     #region On Shot Mechanics - Calls TakeDamage() & Handles View Distance
     private void HandleOnShot(float amount) {
+        if (!IsPlayerInLOS() && this.CurrentState is not HenchmanState.Search)
+            this._isShot = true;
+
         // Waits shotDuration before resetting view dist and shot counter
         StartOnShotCoroutine(); // Also sets isShot to true
         TakeDamage(amount); // Sets current health -= amount
-        if (this.CurrentViewDistance == this.maxViewDistance) return;
+
+        if (this._currentViewDistance == this.maxViewDistance) return;
         ++this._shotCounter; // Used by the method below
-        UpdateViewDistanceOnShot();
+        SetTargetViewDistanceOnShot();
     }
 
-    private void StartOnShotCoroutine(){
+    private void StartOnShotCoroutine() {
         if (this._onShotCoroutine != null) {
             StopCoroutine(this._onShotCoroutine);
             this._onShotCoroutine = null;
@@ -301,25 +267,33 @@ public class Henchman : Character<HRevolverManager> {
         this._onShotCoroutine = StartCoroutine(HandleShotDuration());
     }
 
-    private IEnumerator HandleShotDuration(){
-        // Removes redundant assignment
-        if (!IsPlayerInLOS() && this.CurrentState is not HenchmanState.Search)
-            this._isShot = true;
+    private IEnumerator HandleShotDuration() {
         yield return new WaitForSeconds(this.shotDuration);
-        SetCurrentViewDistance(this.baseViewDistance);
+        this._targetViewDistance = this.baseViewDistance;
         this._shotCounter = 0;
     }
 
-    private void UpdateViewDistanceOnShot() {
+    private void SetTargetViewDistanceOnShot() {
         // The more Henchman gets shot the more the view distance increments by
-        var newViewDistIncrements = this.viewDistIncrements * this._shotCounter;
-        var newViewDist = this.CurrentViewDistance + newViewDistIncrements;
-        SetCurrentViewDistance(newViewDist);
+        var newViewDist = this._currentViewDistance +
+            (this.viewDistIncrements * this._shotCounter);
+        this._targetViewDistance = Mathf.Clamp(newViewDist,
+            this.baseViewDistance, this.maxViewDistance);
     }
 
-    private void SetCurrentViewDistance(float viewDist) {
-        this.CurrentViewDistance = Mathf.Clamp(viewDist, this.baseViewDistance,
-            this.maxViewDistance);
+    private void SmoothlyUpdateCurrViewDistance() {
+        // Stop infinite assignments of currentViewDistance
+        if (Mathf.Approximately(this._currentViewDistance, this._targetViewDistance)) return;
+        this._currentViewDistance = Mathf.MoveTowards
+            (this._currentViewDistance, this._targetViewDistance,
+            this.viewDistExpandSpeed * Time.smoothDeltaTime);
+        this.visionCone.SetViewDistance(this._currentViewDistance);
+    }
+    
+    private void InitializeViewDistances() {
+        this._currentViewDistance = this.baseViewDistance;
+        this._targetViewDistance = this._currentViewDistance;
+        this.visionCone.SetViewDistance(this._currentViewDistance);
     }
     #endregion
 
@@ -329,7 +303,6 @@ public class Henchman : Character<HRevolverManager> {
         HenchmanHelper.instance.OnHenchmanDamaged?.Invoke(this,
             new DamageTakenEventArgs(amount));
         if (this.CurrentHealth != 0f) return;
-        Destroy(this._healthBarCanvas.gameObject); // Destroys the health bar
         OnDead(); // Drops collectibles and destroys this obj
     }
 
@@ -342,7 +315,14 @@ public class Henchman : Character<HRevolverManager> {
             Instantiate(item, itemsSpawnPoint, Quaternion.identity);
             i++;
         }
-        Destroy(this.leftMovePoint.parent.gameObject); // Destroys "MoveZone" - holds all movePoints
+        DestroyAll();
+    }
+
+    private void DestroyAll() {
+        Destroy(this.visionCone.gameObject);
+        // Destroys "MoveZone" obj (holds all movePoints)
+        Destroy(this.leftMovePoint.parent.gameObject);
+        Destroy(this._healthBarCanvas.gameObject); // Destroys the health bar
         Destroy(this.gameObject);
     }
 
@@ -358,15 +338,13 @@ public class Henchman : Character<HRevolverManager> {
 
     public bool IsInDesiredState => this.CurrentState == this.desiredState;
 
-    public override void SetCurrentMoveSpeed(float speed) {
-        var newMoveSpeed = Mathf.Clamp(speed, this.minMoveSpeed, this.standardMoveSpeed);
-        base.SetCurrentMoveSpeed(newMoveSpeed);
+    public void SetCurrentMoveSpeed(float speed) {
+        this.CurrentMoveSpeed = Mathf.Clamp(speed, this.minMoveSpeed, this.baseMoveSpeed);
     }
     public void SetRevolverCurrentTBS(float tbs) {
         this.RevolverManager.SetCurrentTimeBetweenShots(tbs);
     }
     public float GetRevolverCurrentTBS() => this.RevolverManager.CurrentTimeBetweenShots;
-    public void EnableSoraSlowEffect() => isSoraEffectEnabled = true;
 
     public HenchmanState GetCurrentState() => this.CurrentState;
 }

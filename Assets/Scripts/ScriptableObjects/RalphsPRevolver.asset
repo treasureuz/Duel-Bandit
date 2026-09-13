@@ -15,10 +15,10 @@ MonoBehaviour:
   sprite: {fileID: -8946429532006270939, guid: 329c38128fd31ba49b7d2cacf3bab76c, type: 3}
   bulletPrefab: {fileID: -7283726574832556982, guid: 437105faf776cc543960bbd74433bd6d, type: 3}
   bulletDamage: 7.53
-  standardTimeBetweenShots: 0.736
   revolverName: Ralph
   revolverColor: {r: 0.22352943, g: 0, b: 0.50980395, a: 1}
   maxTotalAmmo: 250
   startingTotalAmmo: 147
   maxMagCount: 38
-  reloadDuration: 2.18
+  timeBetweenShots: 0.7
+  reloadDuration: 2.16

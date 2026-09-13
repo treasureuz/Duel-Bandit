@@ -2,11 +2,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using RevolverEventArgs;
+using UnityEngine.Serialization;
 
 public class Player : Character<PRevolverManager> {
     [Header("Settings")]
-    [SerializeField] private int _maxNumOfJumpsInAir = 2;
+    [FormerlySerializedAs("standardMoveSpeed")]
+    [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce = 5f;
+    [SerializeField] private int _maxNumOfJumpsInAir = 2;
 
     private InputAction _forward;
     private InputAction _backward;
@@ -33,9 +36,7 @@ public class Player : Character<PRevolverManager> {
     }
 
     protected void Start() {
-        AmmoEventArgs ammoEventArgs = new (this.RevolverManager.CurrentMagCount,
-            this.RevolverManager.CurrentReserveAmmo, this.RevolverManager.CurrentTotalAmmo);
-        PlayerManager.instance.OnPlayerSpawned?.Invoke(this, ammoEventArgs);
+        PlayerManager.instance.OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     void FixedUpdate() {
@@ -46,7 +47,7 @@ public class Player : Character<PRevolverManager> {
         if (this._forward.IsPressed()) direction = 1f;
         if (this._backward.IsPressed()) direction = -1f;
         this.rb2d.linearVelocity = new Vector2(
-            direction * this.CurrentMoveSpeed, this.rb2d.linearVelocity.y);
+            direction * this._moveSpeed, this.rb2d.linearVelocity.y);
     }
 
     public void OnJump() {
@@ -55,8 +56,8 @@ public class Player : Character<PRevolverManager> {
         ++this._currNumOfJumpsInAir;
     }
 
-    public void EquipRevolver(PRevolverData revolverData){
-        this.RevolverManager.SetCurrentRevolver(revolverData);
+    public void PickupRevolver(PRevolverConfig revolverData) {
+        this.RevolverManager.SetCurrentRevolverConfig(revolverData);
     }
 
     public void OnSwapToNextRevolver() => this.RevolverManager.SwitchToNextRevolver();
@@ -70,8 +71,7 @@ public class Player : Character<PRevolverManager> {
     }
 
     public void AddAmmo(int amount) {
-        var ammo = this.RevolverManager.CurrentReserveAmmo + amount;
-        this.RevolverManager.SetCurrentReserveAmmo(ammo);
+        this.RevolverManager.AddToReserveAmmo(amount);
     }
 
     protected override void TakeDamage(float amount) {
@@ -97,14 +97,14 @@ public class Player : Character<PRevolverManager> {
             }
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision){
+    private void OnCollisionEnter2D(Collision2D collision) {
         GameObject colObj = collision.gameObject;
         if (colObj.CompareTag("HenchmanBullet")) {
             BulletBehavior bullet = colObj.GetComponent<BulletBehavior>();
             TakeDamage(bullet.Damage);
         }
     }
-    private void OnCollisionExit2D(Collision2D collision){
+    private void OnCollisionExit2D(Collision2D collision) {
         if (collision.gameObject.layer != LayerMask.NameToLayer("Platform")) return;
         this.isOnGround = false;
     }

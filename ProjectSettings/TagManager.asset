@@ -9,6 +9,7 @@ TagManager:
   - HenchmanBullet
   - Ground
   - HoverPlatform
+  - PalletBox
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - PlayerBullet
   - HenchmanBullet
   - Collectible
-  - 
+  - Obstacle
   - 
   - 
   - 
@@ -45,6 +46,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Platform
+    uniqueID: 2951118785
     locked: 0
   m_RenderingLayers:
   - Default

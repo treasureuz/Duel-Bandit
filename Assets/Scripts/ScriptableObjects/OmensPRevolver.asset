@@ -15,10 +15,10 @@ MonoBehaviour:
   sprite: {fileID: 4286332654556014528, guid: c1ecb2dc05de52745bbf7c720f035a81, type: 3}
   bulletPrefab: {fileID: 6449838860082539874, guid: eebc6c24a351e6c4ca5c6ad8ddbb3359, type: 3}
   bulletDamage: 22
-  standardTimeBetweenShots: 2.21
   revolverName: Omen
   revolverColor: {r: 0.5411765, g: 0.29411766, b: 0.2901961, a: 1}
   maxTotalAmmo: 156
   startingTotalAmmo: 80
   maxMagCount: 23
-  reloadDuration: 2.64
+  timeBetweenShots: 1.74
+  reloadDuration: 2.59
