@@ -9,8 +9,6 @@ using RevolverEventArgs;
 using System.Collections;
 
 public class GameUIManager : MonoBehaviour {
-    [SerializeField] private Canvas _canvas;
-
     [Header("Player UI")]
     [SerializeField] private GameObject _respawnScreen;
     [SerializeField] private GameObject _reloadUIObj;
@@ -27,6 +25,10 @@ public class GameUIManager : MonoBehaviour {
     [Header("Henchman UI")]
     [SerializeField] private TextMeshProUGUI _damageTextPrefab;
     [SerializeField] private Vector2 _damageTextOffset = new (0.5f, 0.5f);
+
+    [Header("Other References")]
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private TextMeshProUGUI _timerText;
 
     public static GameUIManager instance;
 
@@ -63,9 +65,12 @@ public class GameUIManager : MonoBehaviour {
         PlayerManager.instance.OnPlayerRevolverUnableToReload -= DisplayPlayerUnableToReloadText;
     }
 
-    public void OnRespawnClicked() {
-        EventSystem.current.SetSelectedGameObject(null);
-        SceneManager.LoadScene("GameScene"); // Player is OOL, reload scene
+    public void UpdateTimerText(float timer) {
+        var min = Mathf.FloorToInt(timer / 60);
+        var sec = Mathf.RoundToInt(timer % 60);
+        // "00" - makes min and sec two digits for any int
+        // e.g. min = 3 -> 03, sec = 12 -> 12
+        this._timerText.text = $"Timer - {min:00}:{sec:00}";
     }
 
     private void UpdateOnPlayerSpawnedUI(object sender, EventArgs e) {
@@ -154,6 +159,10 @@ public class GameUIManager : MonoBehaviour {
         Destroy(damageText.gameObject, 0.25f);
     }
 
+    public void OnRespawnClicked() {
+        EventSystem.current.SetSelectedGameObject(null);
+        SceneManager.LoadScene("GameScene"); // Player is OOL, reload scene
+    }
     private void EnableRespawnScreen(object sender, EventArgs e) {
         this._respawnScreen.SetActive(true);
     }

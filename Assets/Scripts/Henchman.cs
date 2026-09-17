@@ -282,14 +282,14 @@ public class Henchman : Character<HRevolverManager> {
     }
 
     private void SmoothlyUpdateCurrViewDistance() {
-        // Stop infinite assignments of currentViewDistance
+        // Stops infinite assignments of currentViewDistance
         if (Mathf.Approximately(this._currentViewDistance, this._targetViewDistance)) return;
         this._currentViewDistance = Mathf.MoveTowards
             (this._currentViewDistance, this._targetViewDistance,
             this.viewDistExpandSpeed * Time.smoothDeltaTime);
         this.visionCone.SetViewDistance(this._currentViewDistance);
     }
-    
+
     private void InitializeViewDistances() {
         this._currentViewDistance = this.baseViewDistance;
         this._targetViewDistance = this._currentViewDistance;
@@ -303,10 +303,10 @@ public class Henchman : Character<HRevolverManager> {
         HenchmanHelper.instance.OnHenchmanDamaged?.Invoke(this,
             new DamageTakenEventArgs(amount));
         if (this.CurrentHealth != 0f) return;
-        OnDead(); // Drops collectibles and destroys this obj
+        HandleDead(); // Drops collectibles and destroys this obj
     }
 
-    private void OnDead() {
+    private void HandleDead() {
         var i = 0;
         Vector2 itemsSpawnPoint = this.collectiblesSpawnPos.position;
         foreach (Collectible item in this.itemsToDropOnDead) {

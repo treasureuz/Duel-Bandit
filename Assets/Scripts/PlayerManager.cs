@@ -2,12 +2,14 @@
 using System.Collections;
 using UnityEngine;
 using RevolverEventArgs;
+using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] private Player _playerPrefab;
 
     [Header("Player Settings")]
+    [SerializeField] private List<PRevolverData> _revolvers;
     [SerializeField] private int _maxPlayerLives = 3;
     [SerializeField] private float _timeBeforePlayerRespawn = 2f;
 
@@ -32,21 +34,21 @@ public class PlayerManager : MonoBehaviour {
         this._currentPlayerLives = this._maxPlayerLives;
     }
 
-    void Start() => SpawnPlayer(); // Spawns start Player
-
     void OnEnable() {
+        GameManager.instance.OnGameStart += SpawnPlayer;
         OnPlayerDead += RespawnPlayer;
     }
 
     void OnDisable() {
+        GameManager.instance.OnGameStart -= SpawnPlayer;
         OnPlayerDead -= RespawnPlayer;
     }
 
-    private void SpawnPlayer() {
+    private void SpawnPlayer(object sender, EventArgs e) {
         if (this.Player) return; // If Player isnt null
         this.Player = Instantiate(this._playerPrefab,
             this.transform.position, Quaternion.identity, this.transform);
-        this.Player.Init(this._currentPlayerLives, this._maxPlayerLives);
+        this.Player.Init(this._revolvers, this._currentPlayerLives, this._maxPlayerLives);
     }
 
     // Respawns Player after time
@@ -60,6 +62,6 @@ public class PlayerManager : MonoBehaviour {
         }
         yield return new WaitForSeconds(this._timeBeforePlayerRespawn);
         --this._currentPlayerLives; // Decrease lives when Player Respawns
-        SpawnPlayer(); // Spawns a new Player at its spawnPoint
+        SpawnPlayer(this, EventArgs.Empty); // Spawns a new Player at its spawnPoint
     }
 }

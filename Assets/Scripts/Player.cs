@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using RevolverEventArgs;
 using UnityEngine.Serialization;
+using System.Collections.Generic;
 
 public class Player : Character<PRevolverManager> {
     [Header("Settings")]
@@ -30,7 +31,8 @@ public class Player : Character<PRevolverManager> {
     }
 
     // Gets called the same frame Awake is (before Start)
-    public void Init(int currlives, int maxLives) {
+    public void Init(List<PRevolverData> revolvers, int currlives, int maxLives) {
+        this.RevolverManager.SetRevolversList(revolvers);
         this.CurrentLives = currlives;
         this.MaxLives = maxLives;
     }
@@ -56,24 +58,6 @@ public class Player : Character<PRevolverManager> {
         ++this._currNumOfJumpsInAir;
     }
 
-    public void PickupRevolver(PRevolverConfig revolverData) {
-        this.RevolverManager.SetCurrentRevolverConfig(revolverData);
-    }
-
-    public void OnSwapToNextRevolver() => this.RevolverManager.SwitchToNextRevolver();
-    public void OnSwapToPreviousRevolver() => this.RevolverManager.SwitchToPreviousRevolver();
-
-    public void OnReload() => this.RevolverManager.Reload();
-
-    public void AddHealth(float amount) {
-        SetCurrentHealth(this.CurrentHealth + amount);
-        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void AddAmmo(int amount) {
-        this.RevolverManager.AddToReserveAmmo(amount);
-    }
-
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
         PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, EventArgs.Empty);
@@ -82,6 +66,24 @@ public class Player : Character<PRevolverManager> {
         Destroy(this.gameObject);
     }
 
+    public void PickupRevolver(PRevolverConfig revolverData) {
+        this.RevolverManager.SetCurrentRevolverConfig(revolverData);
+    }
+    public void OnSwapToNextRevolver() => this.RevolverManager.SwitchToNextRevolver();
+    public void OnSwapToPreviousRevolver() => this.RevolverManager.SwitchToPreviousRevolver();
+
+    public void OnReload() => this.RevolverManager.Reload();
+
+    public void AddAmmo(int amount) {
+        this.RevolverManager.AddToReserveAmmo(amount);
+    }
+
+    public bool AddHealth(float amount) {
+        if (this.CurrentHealth == this.maxHealth) return false;
+        SetCurrentHealth(this.CurrentHealth + amount);
+        PlayerManager.instance.OnPlayerHealthChange?.Invoke(this, EventArgs.Empty);
+        return true;
+    }
 
     private void OnCollisionStay2D(Collision2D collision) {
         if (collision.gameObject.layer != LayerMask.NameToLayer("Platform")) return;

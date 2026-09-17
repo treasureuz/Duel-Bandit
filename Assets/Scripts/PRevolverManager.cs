@@ -8,8 +8,8 @@ using System.Collections.Generic;
 public class PRevolverManager : TRevolverManager<PRevolverConfig> {
     private Camera _cam;
 
-    private List<PRevolverData> _revolvers = new();
     private PRevolverData _currRevolverData;
+    private List<PRevolverData> _revolvers;
 
     private bool _isReloading;
 
@@ -25,18 +25,19 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
         HandleShoot(); // Shoots gun
     }
 
-    public override void SetCurrentRevolverConfig(PRevolverConfig rConfig) {
-        SetCurrentRevolverData(rConfig);
-        base.SetCurrentRevolverConfig(rConfig);
-    }
-
     private void SetCurrentRevolverData(PRevolverConfig rConfig) {
-        PRevolverData newRData = this._revolvers.Find(r => r.RevolverConfig == rConfig);
-        if (newRData == null){
+        PRevolverData newRData = this._revolvers.Find(r =>
+            r.RevolverConfig.revolverName == rConfig.revolverName);
+        if (newRData == null) {
             newRData = new (rConfig, rConfig.startingTotalAmmo);
             this._revolvers.Add(newRData);
         }
         this._currRevolverData = newRData;
+    }
+
+    public override void SetCurrentRevolverConfig(PRevolverConfig rConfig) {
+        SetCurrentRevolverData(rConfig);
+        base.SetCurrentRevolverConfig(rConfig); // Calls ApplyRevolverConfig
     }
 
     protected override void ApplyRevolverConfig() {
@@ -110,9 +111,12 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
         SetCurrentRevolverConfig(revolver);
     }
 
-    public void AddToReserveAmmo(int amount) {
+    public bool AddToReserveAmmo(int amount) {
+        if (this._currRevolverData.CurrentTotalAmmo == this.currRevolverConfig.maxTotalAmmo)
+            return false;
         var newReserve = this._currRevolverData.CurrentReserveAmmo + amount;
         this._currRevolverData.SetCurrentReserveAmmo(newReserve);
+        return true;
     }
 
     private bool HasBulletsInCurrentMag => this._currRevolverData.CurrentMagCount > 0;
@@ -121,6 +125,12 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
     private bool CanReload =>
         !HasInfiniteAmmo && !this._isReloading && (this._currRevolverData.
         CurrentReserveAmmo > 0 && this._currRevolverData.CurrentMagCount == 0);
+
+    public void SetRevolversList(List<PRevolverData> revolversList) {
+        // Any updates to revolvers would change revolversList
+        this._revolvers = revolversList; // Doesn't create new copy
+        SetCurrentRevolverConfig(this._revolvers[0].RevolverConfig);
+    }
 
     protected override Vector2 GetTargetPos() {
         return this._cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());

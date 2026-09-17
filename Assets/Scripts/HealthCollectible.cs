@@ -5,9 +5,9 @@ public class HeartCollectible : Collectible {
     [SerializeField] private float _maxHealAmount;
 
     protected override void OnCollected() {
-        base.OnCollected();
         Player player = PlayerManager.instance.Player;
-        player.AddHealth(HealAmount);
+        if (player.AddHealth(HealAmount))
+            Destroy(this.gameObject);
     }
 
     private float HealAmount => Random.Range(this._minHealAmount, this._maxHealAmount);

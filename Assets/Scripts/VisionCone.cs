@@ -4,6 +4,7 @@ public class VisionCone : MonoBehaviour {
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private int _FOV;
     [SerializeField] private int _rayCount = 50;
+    [SerializeField] private float _angleSmoothingSpeed = 4f;
     private MeshFilter _meshFilter;
 
     private Mesh _mesh;
@@ -62,7 +63,7 @@ public class VisionCone : MonoBehaviour {
             }
 
             vertexIndex++;
-            angle -= angleIncrements;
+            angle += angleIncrements;
         }
 
         this._mesh.vertices = vertices;
@@ -86,8 +87,10 @@ public class VisionCone : MonoBehaviour {
 
     public void SetStartingAngle(float angle) {
         // Assuming Henchman is facing at dir Vector2.left (-1, 0),
-        // angle = 180, therefore startingAngle = 180 + (90/2) = 225
-        // endAngle would then be startingAngle (225) + FOV (90) = 315
-        this._startingAngle = angle + this._FOV / 2f;
+        // angle = 180, therefore startingAngle = 180 - (90/2) = 135
+        // endAngle would then be startingAngle (135) + FOV (90) = 225
+        var targetAngle = angle - this._FOV / 2f;
+        this._startingAngle = Mathf.MoveTowardsAngle(this._startingAngle,
+            targetAngle, this._angleSmoothingSpeed * Time.smoothDeltaTime);
     }
 }

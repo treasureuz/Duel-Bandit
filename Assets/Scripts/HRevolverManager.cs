@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
 public class HRevolverManager : TRevolverManager<HRevolverConfig> {
+    [Header("References")]
+    [SerializeField] protected HRevolverConfig startingRevolver;
+
     private Henchman _henchman;
 
     public float CurrentTimeBetweenShots {get; private set;}
@@ -8,6 +11,10 @@ public class HRevolverManager : TRevolverManager<HRevolverConfig> {
     protected override void Awake() {
         base.Awake();
         this._henchman = this.GetComponentInParent<Henchman>();
+    }
+
+    private void Start() {
+        SetCurrentRevolverConfig(this.startingRevolver);
     }
 
     protected override void FixedUpdate() {

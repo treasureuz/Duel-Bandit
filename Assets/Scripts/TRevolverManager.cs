@@ -2,13 +2,8 @@
 
 public abstract class TRevolverManager<TRevolverConfig> : RevolverManager
     where TRevolverConfig : RevolverConfig {
-    [Header("References")]
-    [SerializeField] protected TRevolverConfig startingRevolver;
-    protected TRevolverConfig currRevolverConfig;
 
-    protected void Start() {
-        SetCurrentRevolverConfig(this.startingRevolver);
-    }
+    protected TRevolverConfig currRevolverConfig;
 
     public virtual void SetCurrentRevolverConfig(TRevolverConfig rConfig) {
         this.currRevolverConfig = rConfig;

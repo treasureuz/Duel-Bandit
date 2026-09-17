@@ -6,6 +6,6 @@ public class RevolverCollectible : Collectible {
     protected override void OnCollected() {
         Player player = (Player) PlayerManager.instance.Player;
         player.PickupRevolver(revolver);
-        base.OnCollected();
+        Destroy(this.gameObject);
     }
 }
