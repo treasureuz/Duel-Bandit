@@ -21,7 +21,8 @@ public abstract class Character<TRevolverManager> : MonoBehaviour
 
     protected void HandleLocalScale(Vector2 dirToTarget) {
         Vector2 localScale = this.transform.localScale;
-        localScale.x = dirToTarget.x >= 0f ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
+        if (dirToTarget.x > 0f) localScale.x = Mathf.Abs(localScale.x);
+        else if (dirToTarget.x < 0f) localScale.x = -Mathf.Abs(localScale.x);
         this.transform.localScale = localScale;
     }
 

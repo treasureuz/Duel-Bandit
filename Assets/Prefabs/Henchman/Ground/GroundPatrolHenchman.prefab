@@ -85,6 +85,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5536871941486111301, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
   m_PrefabInstance: {fileID: 7615376912515548972}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2918378633172459483 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4697088469437438199, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
+  m_PrefabInstance: {fileID: 7615376912515548972}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56792fe1b28deb1409f365a3b5fec144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthBarFollow
 --- !u!1 &5831834911632624782 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4125743660889721762, guid: a223f9631fd3c7f44ab69ec4e97dad3d, type: 3}
@@ -104,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PatrolHenchman
   maxHealth: 65
   visionCone: {fileID: 2642425818851312354}
-  healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
+  healthBarCanvas: {fileID: 2918378633172459483}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
@@ -124,6 +135,7 @@ MonoBehaviour:
   baseViewDistance: 7.35
   maxViewDistance: 10.26
   viewDistIncrements: 0.108
+  viewDistExpandSpeed: 4
   revolverBarrelRadius: 0.1
   desiredState: 1
   _timeUntilPatrol: 2.62

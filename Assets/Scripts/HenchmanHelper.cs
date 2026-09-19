@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using RevolverEventArgs;
 
 public class HenchmanHelper : MonoBehaviour {
     public static HenchmanHelper instance;

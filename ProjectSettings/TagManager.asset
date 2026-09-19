@@ -23,8 +23,8 @@ TagManager:
   - PlayerBullet
   - HenchmanBullet
   - Collectible
-  - Obstacle
   - 
+  - Interactable
   - 
   - 
   - 
@@ -47,8 +47,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Platform
+  - name: HoverPlatform
     uniqueID: 2951118785
+    locked: 0
+  - name: Ground
+    uniqueID: 794503737
     locked: 0
   m_RenderingLayers:
   - Default

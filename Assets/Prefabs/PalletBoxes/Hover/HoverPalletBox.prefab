@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8701160456268755609}
   - component: {fileID: 4073131705728632420}
   - component: {fileID: -3238147158031646296}
-  m_Layer: 12
+  m_Layer: 3
   m_Name: HoverPalletBox
   m_TagString: PalletBox
   m_Icon: {fileID: 0}

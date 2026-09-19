@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3763081346402993270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 185282113487285032}
+  m_Layer: 13
+  m_Name: InteractPromptPos
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &185282113487285032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763081346402993270}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3635009889808860788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4502591897586375263
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,11 +41,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3635009889808860788}
   - component: {fileID: 606939266847492540}
-  - component: {fileID: 5414005864683082233}
+  - component: {fileID: 4794295437648262703}
   - component: {fileID: 1919277832535242739}
+  - component: {fileID: 3243152403748629670}
   - component: {fileID: -481600047173325647}
-  m_Layer: 11
-  m_Name: RevolverCollectible
+  m_Layer: 13
+  m_Name: RevolverInteractable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,9 +62,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 185282113487285032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &606939266847492540
@@ -94,7 +127,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5414005864683082233
+--- !u!114 &4794295437648262703
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,10 +136,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4502591897586375263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59302c7683f576439d0ee2227a9efef, type: 3}
+  m_Script: {fileID: 11500000, guid: fde9162bd439b6945b7f462aff82734d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RevolverCollectible
-  revolver: {fileID: 11400000, guid: b2efd9339856c2f43a52a5157360cc4b, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::RevolverInteractable
+  _interactPromptPos: {fileID: 185282113487285032}
+  revolver: {fileID: 0}
 --- !u!61 &1919277832535242739
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -117,7 +151,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ebd67151a6441fe47ae28fa53a277cfa, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -153,6 +187,42 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.21, y: 1.21}
   m_EdgeRadius: 0
+--- !u!58 &3243152403748629670
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4502591897586375263}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 2.15
 --- !u!50 &-481600047173325647
 Rigidbody2D:
   serializedVersion: 5

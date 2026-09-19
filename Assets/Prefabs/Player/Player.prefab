@@ -106,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9abc2fef70c4cc44b92d97b7bb5b6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PWeaponManager
-  startingRevolver: {fileID: 11400000, guid: 987608b4f7c75c44ab3ccb10b1754df0, type: 2}
 --- !u!50 &3811692891445039923
 Rigidbody2D:
   serializedVersion: 5
@@ -275,8 +274,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   maxHealth: 150
-  _moveSpeed: 3.87
-  _jumpForce: 23.4
+  _platformsLayerMask:
+    serializedVersion: 2
+    m_Bits: 10248
+  _moveSpeed: 3.76
+  _jumpForce: 28.4
   _maxNumOfJumpsInAir: 2
 --- !u!50 &8830187443331689638
 Rigidbody2D:

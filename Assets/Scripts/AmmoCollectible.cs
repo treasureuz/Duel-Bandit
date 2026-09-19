@@ -4,11 +4,11 @@ public class AmmoCollectible : Collectible {
     [SerializeField] private int _minAmmoAmount;
     [SerializeField] private int _maxAmmoAmount;
 
-    protected override void OnCollected() {
+    protected override void Collect() {
         Player player = PlayerManager.instance.Player;
-        player.AddAmmo(AmmoAmount);
-        Destroy(this.gameObject);
+        if (player.AddRevolverAmmo(AmmoAmount)) Destroy(this.gameObject);
     }
 
-    private int AmmoAmount => Random.Range(this._minAmmoAmount, this._maxAmmoAmount + 1);
+    private int AmmoAmount =>
+        Random.Range(this._minAmmoAmount, this._maxAmmoAmount + 1);
 }

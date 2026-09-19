@@ -11,19 +11,7 @@ public class GameManager : MonoBehaviour {
         if (!instance) instance = this;
     }
 
-    void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDisable() {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if (scene.name == "GameScene") StartGame();
-    }
-
-    private void StartGame() {
-        OnGameStart?.Invoke(this, EventArgs.Empty);
-    }
+    // private void StartGame() {
+    //     OnGameStart?.Invoke(this, EventArgs.Empty);
+    // }
 }

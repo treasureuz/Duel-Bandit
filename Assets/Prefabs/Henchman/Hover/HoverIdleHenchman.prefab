@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
   maxHealth: 65
   visionCone: {fileID: 2989084911240148010}
-  healthBarCanvasPrefab: {fileID: 9214940490311517489, guid: 1a8127e32efd54449bf66880987dacf0, type: 3}
+  healthBarCanvas: {fileID: 4001233805207168115}
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 72
@@ -120,9 +120,21 @@ MonoBehaviour:
   baseViewDistance: 7.35
   maxViewDistance: 10.26
   viewDistIncrements: 0.108
+  viewDistExpandSpeed: 4
   revolverBarrelRadius: 0.1
   desiredState: 0
   _midMovePoint: {fileID: 4783478590731014947}
+--- !u!114 &4001233805207168115 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3155719032111131841, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}
+  m_PrefabInstance: {fileID: 2039111723914627250}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56792fe1b28deb1409f365a3b5fec144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthBarFollow
 --- !u!4 &4783478590731014947 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6786420100157234065, guid: 78da7cf4639da21418dd673a48e7baf6, type: 3}

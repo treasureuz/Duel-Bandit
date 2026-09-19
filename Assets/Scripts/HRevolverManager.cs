@@ -23,7 +23,7 @@ public class HRevolverManager : TRevolverManager<HRevolverConfig> {
             SmoothlyRotateTowards(Quaternion.identity);
             return;
         }
-        if (this._henchman.GetCurrentState() is not HenchmanState.Attack) return;
+        if (!this._henchman.IsAttacking) return;
         RotateTowardsTargetPos(); // Handles revolver rotation to Player
         if (Time.time < this.elapsedShootTime || !IsAimAlignedToPlayer()) return;
         HandleShoot(); // Shoots revolver only if above conditions are false
@@ -58,4 +58,6 @@ public class HRevolverManager : TRevolverManager<HRevolverConfig> {
     public float GetBaseTimeBetweenShots() {
         return this.currRevolverConfig.baseTimeBetweenShots;
     }
+
+    public float CurrentRotationAngle => this.rb2d.rotation;
 }

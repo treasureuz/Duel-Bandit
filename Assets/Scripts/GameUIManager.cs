@@ -11,23 +11,19 @@ using System.Collections;
 public class GameUIManager : MonoBehaviour {
     [Header("Player UI")]
     [SerializeField] private GameObject _respawnScreen;
-    [SerializeField] private GameObject _reloadUIObj;
     [SerializeField] private List<Image> _heartIcons;
     [SerializeField] private Image _playerHealthBar;
     [SerializeField] private Image _reloadDurationBar;
-    [SerializeField] private Image _chamberImg;
     [SerializeField] private TextMeshProUGUI _playerHealthText;
     [SerializeField] private TextMeshProUGUI _ammoText;
-    [SerializeField] private TextMeshProUGUI _reloadDurationText;
     [SerializeField] private TextMeshProUGUI _reloadStatusText;
     [SerializeField] private TextMeshProUGUI _revolverNameText;
 
     [Header("Henchman UI")]
-    [SerializeField] private TextMeshProUGUI _damageTextPrefab;
+    [SerializeField] private Canvas _damageTextCanvasPrefab;
     [SerializeField] private Vector2 _damageTextOffset = new (0.5f, 0.5f);
 
     [Header("Other References")]
-    [SerializeField] private Canvas _canvas;
     [SerializeField] private TextMeshProUGUI _timerText;
 
     public static GameUIManager instance;
@@ -37,8 +33,7 @@ public class GameUIManager : MonoBehaviour {
     void Awake() {
         if (!instance) instance = this;
         this._respawnScreen.SetActive(false);
-        ResetPlayerReloadUI();
-        //this._chamberImg.enabled = false;
+        SetPlayerReloadUI(false);
     }
 
     void Start() {
@@ -48,7 +43,7 @@ public class GameUIManager : MonoBehaviour {
         PlayerManager.instance.OnPlayerOOL += EnableRespawnScreen;
         PlayerManager.instance.OnPlayerRevolverEquipped += UpdatePlayerRevolverEquippedUI;
         PlayerManager.instance.OnPlayerRevolverShot += UpdatePlayerAmmoText;
-        PlayerManager.instance.OnPlayerRevolverReloaded += UpdatePlayerAmmoText;
+        PlayerManager.instance.OnPlayerRevolverAmmoChanged += UpdatePlayerAmmoText;
         PlayerManager.instance.OnPlayerRevolverReloading += DisplayPlayerReloadingUI;
         PlayerManager.instance.OnPlayerRevolverUnableToReload += DisplayPlayerUnableToReloadText;
     }
@@ -60,7 +55,7 @@ public class GameUIManager : MonoBehaviour {
         PlayerManager.instance.OnPlayerOOL -= EnableRespawnScreen;
         PlayerManager.instance.OnPlayerRevolverEquipped -= UpdatePlayerRevolverEquippedUI;
         PlayerManager.instance.OnPlayerRevolverShot -= UpdatePlayerAmmoText;
-        PlayerManager.instance.OnPlayerRevolverReloaded -= UpdatePlayerAmmoText;
+        PlayerManager.instance.OnPlayerRevolverAmmoChanged -= UpdatePlayerAmmoText;
         PlayerManager.instance.OnPlayerRevolverReloading -= DisplayPlayerReloadingUI;
         PlayerManager.instance.OnPlayerRevolverUnableToReload -= DisplayPlayerUnableToReloadText;
     }
@@ -110,8 +105,7 @@ public class GameUIManager : MonoBehaviour {
     }
 
     private void DisplayPlayerReloadingUI(object sender, RevolverReloadingEventArgs e) {
-        this._reloadUIObj.SetActive(true);
-        SetPlayerReloadDurUI(true);
+        SetPlayerReloadUI(true);
         this._reloadStatusText.text = "*Reloading...*";
         StartCoroutine(CountdownPlayerReloadDur(e.ReloadDuration));
     }
@@ -119,11 +113,10 @@ public class GameUIManager : MonoBehaviour {
         var remainingDur = duration;
         while (remainingDur > 0) {
             this._reloadDurationBar.fillAmount = remainingDur/duration;
-            this._reloadDurationText.text = $"{remainingDur:F2}s";
             remainingDur -= Time.deltaTime;
             yield return null;
         }
-        ResetPlayerReloadUI();
+        SetPlayerReloadUI(false);
     }
 
     private void DisplayPlayerUnableToReloadText(object sender, EventArgs e) {
@@ -133,12 +126,12 @@ public class GameUIManager : MonoBehaviour {
         if (this._isInUnableToReload) yield break;
 
         this._isInUnableToReload = true;
-        this._reloadUIObj.SetActive(true);
+        this._reloadStatusText.gameObject.SetActive(true);
         this._reloadStatusText.text = "*Unable to reload.*";
 
         yield return new WaitForSeconds(2f);
 
-        this._reloadUIObj.SetActive(false);
+        this._reloadStatusText.gameObject.SetActive(false);
         this._isInUnableToReload = false;
     }
 
@@ -147,16 +140,18 @@ public class GameUIManager : MonoBehaviour {
         Henchman henchman = (Henchman) sender;
         Vector2 henchmanPos = henchman.transform.position;
 
+        // Calculates spawnPos depending on the dir the Henchman was shot
         var spawnPosX = henchmanPos.x + (henchman.transform.localScale.x < 0
             ? -this._damageTextOffset.x : this._damageTextOffset.x);
         var spawnPosY = henchmanPos.y + this._damageTextOffset.y;
         Vector3 spawnPos = new(spawnPosX, spawnPosY);
 
-        TextMeshProUGUI damageText = Instantiate(this._damageTextPrefab, spawnPos,
-            Quaternion.identity, this._canvas.transform);
-        var dmgAmount = Mathf.RoundToInt(e.Damage);
-        damageText.text = $"{dmgAmount}";
-        Destroy(damageText.gameObject, 0.25f);
+        // Spawns and sets the damageText
+        Canvas damageTextCanvas = Instantiate
+            (this._damageTextCanvasPrefab, spawnPos, Quaternion.identity);
+        TextMeshProUGUI damageText = damageTextCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        damageText.text = $"{Mathf.RoundToInt(e.Damage)}";
+        Destroy(damageTextCanvas.gameObject, 0.25f);
     }
 
     public void OnRespawnClicked() {
@@ -167,12 +162,8 @@ public class GameUIManager : MonoBehaviour {
         this._respawnScreen.SetActive(true);
     }
 
-    private void SetPlayerReloadDurUI(bool b) {
+    private void SetPlayerReloadUI(bool b) {
         this._reloadDurationBar.transform.parent.gameObject.SetActive(b);
-    }
-
-    private void ResetPlayerReloadUI() {
-        this._reloadUIObj.SetActive(false);
-        SetPlayerReloadDurUI(false);
+        this._reloadStatusText.gameObject.SetActive(b);
     }
 }

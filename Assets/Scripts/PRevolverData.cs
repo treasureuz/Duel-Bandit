@@ -12,9 +12,10 @@ public class PRevolverData {
     }
 
     public void SetAmmoCounts(int ammoToUse) {
+        var prevMagCount = this.CurrentMagCount;
         SetCurrentMagCount(ammoToUse); // Gets clamped to maxMagCount, if "ammoToUse" is high
         // remaining ammo from what was put into the current mag
-        var reserveAmmo = ammoToUse - this.CurrentMagCount;
+        var reserveAmmo = ammoToUse - (this.CurrentMagCount - prevMagCount);
         SetCurrentReserveAmmo(reserveAmmo);
     }
 

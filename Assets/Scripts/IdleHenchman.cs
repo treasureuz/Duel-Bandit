@@ -5,7 +5,7 @@ public class IdleHenchman : Henchman {
     [SerializeField] private Transform _midMovePoint;
 
     private bool _hasReachedIdlePoint;
-    private Vector2 _prevTargetPos;
+    private Vector2 _prevFacingDir;
 
     protected override void HandleStateSwitch() {
         base.HandleStateSwitch();
@@ -17,26 +17,24 @@ public class IdleHenchman : Henchman {
     private void IdleState() {
         if (this._hasReachedIdlePoint) return;
         if (isSoraEffectEnabled) DisableSoraSlowEffect();
-        
+
         if (!this.hasSetCurrDesiredPoint) { // Removes the redundancy of setting it every frame
-            this._prevTargetPos = this.currTargetPoint ? 
-                this.currTargetPoint.position : this.rb2d.position;
+            this._prevFacingDir = this.currTargetPoint ?
+                GetDirToCurrTarget() : GetFacingDirection();
             // Sets to Idle movePoint: MidMovePoint
             this.currTargetPoint = this._midMovePoint;
             this.hasSetCurrDesiredPoint = true;
             this.isMovingToDesiredPoint = true;
         }
-        
-        if (!this.isMovingToDesiredPoint) return;
-        MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
-        // Stop moving if reached currTargetPoint
-        if (!HasReachedCurrTargetPoint()) return;
-        this.isMovingToDesiredPoint = false;
-        this._hasReachedIdlePoint = true;
-        
-        // Flips localScale to always face prevTargetPoint when reached idlePoint
-        Vector2 dirToPrevTargetPoint = this._prevTargetPos - this.rb2d.position;
-        HandleLocalScale(dirToPrevTargetPoint); 
+
+        if (HasReachedCurrTargetPoint()) {
+            this.isMovingToDesiredPoint = false;
+            this._hasReachedIdlePoint = true;
+            // Flips localScale to always face prevTargetPoint when reached idlePoint
+            HandleLocalScale(this._prevFacingDir);
+        } else if (this.isMovingToDesiredPoint) {
+            MoveTowardsCurrTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+        }
     }
 
     protected override void ResetDesiredState() {

@@ -18,6 +18,11 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
         this._cam = Camera.main;
     }
 
+    void Start() {
+        // Equips first revolver
+        SetCurrentRevolverConfig(this._revolvers[0].RevolverConfig);
+    }
+
     protected override void FixedUpdate() {
         RotateTowardsTargetPos(); // Handles gun rotation
         if (!Mouse.current.leftButton.isPressed || !HasBulletsInCurrentMag
@@ -50,6 +55,7 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
     }
 
     protected override void HandleShoot() {
+        if (this._isReloading) return;
         base.HandleShoot();
         this.elapsedShootTime = Time.time + this.currRevolverConfig.timeBetweenShots;
         // Decrement current mag count on every gun shot
@@ -78,7 +84,7 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
         yield return new WaitForSeconds(this.currRevolverConfig.reloadDuration);
         var reserveAmmo = this._currRevolverData.CurrentReserveAmmo;
         this._currRevolverData.SetAmmoCounts(reserveAmmo);
-        PlayerManager.instance.OnPlayerRevolverReloaded?.Invoke(this, new (this._currRevolverData));
+        PlayerManager.instance.OnPlayerRevolverAmmoChanged?.Invoke(this, new (this._currRevolverData));
 
         this._isReloading = false;
     }
@@ -116,20 +122,19 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
             return false;
         var newReserve = this._currRevolverData.CurrentReserveAmmo + amount;
         this._currRevolverData.SetCurrentReserveAmmo(newReserve);
+        PlayerManager.instance.OnPlayerRevolverAmmoChanged?.Invoke(this, new (this._currRevolverData));
         return true;
     }
 
     private bool HasBulletsInCurrentMag => this._currRevolverData.CurrentMagCount > 0;
     private bool HasInfiniteAmmo => this.currRevolverConfig.startingTotalAmmo == int.MaxValue;
-    // Can only reload is current mag is 0
-    private bool CanReload =>
-        !HasInfiniteAmmo && !this._isReloading && (this._currRevolverData.
-        CurrentReserveAmmo > 0 && this._currRevolverData.CurrentMagCount == 0);
+    private bool CanReload => !HasInfiniteAmmo && !this._isReloading &&
+        (this._currRevolverData.CurrentReserveAmmo > 0 &&
+        this._currRevolverData.CurrentMagCount < this.currRevolverConfig.maxMagCount);
 
     public void SetRevolversList(List<PRevolverData> revolversList) {
-        // Any updates to revolvers would change revolversList
+        // Any updates to revolvers also changes revolversList
         this._revolvers = revolversList; // Doesn't create new copy
-        SetCurrentRevolverConfig(this._revolvers[0].RevolverConfig);
     }
 
     protected override Vector2 GetTargetPos() {

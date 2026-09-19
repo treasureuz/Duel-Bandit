@@ -8,11 +8,8 @@ using UnityEngine.Serialization;
 public class Henchman : Character<HRevolverManager> {
     [Header("References")]
     [SerializeField] protected VisionCone visionCone;
-    [SerializeField] protected HealthBarFollow healthBarCanvasPrefab;
+    [SerializeField] protected HealthBarFollow healthBarCanvas;
     [SerializeField] protected LayerMask raycastLayerMask;
-     // Health Bar References
-    private HealthBarFollow _healthBarCanvas;
-    private Image _healthBarFill;
 
     [Header("Transforms")]
     [SerializeField] protected Transform healthBarTransform;
@@ -40,6 +37,7 @@ public class Henchman : Character<HRevolverManager> {
     [SerializeField] protected float revolverBarrelRadius = 0.18f;
 
     protected Transform currTargetPoint;
+    private Image _healthBarFill;
 
     private Coroutine _onShotCoroutine;
 
@@ -58,7 +56,9 @@ public class Henchman : Character<HRevolverManager> {
 
     private float _currentViewDistance;
     private float _targetViewDistance;
+
     public float CurrentMoveSpeed { get; private set; }
+    private const float collectiblesSpacing = 0.75f;
 
     [Header("Desired HenchmanState (based on Henchman)")]
     [SerializeField] protected HenchmanState desiredState = HenchmanState.None;
@@ -66,11 +66,8 @@ public class Henchman : Character<HRevolverManager> {
 
     protected override void Awake() {
         base.Awake();
-        // Spawns health bar UI above Henchman
-        this._healthBarCanvas = Instantiate(this.healthBarCanvasPrefab,
-            this.healthBarTransform.position, Quaternion.identity);
-        this._healthBarCanvas.Init(this.healthBarTransform);
-        Transform healthBarFillObj = this._healthBarCanvas.transform.Find("HealthBarBG/HealthBarFill");
+        // Sets up health bar UI above Henchman
+        Transform healthBarFillObj = this.healthBarCanvas.transform.Find("HealthBarBG/HealthBarFill");
         this._healthBarFill = healthBarFillObj.GetComponent<Image>();
 
         // Initialize important variables
@@ -87,21 +84,22 @@ public class Henchman : Character<HRevolverManager> {
         this.visionCone.SetOriginPos(this.transform.position);
         float angle;
         var facingAngle = this.transform.lossyScale.x < 0 ? 180f : 0f;
-        if (this.CurrentState is HenchmanState.Attack && PlayerManager.instance.Player) {
-            Vector2 dirToPlayer = GetDirToPlayer();
-            angle = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
+        if (PlayerManager.instance.Player) {
+            // VisionCone rotation follows the Revolver's rotation (*this way makes the most sense*)
+            var revolverZAngle = this.RevolverManager.transform.eulerAngles.z;
+            angle = this.transform.lossyScale.x > 0 ? revolverZAngle : revolverZAngle - 180f;
         } else angle = facingAngle;
         this.visionCone.SetStartingAngle(angle);
     }
 
     protected virtual void FixedUpdate() {
+        // Henchman spawn in the air, so this stops any state functionality
+        if (!this.isOnGround) return; // until its on the ground
+
         if (!PlayerManager.instance.Player) {
             this.CurrentState = this.desiredState;
             HandleStateSwitch(); return;
         }
-        // Henchman spawn in the air, so this stops any state functionality
-        if (!this.isOnGround) return; // until its on the ground
-
         var isPlayerInLOS = IsPlayerInLOS();
         if (isPlayerInLOS || this._isShot) {
             // **Resets prev state so if it becomes the CurrentState
@@ -112,11 +110,11 @@ public class Henchman : Character<HRevolverManager> {
                 case HenchmanState.WaitingToSearch:
                     // Resets possibly accumulated time
                     this._elapsedTimeUntilSearch = 0f; break;
-                case HenchmanState.Search when isPlayerInLOS: { // If prev state was Search & now Player is in LOS
+                case HenchmanState.Search when isPlayerInLOS: { // If state was Search & now Player is in LOS
                     // Doesn't call ResetSearchSettings() because it resets hasReachedSearchPoint
                     // but if Henchman already reached searchPoint, it shouldn't perform a redundant move
                     this._hasSetCurrTargetPoint = false; // Recalculates closestPoint when in Search again
-                    if (this._hasReachedSearchPoint) // SearchEndTime was accumulated if true
+                    if (this._hasReachedSearchPoint) // SearchEndTime was accumulated if true,
                         this._elapsedTimeUntilSearchEnd = 0f; // Therefore, reset it
                     break;
                 }
@@ -171,7 +169,7 @@ public class Henchman : Character<HRevolverManager> {
                 // Starts moving to currTargetPoint this frame
                 this._hasSetCurrTargetPoint = true;
             }
-            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+            MoveTowardsCurrTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
             // Stop moving if reached currTargetPoint
             if (!HasReachedCurrTargetPoint()) return;
             this._hasReachedSearchPoint = true;
@@ -193,8 +191,7 @@ public class Henchman : Character<HRevolverManager> {
     }
     #endregion
 
-    protected void MoveTowardsTargetPoint() {
-        // Starts the actual moving
+    protected void MoveTowardsCurrTargetPoint() {
         var posX = Mathf.MoveTowards(this.rb2d.position.x,
             this.currTargetPoint.position.x, this.CurrentMoveSpeed * Time.fixedDeltaTime);
         Vector2 position = new(posX, this.rb2d.position.y);
@@ -206,7 +203,7 @@ public class Henchman : Character<HRevolverManager> {
         // Can't be from Revolver's position because when localScale flips,
         // the revolver flips, which causes jittering
         Vector2 dirToPlayer = GetDirToPlayer();
-        Vector2 facingDir = this.transform.lossyScale.x < 0f ? Vector2.left : Vector2.right;
+        Vector2 facingDir = GetFacingDirection();
         // Calculates the angle from where this obj is facing to the direction to the player
         // "Vector2.Angle" = 0 to 180 (no negatives) 60 degs above == 60 degs below
         var angleToPlayer = Vector2.Angle(facingDir, dirToPlayer);
@@ -226,13 +223,17 @@ public class Henchman : Character<HRevolverManager> {
         return ((Vector2) player.transform.position - this.rb2d.position).normalized;
     }
 
-    private Vector2 GetDirToCurrTarget() {
+    protected Vector2 GetDirToCurrTarget() {
         return ((Vector2) this.currTargetPoint.position - this.rb2d.position).normalized;
     }
 
+    protected Vector2 GetFacingDirection() {
+        return this.transform.lossyScale.x < 0f ? Vector2.left : Vector2.right;
+    }
+
     protected bool HasReachedCurrTargetPoint() {
-        var distXToTargetPoint = Mathf.Abs(
-            this.rb2d.position.x - this.currTargetPoint.position.x);
+        // var distXToTargetPoint = Mathf.Abs(
+        //     this.rb2d.position.x - this.currTargetPoint.position.x);
         // Approximately makes GetDirToCurrTarget = 0, making Henchman flip its localScale.x to -1
         return Mathf.Approximately(this.transform.position.x, this.currTargetPoint.position.x);
         //return distXToTargetPoint < 0.1f;
@@ -247,7 +248,8 @@ public class Henchman : Character<HRevolverManager> {
 
     #region On Shot Mechanics - Calls TakeDamage() & Handles View Distance
     private void HandleOnShot(float amount) {
-        if (!IsPlayerInLOS() && this.CurrentState is not HenchmanState.Search)
+        if (PlayerManager.instance.Player && !IsPlayerInLOS() 
+            && this.CurrentState is not HenchmanState.Search)
             this._isShot = true;
 
         // Waits shotDuration before resetting view dist and shot counter
@@ -310,20 +312,19 @@ public class Henchman : Character<HRevolverManager> {
         var i = 0;
         Vector2 itemsSpawnPoint = this.collectiblesSpawnPos.position;
         foreach (Collectible item in this.itemsToDropOnDead) {
-            var itemOffsetX = i * 0.5f; // Adds 0.5i offset so collectibles don't stack on each other
+            // Adds 0.75i offset so collectibles don't stack on each other
+            var itemOffsetX = i * collectiblesSpacing;
             itemsSpawnPoint += new Vector2(itemOffsetX, 0);
             Instantiate(item, itemsSpawnPoint, Quaternion.identity);
             i++;
         }
-        DestroyAll();
+        DestroyAll(); // Destroys all relevant Henchman objects
     }
 
     private void DestroyAll() {
-        Destroy(this.visionCone.gameObject);
         // Destroys "MoveZone" obj (holds all movePoints)
         Destroy(this.leftMovePoint.parent.gameObject);
-        Destroy(this._healthBarCanvas.gameObject); // Destroys the health bar
-        Destroy(this.gameObject);
+        Destroy(this.transform.parent.gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -336,6 +337,7 @@ public class Henchman : Character<HRevolverManager> {
         }
     }
 
+    public bool IsAttacking => this.CurrentState is HenchmanState.Attack;
     public bool IsInDesiredState => this.CurrentState == this.desiredState;
 
     public void SetCurrentMoveSpeed(float speed) {

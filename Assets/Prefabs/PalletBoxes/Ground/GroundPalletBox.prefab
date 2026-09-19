@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1171520125653162248}
   - component: {fileID: -1837973969766210333}
   - component: {fileID: 1212899259219880545}
-  m_Layer: 12
+  m_Layer: 3
   m_Name: GroundPalletBox
   m_TagString: PalletBox
   m_Icon: {fileID: 0}

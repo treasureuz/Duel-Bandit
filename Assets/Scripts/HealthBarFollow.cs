@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 
 public class HealthBarFollow : MonoBehaviour {
-    private Transform _followPos;
-
-    public void Init(Transform follow) {
-        this._followPos = follow;
-    }
+    [SerializeField] private Transform _healthBarPos;
 
     void LateUpdate() {
-        this.transform.position = this._followPos.position;
+        this.transform.position = this._healthBarPos.position;
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using RevolverEventArgs;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
 
 public class Player : Character<PRevolverManager> {
+    [Header("References")]
+    [SerializeField] private LayerMask _platformsLayerMask;
+
     [Header("Settings")]
     [FormerlySerializedAs("standardMoveSpeed")]
     [SerializeField] private float _moveSpeed;
@@ -66,18 +68,6 @@ public class Player : Character<PRevolverManager> {
         Destroy(this.gameObject);
     }
 
-    public void PickupRevolver(PRevolverConfig revolverData) {
-        this.RevolverManager.SetCurrentRevolverConfig(revolverData);
-    }
-    public void OnSwapToNextRevolver() => this.RevolverManager.SwitchToNextRevolver();
-    public void OnSwapToPreviousRevolver() => this.RevolverManager.SwitchToPreviousRevolver();
-
-    public void OnReload() => this.RevolverManager.Reload();
-
-    public void AddAmmo(int amount) {
-        this.RevolverManager.AddToReserveAmmo(amount);
-    }
-
     public bool AddHealth(float amount) {
         if (this.CurrentHealth == this.maxHealth) return false;
         SetCurrentHealth(this.CurrentHealth + amount);
@@ -85,11 +75,34 @@ public class Player : Character<PRevolverManager> {
         return true;
     }
 
+    public void OnInteract() {
+        if (InteractableManager.instance.TryGetCurrentInteractable
+            (out var interactable)) {
+            // Interacts with Interactable thats within range
+            interactable.Equip(); // (in this case its a RevolverInteractable)
+        }
+    }
+
+    public void OnReload() => this.RevolverManager.Reload();
+    public void EquipRevolver(PRevolverConfig revolverConfig) {
+        this.RevolverManager.SetCurrentRevolverConfig(revolverConfig);
+    }
+    public void OnSwapToNextRevolver() => this.RevolverManager.SwitchToNextRevolver();
+    public void OnSwapToPreviousRevolver() => this.RevolverManager.SwitchToPreviousRevolver();
+
+    public bool AddRevolverAmmo(int amount) {
+        return this.RevolverManager.AddToReserveAmmo(amount);
+    }
+
     private void OnCollisionStay2D(Collision2D collision) {
-        if (collision.gameObject.layer != LayerMask.NameToLayer("Platform")) return;
+        // Bitwise operations. Shifting to the left (<<) multiplies the number by 2 (2^n)
+        // Therefore, "1 << 6" shifts to the left 6 times == 2^6 = 64. 
+        // "&" checks to see if the collisionLayer and any layer in the LayerMask match.
+        // If they do, the result becomes the bitwise shift operation (64), which != 0.
+        if ((1 << collision.gameObject.layer & this._platformsLayerMask) == 0) return;
         // "contact.normal" gets the direction the surface is facing at the contact point
         // Checks if the normal vector is pointing in the same dir as Vector.up (0, 1)
-        foreach (ContactPoint2D contact in collision.contacts){
+        foreach (ContactPoint2D contact in collision.contacts) {
             // Within 0 to 60 degrees counts as straight up: cos(60) = 0.5)
             if (Vector2.Dot(contact.normal, Vector2.up) > 0.5f) {
                 // Reset if was in air and now transitioning to on ground
@@ -107,7 +120,7 @@ public class Player : Character<PRevolverManager> {
         }
     }
     private void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.layer != LayerMask.NameToLayer("Platform")) return;
+        if ((1 << collision.gameObject.layer & this._platformsLayerMask) == 0) return;
         this.isOnGround = false;
     }
 }

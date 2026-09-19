@@ -19,21 +19,20 @@ public class PatrolHenchman : Henchman {
         if (!this.hasSetCurrDesiredPoint) {
             if (!this.currTargetPoint) {
                 List<Transform> movePoints = new() { this.leftMovePoint, this.rightMovePoint };
-                this.currTargetPoint = movePoints[Random.Range(0, movePoints.Count)]; 
-            } else if (HasReachedCurrTargetPoint()) { // If false, it moves to the currTargetPoint
-                // *Fixes the bug that changes the currTargetPoint again when Henchman kills Player, 
-                // meaning Player was in LOS, and its prev state was desired (PlayerInLOS resets prev state)* 
-                // Decide next movePoint
-                if (this.currTargetPoint == this.leftMovePoint) {
-                    this.currTargetPoint = this.rightMovePoint;
-                } else this.currTargetPoint = this.leftMovePoint;
+                this.currTargetPoint = movePoints[Random.Range(0, movePoints.Count)];
+            } else if (HasReachedCurrTargetPoint()) { // If false, it finishes its move to currTargetPoint
+                // *Fixes the bug that changes the currTargetPoint again when Henchman kills Player,
+                // meaning Player was in LOS, and its prev state was desired (PlayerInLOS resets prev state)*
+                // Decides next movePoint
+                this.currTargetPoint = this.currTargetPoint == this.leftMovePoint ?
+                    this.rightMovePoint : this.leftMovePoint;
             }
             this.hasSetCurrDesiredPoint = true;
             this.isMovingToDesiredPoint = true;
         }
 
         if (this.isMovingToDesiredPoint) {
-            MoveTowardsTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
+            MoveTowardsCurrTargetPoint(); // Moves moveSpeed*fixedDeltaTime units/frame
             // Stop moving if reached currTargetPoint
             if (HasReachedCurrTargetPoint()) this.isMovingToDesiredPoint = false;
         } else {
