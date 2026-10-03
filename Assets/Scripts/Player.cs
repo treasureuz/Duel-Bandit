@@ -33,10 +33,10 @@ public class Player : Character<PRevolverManager> {
     }
 
     // Gets called the same frame Awake is (before Start)
-    public void Init(List<PRevolverData> revolvers, int currlives, int maxLives) {
-        this.RevolverManager.SetRevolversList(revolvers);
+    public void Init(int currlives, int maxLives, List<PRevolverData> revolvers) {
         this.CurrentLives = currlives;
         this.MaxLives = maxLives;
+        this.RevolverManager.InitializeRevolvers(revolvers);
     }
 
     protected void Start() {
@@ -96,7 +96,7 @@ public class Player : Character<PRevolverManager> {
 
     private void OnCollisionStay2D(Collision2D collision) {
         // Bitwise operations. Shifting to the left (<<) multiplies the number by 2 (2^n)
-        // Therefore, "1 << 6" shifts to the left 6 times == 2^6 = 64. 
+        // Therefore, "1 << 6" shifts to the left 6 times == 2^6 = 64.
         // "&" checks to see if the collisionLayer and any layer in the LayerMask match.
         // If they do, the result becomes the bitwise shift operation (64), which != 0.
         if ((1 << collision.gameObject.layer & this._platformsLayerMask) == 0) return;

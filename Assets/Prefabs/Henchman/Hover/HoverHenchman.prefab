@@ -292,7 +292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5978650573777281954
 RectTransform:
   m_ObjectHideFlags: 0
@@ -749,7 +749,6 @@ MonoBehaviour:
     m_Bits: 8
   _FOV: 62
   _rayCount: 60
-  _angleSmoothingSpeed: 360
 --- !u!33 &7014217569766230985
 MeshFilter:
   m_ObjectHideFlags: 0

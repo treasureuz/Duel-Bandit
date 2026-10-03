@@ -15,7 +15,7 @@ public class InteractableManager : MonoBehaviour {
 
     public void ShowInteractable(RevolverInteractable interactable) {
         this._currentInteractable = interactable;
-        Vector2 targetPos = interactable.GetInteractPromptPos();
+        Vector2 targetPos = interactable.InteractPromptPos.position;
         this._interactableCanvas.transform.position = targetPos;
         this._interactableCanvas.SetActive(true);
     }

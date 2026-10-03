@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8007047513393094187}
   - component: {fileID: -7384803988475572456}
   m_Layer: 11
-  m_Name: HealthCollectible
+  m_Name: BandageCollectible 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,12 +84,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2742532796439869894, guid: 4ce64abd98fad924da13ee198b4bb279, type: 3}
+  m_Sprite: {fileID: -642104791552933330, guid: 36590537174fb23479b1f9a6afbd085b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.22}
+  m_Size: {x: 1.26, y: 1.01}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -106,8 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed9f9a729984b16931c909d92f8a15f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
-  _minHealAmount: 20
-  _maxHealAmount: 35
+  _healAmount: 35
 --- !u!61 &8007047513393094187
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -146,13 +145,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.22}
-    newSize: {x: 1.28, y: 1.22}
+    oldSize: {x: 1.26, y: 1.01}
+    newSize: {x: 1.26, y: 1.01}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.28, y: 1.22}
+  m_Size: {x: 1.26, y: 1.01}
   m_EdgeRadius: 0
 --- !u!50 &-7384803988475572456
 Rigidbody2D:

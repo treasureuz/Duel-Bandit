@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1919277832535242739}
   - component: {fileID: -481600047173325647}
   m_Layer: 11
-  m_Name: AmmoCollectible
+  m_Name: BigAmmoCollectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,12 +84,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -253123260731695901, guid: badd048691015f548a8f9fdf6fb6020c, type: 3}
+  m_Sprite: {fileID: 4668625846225945458, guid: 76be846f578510747804b3f76b2f8115, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.8828125, y: 1}
+  m_Size: {x: 1.21, y: 1.21}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f532d65103b14ba28551aa4decb73cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ammo
-  _minAmmoAmount: 12
-  _maxAmmoAmount: 18
+  _minAmmoAmount: 16
+  _maxAmmoAmount: 21
 --- !u!61 &1919277832535242739
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,7 +147,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.21, y: 1.21}
-    newSize: {x: 0.8828125, y: 1}
+    newSize: {x: 1.21, y: 1.21}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

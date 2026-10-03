@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 
 public class RevolverInteractable : MonoBehaviour {
-    [SerializeField] private Transform _interactPromptPos;
     [SerializeField] private PRevolverConfig revolver;
+    public Transform InteractPromptPos {get; private set;}
+
+    void Awake() {
+        this.InteractPromptPos = this.transform.GetChild(0);
+    }
 
     public void Equip() {
         Player player = PlayerManager.instance.Player;
@@ -18,6 +22,4 @@ public class RevolverInteractable : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D col) {
         InteractableManager.instance.HideInteractable();
     }
-
-    public Vector2 GetInteractPromptPos() => this._interactPromptPos.position;
 }
