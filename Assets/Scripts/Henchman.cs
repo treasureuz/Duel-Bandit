@@ -248,7 +248,8 @@ public class Henchman : Character<HRevolverManager> {
 
     #region On Shot Mechanics - Calls TakeDamage() & Handles View Distance
     private void HandleOnShot(float amount) {
-        if (PlayerManager.instance.Player && !IsPlayerInLOS() 
+        this.healthBarCanvas.gameObject.SetActive(true); // Redundant after 1st shot
+        if (PlayerManager.instance.Player && !IsPlayerInLOS()
             && this.CurrentState is not HenchmanState.Search)
             this._isShot = true;
 
@@ -257,7 +258,7 @@ public class Henchman : Character<HRevolverManager> {
         TakeDamage(amount); // Sets current health -= amount
 
         if (this._currentViewDistance == this.maxViewDistance) return;
-        ++this._shotCounter; // Used by the method below
+        ++this._shotCounter; // Handles vision cone distance increments
         SetTargetViewDistanceOnShot();
     }
 

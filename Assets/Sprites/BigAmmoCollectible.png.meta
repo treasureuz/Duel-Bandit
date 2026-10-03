@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: badd048691015f548a8f9fdf6fb6020c
+guid: 76be846f578510747804b3f76b2f8115
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -253123260731695901
-    second: AmmoCollectible_0
+      213: 4668625846225945458
+    second: BigAmmoCollectible_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AmmoCollectible_0
+      name: BigAmmoCollectible_0
       rect:
         serializedVersion: 2
         x: 27
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3ecd2b74cb9bc7cf0800000000000000
-      internalID: -253123260731695901
+      spriteID: 2734181c87a4ac040800000000000000
+      internalID: 4668625846225945458
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AmmoCollectible_0: -253123260731695901
+      BigAmmoCollectible_0: 4668625846225945458
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

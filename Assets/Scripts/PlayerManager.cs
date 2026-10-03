@@ -29,10 +29,13 @@ public class PlayerManager : MonoBehaviour {
     public EventHandler<PlayerAmmoEventArgs> OnPlayerRevolverShot;
     public EventHandler<PlayerAmmoEventArgs> OnPlayerRevolverAmmoChanged;
     public EventHandler<RevolverReloadingEventArgs> OnPlayerRevolverReloading;
+    public EventHandler OnPlayerRevolverOutOfAmmo;
     public EventHandler OnPlayerRevolverUnableToReload;
 
     void Awake() {
         if (!instance) instance = this;
+        this.Player = FindAnyObjectByType<Player>();
+        // Initialize Player's revolvers and settings
         PRevolverData newRevolver = new (this._startingRevolver,
             this._startingRevolver.startingTotalAmmo);
         this._revolvers.Add(newRevolver);
@@ -57,7 +60,7 @@ public class PlayerManager : MonoBehaviour {
         if (this.Player) return; // If Player isnt null
         this.Player = Instantiate(this._playerPrefab,
             this.transform.position, Quaternion.identity, this.transform);
-        this.Player.Init(this._revolvers, this._currentPlayerLives, this._maxPlayerLives);
+        this.Player.Init(this._currentPlayerLives, this._maxPlayerLives, this._revolvers);
     }
 
     // Respawns Player after time

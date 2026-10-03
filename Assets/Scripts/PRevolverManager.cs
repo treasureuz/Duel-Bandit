@@ -18,15 +18,13 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
         this._cam = Camera.main;
     }
 
-    void Start() {
-        // Equips first revolver
-        SetCurrentRevolverConfig(this._revolvers[0].RevolverConfig);
-    }
-
     protected override void FixedUpdate() {
         RotateTowardsTargetPos(); // Handles gun rotation
         if (!Mouse.current.leftButton.isPressed || !HasBulletsInCurrentMag
-            || Time.time < this.elapsedShootTime) return;
+            || Time.time < this.elapsedShootTime) {
+            PlayerManager.instance.OnPlayerRevolverOutOfAmmo?.Invoke(null, EventArgs.Empty);
+            return;
+        }
         HandleShoot(); // Shoots gun
     }
 
@@ -132,15 +130,14 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
         (this._currRevolverData.CurrentReserveAmmo > 0 &&
         this._currRevolverData.CurrentMagCount < this.currRevolverConfig.maxMagCount);
 
-    public void SetRevolversList(List<PRevolverData> revolversList) {
+    public void InitializeRevolvers(List<PRevolverData> revolversList) {
         // Any updates to revolvers also changes revolversList
         this._revolvers = revolversList; // Doesn't create new copy
+        // Equips revolver in first slot
+        SetCurrentRevolverConfig(this._revolvers[0].RevolverConfig);
     }
 
     protected override Vector2 GetTargetPos() {
         return this._cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
     }
-
-    public string GetName() => this.currRevolverConfig.revolverName;
-    public Color GetColor() => this.currRevolverConfig.revolverColor;
 }
