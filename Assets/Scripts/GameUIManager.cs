@@ -36,12 +36,19 @@ public class GameUIManager : MonoBehaviour {
         SetPlayerRevolverReloadUI(false);
     }
 
-    void Start() {
+    void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
         PlayerManager.instance.OnPlayerSpawned += UpdateOnPlayerSpawnedUI;
+        PlayerManager.instance.OnPlayerRevolverEquipped += UpdatePlayerRevolverEquippedUI;
+    }
+
+    void Start() {
         PlayerManager.instance.OnPlayerHealthChange += UpdatePlayerHealthUI;
         HenchmanHelper.instance.OnHenchmanDamaged += DisplayPlayerDamageNumbers;
         PlayerManager.instance.OnPlayerOOL += EnableRespawnScreen;
-        PlayerManager.instance.OnPlayerRevolverEquipped += UpdatePlayerRevolverEquippedUI;
         PlayerManager.instance.OnPlayerRevolverShot += UpdatePlayerAmmoText;
         PlayerManager.instance.OnPlayerRevolverAmmoChanged += UpdatePlayerAmmoText;
         PlayerManager.instance.OnPlayerRevolverReloading += DisplayPlayerReloadingUI;
@@ -50,6 +57,7 @@ public class GameUIManager : MonoBehaviour {
     }
 
     void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         PlayerManager.instance.OnPlayerSpawned -= UpdateOnPlayerSpawnedUI;
         PlayerManager.instance.OnPlayerHealthChange -= UpdatePlayerHealthUI;
         HenchmanHelper.instance.OnHenchmanDamaged -= DisplayPlayerDamageNumbers;

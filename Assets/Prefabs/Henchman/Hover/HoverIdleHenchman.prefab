@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82572ee6f9f1be4ea45aeadc27b8869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleHenchman
-  maxHealth: 65
+  maxHealth: 38
   visionCone: {fileID: 2989084911240148010}
   healthBarCanvas: {fileID: 4001233805207168115}
   raycastLayerMask:

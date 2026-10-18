@@ -60,7 +60,8 @@ public class PRevolverManager : TRevolverManager<PRevolverConfig> {
         this.elapsedShootTime = Time.time + this.currRevolverConfig.timeBetweenShots;
         // Decrement current mag count on every gun shot
         var currentMagCount = this._currRevolverData.CurrentMagCount;
-        if (!HasInfiniteAmmo) this._currRevolverData.SetCurrentMagCount(--currentMagCount);
+        if (HasInfiniteAmmo) return;
+        this._currRevolverData.SetCurrentMagCount(--currentMagCount);
         // Applies ammo change to UI
         PlayerAmmoEventArgs ammoEventArgs = new (this._currRevolverData);
         PlayerManager.instance.OnPlayerRevolverShot?.Invoke(this, ammoEventArgs);

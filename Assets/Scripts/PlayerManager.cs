@@ -43,23 +43,20 @@ public class PlayerManager : MonoBehaviour {
     }
 
     void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoaded;
         OnPlayerDead += RespawnPlayer;
     }
 
     void OnDisable() {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
         OnPlayerDead -= RespawnPlayer;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if (scene.name == "GameScene") SpawnPlayer();
-    }
+    void Start() => SpawnPlayer();
 
     private void SpawnPlayer() {
-        if (this.Player) return; // If Player isnt null
-        this.Player = Instantiate(this._playerPrefab,
+        if (!this.Player) {
+            this.Player = Instantiate(this._playerPrefab,
             this.transform.position, Quaternion.identity, this.transform);
+        }
         this.Player.Init(this._currentPlayerLives, this._maxPlayerLives, this._revolvers);
     }
 

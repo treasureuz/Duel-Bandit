@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TimerManager : MonoBehaviour {
     public static TimerManager instance;
@@ -14,12 +15,17 @@ public class TimerManager : MonoBehaviour {
         if (!instance) instance = this;
     }
 
-    void Start() {
+    void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
         PlayerManager.instance.OnPlayerSpawned += StartCountup;
         PlayerManager.instance.OnPlayerOOL += StopCountup;
     }
 
     void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         PlayerManager.instance.OnPlayerSpawned -= StartCountup;
         PlayerManager.instance.OnPlayerOOL -= StopCountup;
     }

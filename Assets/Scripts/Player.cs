@@ -32,14 +32,10 @@ public class Player : Character<PRevolverManager> {
         this._backward = playerInput.actions.FindAction("Backward");
     }
 
-    // Gets called the same frame Awake is (before Start)
     public void Init(int currlives, int maxLives, List<PRevolverData> revolvers) {
         this.CurrentLives = currlives;
         this.MaxLives = maxLives;
         this.RevolverManager.InitializeRevolvers(revolvers);
-    }
-
-    protected void Start() {
         PlayerManager.instance.OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
     }
 

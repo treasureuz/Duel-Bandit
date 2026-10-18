@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : MonoBehaviour {
     [SerializeField] private CinemachineCamera _followCam;
@@ -11,11 +12,16 @@ public class CameraManager : MonoBehaviour {
         if (!instance) instance = this;
     }
 
-    void Start() {
+    void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
         PlayerManager.instance.OnPlayerSpawned += SwitchToFollowCam;
     }
-    
+
     void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         PlayerManager.instance.OnPlayerSpawned -= SwitchToFollowCam;
     }
 
