@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 public class Henchman : Character<HRevolverManager> {
     [Header("References")]
     [SerializeField] protected VisionCone visionCone;
-    [SerializeField] protected HealthBarFollow healthBarCanvas;
+    [SerializeField] protected Image healthBarFill;
     [SerializeField] protected LayerMask raycastLayerMask;
 
     [Header("Transforms")]
@@ -34,11 +34,10 @@ public class Henchman : Character<HRevolverManager> {
     [SerializeField] protected float maxViewDistance = 11.2f;
     [SerializeField] protected float viewDistIncrements = 0.107f;
     [SerializeField] protected float viewDistExpandSpeed = 4f;
-    [SerializeField] protected float revolverBarrelRadius = 0.18f;
+    [SerializeField] protected float visionConeViewDistOffset = 1.5f;
+    [SerializeField] protected float revolverBarrelRadius = 0.18f; // applied to circle cast
 
     protected Transform currTargetPoint;
-    private Image _healthBarFill;
-
     private Coroutine _onShotCoroutine;
 
     private float _elapsedTimeUntilSearchEnd;
@@ -66,10 +65,6 @@ public class Henchman : Character<HRevolverManager> {
 
     protected override void Awake() {
         base.Awake();
-        // Sets up health bar UI above Henchman
-        Transform healthBarFillObj = this.healthBarCanvas.transform.Find("HealthBarBG/HealthBarFill");
-        this._healthBarFill = healthBarFillObj.GetComponent<Image>();
-
         // Initialize important variables
         this.CurrentState = this.desiredState;
         SetCurrentMoveSpeed(this.baseMoveSpeed);
@@ -248,12 +243,12 @@ public class Henchman : Character<HRevolverManager> {
 
     #region On Shot Mechanics - Calls TakeDamage() & Handles View Distance
     private void HandleOnShot(float amount) {
-        this.healthBarCanvas.gameObject.SetActive(true); // Redundant after 1st shot
+        SetHealthBarUI(true); // Enables health bar on shot
         if (PlayerManager.instance.Player && !IsPlayerInLOS()
             && this.CurrentState is not HenchmanState.Search)
             this._isShot = true;
 
-        // Waits shotDuration before resetting view dist and shot counter
+        // Waits shotDuration before resetting view dist, health bar, and shot counter
         StartOnShotCoroutine(); // Also sets isShot to true
         TakeDamage(amount); // Sets current health -= amount
 
@@ -273,6 +268,7 @@ public class Henchman : Character<HRevolverManager> {
     private IEnumerator HandleShotDuration() {
         yield return new WaitForSeconds(this.shotDuration);
         this._targetViewDistance = this.baseViewDistance;
+        SetHealthBarUI(false); // Disables health bar after couple secs
         this._shotCounter = 0;
     }
 
@@ -290,19 +286,25 @@ public class Henchman : Character<HRevolverManager> {
         this._currentViewDistance = Mathf.MoveTowards
             (this._currentViewDistance, this._targetViewDistance,
             this.viewDistExpandSpeed * Time.smoothDeltaTime);
-        this.visionCone.SetViewDistance(this._currentViewDistance);
+        var visionConeViewDist = this._currentViewDistance + this.visionConeViewDistOffset;
+        this.visionCone.SetViewDistance(visionConeViewDist);
     }
 
     private void InitializeViewDistances() {
         this._currentViewDistance = this.baseViewDistance;
         this._targetViewDistance = this._currentViewDistance;
-        this.visionCone.SetViewDistance(this._currentViewDistance);
+        var visionConeViewDist = this._currentViewDistance + this.visionConeViewDistOffset;
+        this.visionCone.SetViewDistance(visionConeViewDist);
+    }
+
+    private void SetHealthBarUI(bool b) {
+        this.healthBarFill.transform.root.gameObject.SetActive(b);
     }
     #endregion
 
     protected override void TakeDamage(float amount) {
         base.TakeDamage(amount);
-        this._healthBarFill.fillAmount = this.CurrentHealth / this.maxHealth;
+        this.healthBarFill.fillAmount = this.CurrentHealth / this.maxHealth;
         HenchmanHelper.instance.OnHenchmanDamaged?.Invoke(this,
             new DamageTakenEventArgs(amount));
         if (this.CurrentHealth != 0f) return;

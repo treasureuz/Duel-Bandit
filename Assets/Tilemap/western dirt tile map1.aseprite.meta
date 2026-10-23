@@ -36,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 16
+    spritePixelsToUnits: 15.9
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -102,7 +102,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 639276697463442467
+  platformSettingsDirtyTick: 639283010330954054
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -662,7 +662,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 436
+      x: 412
       y: 52
       width: 16
       height: 16
@@ -674,7 +674,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 436, y: 52}
+    uvTransform: {x: 412, y: 52}
   - name: western dirt tile_25
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -740,13 +740,13 @@ ScriptedImporter:
     uvTransform: {x: 268, y: 52}
   - name: western dirt tile_28
     originalName: 
-    pivot: {x: 0.5, y: 1}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 460
+      x: 436
       y: 52
       width: 16
       height: 8
@@ -758,7 +758,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 460, y: 52}
+    uvTransform: {x: 436, y: 44}
   - name: western dirt tile_29
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -866,16 +866,16 @@ ScriptedImporter:
     uvTransform: {x: 388, y: 52}
   - name: western dirt tile_34
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 412
+      x: 460
       y: 52
       width: 16
-      height: 16
+      height: 8
     spriteID: 380edf1cb8d5129499feac021baa5134
     spriteBone: []
     spriteOutline: []
@@ -884,7 +884,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 412, y: 52}
+    uvTransform: {x: 460, y: 44}
   asepriteLayers:
   - layerIndex: 0
     uuid:
