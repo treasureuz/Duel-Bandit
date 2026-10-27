@@ -54,8 +54,8 @@ public class PlayerManager : MonoBehaviour {
 
     private void SpawnPlayer() {
         if (!this.Player) {
-            this.Player = Instantiate(this._playerPrefab,
-            this.transform.position, Quaternion.identity, this.transform);
+            this.Player = Instantiate(this._playerPrefab, this.transform.position, 
+                Quaternion.identity, this.transform);
         }
         this.Player.Init(this._currentPlayerLives, this._maxPlayerLives, this._revolvers);
     }

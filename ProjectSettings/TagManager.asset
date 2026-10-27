@@ -50,10 +50,7 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: HoverPlatform
-    uniqueID: 2951118785
-    locked: 0
-  - name: Ground
+  - name: Environment
     uniqueID: 794503737
     locked: 0
   m_RenderingLayers:

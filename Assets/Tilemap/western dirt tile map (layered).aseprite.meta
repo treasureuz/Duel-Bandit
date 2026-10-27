@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d6431c05755c0124b93c5a8e4484b476
+guid: 71f7d6c6397cda345a030d50c788bf05
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -36,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 15.9
+    spritePixelsToUnits: 16
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -102,7 +102,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 639283010330954054
+  platformSettingsDirtyTick: 639286382650375197
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -141,7 +141,7 @@ ScriptedImporter:
       y: 4
       width: 256
       height: 192
-    spriteID: 70a6e6b0b2602c947825e1d2e3a6c8f5
+    spriteID: 74d7a127ea2855c4c93c9abef26f50e3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -162,7 +162,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 1b4a88b9645288a419f31df78e027756
+    spriteID: 513d8b84f7364bc4284acf9f03149795
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -183,7 +183,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: e0915b3b094556949a96af39a9d8fd12
+    spriteID: 85f4fea95f648b94eb00c635f96fb5c2
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -200,11 +200,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 484
-      y: 52
+      x: 356
+      y: 76
       width: 16
       height: 5
-    spriteID: daa367df2b448f04bb21d606f854ca4e
+    spriteID: 5e5ba32f5af2223488a0dc928b450ab6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -212,7 +212,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 484, y: 52}
+    uvTransform: {x: 356, y: 76}
   - name: western dirt tile_4
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -225,7 +225,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: d9d98fc93d6c94f4f84b70919e45ee0b
+    spriteID: a2cfb353979083d4e94c26340ad8a3eb
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -246,7 +246,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: fa5be9617f953f4489c1b55eb97d1795
+    spriteID: 90e63adfc76d01e40a50aa449376b5d4
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -267,7 +267,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 7fd87a20741e4cb40a4a07f04e2b3afb
+    spriteID: 320d75c98bf841f4cb7d083fef77e149
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -288,7 +288,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: e0254d9523382db4e8eb6deb5e4af9a1
+    spriteID: a8f2a6ca0e27f6c49956a315fbe432d6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -305,11 +305,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 268
+      x: 380
       y: 76
       width: 16
       height: 5
-    spriteID: 6d423ee4a451a70428489ce8e113692d
+    spriteID: e5db95e9c701add41bc310860eb43c3a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -317,7 +317,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 268, y: 76}
+    uvTransform: {x: 380, y: 76}
   - name: western dirt tile_9
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -330,7 +330,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: ca59b8f26fe7e8944b2439a3656958ef
+    spriteID: d0c935ef8da625f4d8f78c69a0fd58ff
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -351,7 +351,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 43479aa1a3f331241906761bb67f95b6
+    spriteID: 6fd2f65b546687c418530063251be2f7
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -372,7 +372,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 495e83f3e8b35464d80d002e5211cd4b
+    spriteID: 1d17a5e65d81da54b80ac1cf7c2a8391
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -389,11 +389,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 292
+      x: 404
       y: 76
       width: 14
       height: 5
-    spriteID: ca1731bfd90d0eb49b25b700b3a8ac8e
+    spriteID: 10191d26fb36c9e459a9dd96879fb24d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -401,7 +401,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 291, y: 65}
+    uvTransform: {x: 403, y: 65}
   - name: western dirt tile_13
     originalName: 
     pivot: {x: 0.36363637, y: -0.6}
@@ -410,11 +410,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 314
+      x: 426
       y: 76
       width: 11
       height: 5
-    spriteID: f98769bc232c5924fbd4983ea1fb782c
+    spriteID: c68252025d9a80f499efe518d59f157c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -422,7 +422,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 310, y: 65}
+    uvTransform: {x: 422, y: 65}
   - name: western dirt tile_14
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -435,7 +435,7 @@ ScriptedImporter:
       y: 4
       width: 16
       height: 16
-    spriteID: 5cf1801460431534d8a6ff4a00c005b4
+    spriteID: 8e42b168778eb7946a4a8673a82ad7c0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -452,11 +452,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 351
+      x: 463
       y: 76
       width: 7
       height: 4
-    spriteID: f2861a1e3aa4c574ea07a3bf3519491e
+    spriteID: 49bf5b6809efc5a4da80dc0b965c9912
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -464,7 +464,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 345, y: 64}
+    uvTransform: {x: 457, y: 64}
   - name: western dirt tile_16
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -477,7 +477,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: 8b6870e661fdad047a0ed91cbf37218a
+    spriteID: ef2815f93ad6e494b92c9e85940afa8a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -494,11 +494,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 333
+      x: 445
       y: 76
       width: 10
       height: 4
-    spriteID: af8fc5b6147b93142a96ce4d78d16606
+    spriteID: a243caf194664b044adb74d6e81f6c2e
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -506,7 +506,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 331, y: 64}
+    uvTransform: {x: 443, y: 64}
   - name: western dirt tile_18
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -519,7 +519,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: dffada7ee7bef5d418302667d2d8bc0e
+    spriteID: d2e5d5ded9aa5bc48b1f3c58b87ffd87
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -540,7 +540,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: 9c929109468f1b740be40503e9b9b999
+    spriteID: 716ef99e4f6d4a54fa56012160bdead1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -561,7 +561,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: dd22a1ea9455a7d4fb6c3dd094255624
+    spriteID: 21385f86227b7b84ab6bde9dd23296f8
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -582,7 +582,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: e6733ff854cae784e8df99cace5eb3e4
+    spriteID: 5ec97413d00f22f428c6513306408ea5
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -603,7 +603,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: 73af4b22390c176438486e74f6b223d5
+    spriteID: 5b3936b634b416945a96b173d5bd616c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -624,7 +624,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: 860c511420591414a862ca39ad9e651f
+    spriteID: fc4c70f74696abe49a11b1b01ba1c68a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -645,7 +645,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: 8592bf49f13885949b427e45f410f570
+    spriteID: 3eb642a0fb7aae54ab0f21d9420914be
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -654,27 +654,6 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 436, y: 28}
-  - name: Tileset_1_1
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 412
-      y: 52
-      width: 16
-      height: 16
-    spriteID: db24e7e0bd872974db6d1c29a3ae53ac
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 412, y: 52}
   - name: western dirt tile_25
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -687,7 +666,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: ac03845dac343014c8bec3ea73600c44
+    spriteID: f7ca79920808d3b4291523faf019a2b7
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -708,7 +687,7 @@ ScriptedImporter:
       y: 28
       width: 16
       height: 16
-    spriteID: 44437b0ff53487a4f8fbd493a9dc7b9f
+    spriteID: 7c9cb73465631f044bc7029d9f5896b6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -729,7 +708,7 @@ ScriptedImporter:
       y: 52
       width: 16
       height: 16
-    spriteID: 655c48697b79ff14e8c2c00c787b9dc1
+    spriteID: 75abf02f6483d9444a5cdbe3c7520369
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -746,11 +725,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 436
-      y: 52
+      x: 292
+      y: 76
       width: 16
       height: 8
-    spriteID: 29416b5b1bda47f44936fba2dce70cd5
+    spriteID: 43b6eb9ed2c0b404892a5f0bb788164b
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -758,7 +737,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 436, y: 44}
+    uvTransform: {x: 292, y: 68}
   - name: western dirt tile_29
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -771,7 +750,7 @@ ScriptedImporter:
       y: 52
       width: 16
       height: 16
-    spriteID: 353198b2fadd05c468b2bb4e1d81a796
+    spriteID: f2622f84dee1b404a8458cda0ea6fcad
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -792,7 +771,7 @@ ScriptedImporter:
       y: 52
       width: 16
       height: 16
-    spriteID: 985678cd931282c459ba1d0375cc42b6
+    spriteID: 375432f585921724dabbf95906fe3041
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -813,7 +792,7 @@ ScriptedImporter:
       y: 52
       width: 16
       height: 16
-    spriteID: 72ca0a4f62bd98a4eb823e0ea4c85fb1
+    spriteID: 532bd8ce2572efa40a10f592543bb52a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -834,7 +813,7 @@ ScriptedImporter:
       y: 52
       width: 16
       height: 16
-    spriteID: 33ae08f052559ef4fa2908a62994c7a7
+    spriteID: 0a18698d93fb34b4e942ef10a0e3b5eb
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -855,7 +834,7 @@ ScriptedImporter:
       y: 52
       width: 16
       height: 16
-    spriteID: c77cd152ac76cc94a91d94f380946fa5
+    spriteID: b2e3292c66357084faaf1556adc9eaad
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -872,11 +851,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 460
-      y: 52
+      x: 316
+      y: 76
       width: 16
       height: 8
-    spriteID: 380edf1cb8d5129499feac021baa5134
+    spriteID: 025faf4b25e1e4c4da55e794da7b38de
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -884,7 +863,133 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 460, y: 44}
+    uvTransform: {x: 316, y: 68}
+  - name: western dirt tile_35
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 412
+      y: 52
+      width: 16
+      height: 16
+    spriteID: 21496a99790095844b6f0a85f8489f90
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 412, y: 52}
+  - name: western dirt tile_36
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 436
+      y: 52
+      width: 16
+      height: 16
+    spriteID: df16d61ab668bb34992a49b298a7dd76
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 436, y: 52}
+  - name: western dirt tile_37
+    originalName: 
+    pivot: {x: 1, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 340
+      y: 76
+      width: 8
+      height: 16
+    spriteID: b0a260a7be3e932428809a8da289bc69
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 340, y: 76}
+  - name: western dirt tile_38
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 460
+      y: 52
+      width: 16
+      height: 16
+    spriteID: c104173bee70eab41905242e09529dcb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 460, y: 52}
+  - name: western dirt tile_39
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 484
+      y: 52
+      width: 16
+      height: 16
+    spriteID: dffd74dd24bf65240acf9af9a62194a4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 484, y: 52}
+  - name: Tileset_1_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 268
+      y: 76
+      width: 16
+      height: 16
+    spriteID: 9bf929145d5f898438e631bccd04019f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 268, y: 76}
   asepriteLayers:
   - layerIndex: 0
     uuid:
@@ -922,7 +1027,7 @@ ScriptedImporter:
         y: 0
         width: 256
         height: 192
-      spriteId: 70a6e6b0b2602c947825e1d2e3a6c8f5
+      spriteId: 74d7a127ea2855c4c93c9abef26f50e3
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -939,205 +1044,235 @@ ScriptedImporter:
         x: 16
         y: 16
       name: western dirt tile_1
-      spriteId: 1b4a88b9645288a419f31df78e027756
+      spriteId: 513d8b84f7364bc4284acf9f03149795
     - tileId: 2
       size:
         x: 16
         y: 16
       name: western dirt tile_2
-      spriteId: e0915b3b094556949a96af39a9d8fd12
+      spriteId: 85f4fea95f648b94eb00c635f96fb5c2
     - tileId: 3
       size:
         x: 16
         y: 16
       name: western dirt tile_3
-      spriteId: daa367df2b448f04bb21d606f854ca4e
+      spriteId: 5e5ba32f5af2223488a0dc928b450ab6
     - tileId: 4
       size:
         x: 16
         y: 16
       name: western dirt tile_4
-      spriteId: d9d98fc93d6c94f4f84b70919e45ee0b
+      spriteId: a2cfb353979083d4e94c26340ad8a3eb
     - tileId: 5
       size:
         x: 16
         y: 16
       name: western dirt tile_5
-      spriteId: fa5be9617f953f4489c1b55eb97d1795
+      spriteId: 90e63adfc76d01e40a50aa449376b5d4
     - tileId: 6
       size:
         x: 16
         y: 16
       name: western dirt tile_6
-      spriteId: 7fd87a20741e4cb40a4a07f04e2b3afb
+      spriteId: 320d75c98bf841f4cb7d083fef77e149
     - tileId: 7
       size:
         x: 16
         y: 16
       name: western dirt tile_7
-      spriteId: e0254d9523382db4e8eb6deb5e4af9a1
+      spriteId: a8f2a6ca0e27f6c49956a315fbe432d6
     - tileId: 8
       size:
         x: 16
         y: 16
       name: western dirt tile_8
-      spriteId: 6d423ee4a451a70428489ce8e113692d
+      spriteId: e5db95e9c701add41bc310860eb43c3a
     - tileId: 9
       size:
         x: 16
         y: 16
       name: western dirt tile_9
-      spriteId: ca59b8f26fe7e8944b2439a3656958ef
+      spriteId: d0c935ef8da625f4d8f78c69a0fd58ff
     - tileId: 10
       size:
         x: 16
         y: 16
       name: western dirt tile_10
-      spriteId: 43479aa1a3f331241906761bb67f95b6
+      spriteId: 6fd2f65b546687c418530063251be2f7
     - tileId: 11
       size:
         x: 16
         y: 16
       name: western dirt tile_11
-      spriteId: 495e83f3e8b35464d80d002e5211cd4b
+      spriteId: 1d17a5e65d81da54b80ac1cf7c2a8391
     - tileId: 12
       size:
         x: 16
         y: 16
       name: western dirt tile_12
-      spriteId: ca1731bfd90d0eb49b25b700b3a8ac8e
+      spriteId: 10191d26fb36c9e459a9dd96879fb24d
     - tileId: 13
       size:
         x: 16
         y: 16
       name: western dirt tile_13
-      spriteId: f98769bc232c5924fbd4983ea1fb782c
+      spriteId: c68252025d9a80f499efe518d59f157c
     - tileId: 14
       size:
         x: 16
         y: 16
       name: western dirt tile_14
-      spriteId: 5cf1801460431534d8a6ff4a00c005b4
+      spriteId: 8e42b168778eb7946a4a8673a82ad7c0
     - tileId: 15
       size:
         x: 16
         y: 16
       name: western dirt tile_15
-      spriteId: f2861a1e3aa4c574ea07a3bf3519491e
+      spriteId: 49bf5b6809efc5a4da80dc0b965c9912
     - tileId: 16
       size:
         x: 16
         y: 16
       name: western dirt tile_16
-      spriteId: 8b6870e661fdad047a0ed91cbf37218a
+      spriteId: ef2815f93ad6e494b92c9e85940afa8a
     - tileId: 17
       size:
         x: 16
         y: 16
       name: western dirt tile_17
-      spriteId: af8fc5b6147b93142a96ce4d78d16606
+      spriteId: a243caf194664b044adb74d6e81f6c2e
     - tileId: 18
       size:
         x: 16
         y: 16
       name: western dirt tile_18
-      spriteId: dffada7ee7bef5d418302667d2d8bc0e
+      spriteId: d2e5d5ded9aa5bc48b1f3c58b87ffd87
     - tileId: 19
       size:
         x: 16
         y: 16
       name: western dirt tile_19
-      spriteId: 9c929109468f1b740be40503e9b9b999
+      spriteId: 716ef99e4f6d4a54fa56012160bdead1
     - tileId: 20
       size:
         x: 16
         y: 16
       name: western dirt tile_20
-      spriteId: dd22a1ea9455a7d4fb6c3dd094255624
+      spriteId: 21385f86227b7b84ab6bde9dd23296f8
     - tileId: 21
       size:
         x: 16
         y: 16
       name: western dirt tile_21
-      spriteId: e6733ff854cae784e8df99cace5eb3e4
+      spriteId: 5ec97413d00f22f428c6513306408ea5
     - tileId: 22
       size:
         x: 16
         y: 16
       name: western dirt tile_22
-      spriteId: 73af4b22390c176438486e74f6b223d5
+      spriteId: 5b3936b634b416945a96b173d5bd616c
     - tileId: 23
       size:
         x: 16
         y: 16
       name: western dirt tile_23
-      spriteId: 860c511420591414a862ca39ad9e651f
+      spriteId: fc4c70f74696abe49a11b1b01ba1c68a
     - tileId: 24
       size:
         x: 16
         y: 16
       name: western dirt tile_24
-      spriteId: 8592bf49f13885949b427e45f410f570
+      spriteId: 3eb642a0fb7aae54ab0f21d9420914be
     - tileId: 25
       size:
         x: 16
         y: 16
       name: western dirt tile_25
-      spriteId: ac03845dac343014c8bec3ea73600c44
+      spriteId: f7ca79920808d3b4291523faf019a2b7
     - tileId: 26
       size:
         x: 16
         y: 16
       name: western dirt tile_26
-      spriteId: 44437b0ff53487a4f8fbd493a9dc7b9f
+      spriteId: 7c9cb73465631f044bc7029d9f5896b6
     - tileId: 27
       size:
         x: 16
         y: 16
       name: western dirt tile_27
-      spriteId: 655c48697b79ff14e8c2c00c787b9dc1
+      spriteId: 75abf02f6483d9444a5cdbe3c7520369
     - tileId: 28
       size:
         x: 16
         y: 16
       name: western dirt tile_28
-      spriteId: 29416b5b1bda47f44936fba2dce70cd5
+      spriteId: 43b6eb9ed2c0b404892a5f0bb788164b
     - tileId: 29
       size:
         x: 16
         y: 16
       name: western dirt tile_29
-      spriteId: 353198b2fadd05c468b2bb4e1d81a796
+      spriteId: f2622f84dee1b404a8458cda0ea6fcad
     - tileId: 30
       size:
         x: 16
         y: 16
       name: western dirt tile_30
-      spriteId: 985678cd931282c459ba1d0375cc42b6
+      spriteId: 375432f585921724dabbf95906fe3041
     - tileId: 31
       size:
         x: 16
         y: 16
       name: western dirt tile_31
-      spriteId: 72ca0a4f62bd98a4eb823e0ea4c85fb1
+      spriteId: 532bd8ce2572efa40a10f592543bb52a
     - tileId: 32
       size:
         x: 16
         y: 16
       name: western dirt tile_32
-      spriteId: 33ae08f052559ef4fa2908a62994c7a7
+      spriteId: 0a18698d93fb34b4e942ef10a0e3b5eb
     - tileId: 33
       size:
         x: 16
         y: 16
       name: western dirt tile_33
-      spriteId: c77cd152ac76cc94a91d94f380946fa5
+      spriteId: b2e3292c66357084faaf1556adc9eaad
     - tileId: 34
       size:
         x: 16
         y: 16
       name: western dirt tile_34
-      spriteId: 380edf1cb8d5129499feac021baa5134
+      spriteId: 025faf4b25e1e4c4da55e794da7b38de
+    - tileId: 35
+      size:
+        x: 16
+        y: 16
+      name: western dirt tile_35
+      spriteId: 21496a99790095844b6f0a85f8489f90
+    - tileId: 36
+      size:
+        x: 16
+        y: 16
+      name: western dirt tile_36
+      spriteId: df16d61ab668bb34992a49b298a7dd76
+    - tileId: 37
+      size:
+        x: 16
+        y: 16
+      name: western dirt tile_37
+      spriteId: b0a260a7be3e932428809a8da289bc69
+    - tileId: 38
+      size:
+        x: 16
+        y: 16
+      name: western dirt tile_38
+      spriteId: c104173bee70eab41905242e09529dcb
+    - tileId: 39
+      size:
+        x: 16
+        y: 16
+      name: western dirt tile_39
+      spriteId: dffd74dd24bf65240acf9af9a62194a4
     guid: -1358584781
   - id: 1
     name: Tileset_1
@@ -1150,7 +1285,7 @@ ScriptedImporter:
         x: 16
         y: 16
       name: Tileset_1_1
-      spriteId: db24e7e0bd872974db6d1c29a3ae53ac
+      spriteId: 9bf929145d5f898438e631bccd04019f
     guid: -1102076669
   platformSettings:
   - name: DefaultTexturePlatform

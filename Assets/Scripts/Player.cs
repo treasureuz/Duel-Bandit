@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 using System.Collections.Generic;
 
 public class Player : Character<PRevolverManager> {
-    [Header("References")]
+    [Header("References")] 
     [SerializeField] private LayerMask _platformsLayerMask;
 
     [Header("Settings")]
@@ -14,6 +14,8 @@ public class Player : Character<PRevolverManager> {
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private int _maxNumOfJumpsInAir = 2;
 
+    private Animator _animator; 
+    
     private InputAction _forward;
     private InputAction _backward;
 
@@ -23,10 +25,13 @@ public class Player : Character<PRevolverManager> {
     public int MaxLives { get; private set; }
 
     private int _currNumOfJumpsInAir;
+    
+    private static readonly int WalkBoolHash = Animator.StringToHash("Walk");
 
     protected override void Awake() {
         base.Awake();
         this._cam = Camera.main;
+        this._animator = this.GetComponent<Animator>();
         PlayerInput playerInput = this.GetComponent<PlayerInput>();
         this._forward = playerInput.actions.FindAction("Forward"); // Or "["Forward"]"
         this._backward = playerInput.actions.FindAction("Backward");
@@ -40,14 +45,23 @@ public class Player : Character<PRevolverManager> {
     }
 
     void FixedUpdate() {
-        var direction = 0f;
+        // Handles local scale
         Vector2 mousePos = this._cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector2 dirToMousePos = mousePos - this.rb2d.position;
         HandleLocalScale(dirToMousePos); // Flips localScale if mouse is left or right of Player
+        
+        // Handles movement
+        var direction = 0f;
         if (this._forward.IsPressed()) direction = 1f;
         if (this._backward.IsPressed()) direction = -1f;
         this.rb2d.linearVelocity = new Vector2(
             direction * this._moveSpeed, this.rb2d.linearVelocity.y);
+            
+        // Handles walking animation
+        if (this.isOnGround) {
+            if (direction != 0) this._animator.SetBool(WalkBoolHash, true);
+            else this._animator.SetBool(WalkBoolHash, false);
+        }
     }
 
     public void OnJump() {
